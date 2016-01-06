@@ -1,18 +1,14 @@
-<html>
-  <head>
+<?php include("includes/header_require_login.php"); ?>
   	<title>Submitted Responses to EAB New Patient Intake Form: Social History</title>
-  </head>
-  <body>
+<?php require_once("includes/menu.php"); ?>
   	<p>Please View and Check Responses to the Intake Form: Social History</p>
     <p> <a href="download_patientsocialhistory.php" target="_blank"> Download Patient Social History Data as CSV File </a> </p>
-  </body>
-</html>
 
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-require_once("referencefiles/db.php");
+require_once("includes/db.php");
 
 $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->error);
 
@@ -42,7 +38,7 @@ $query = "SELECT `HomeType_add`.`patientid`, `HomeType_add`.`fname`, `HomeType_a
                                                                     FROM (
                                                                       SELECT `CooperGreen`.`cooper`, `Patient_add`.`sid`, `Patient_add`.`householdincome`, `Patient_add`.`numchildren`, `Patient_add`.`numfammember`, `Patient_add`.`heareab`, `Patient_add`.`cooperid`, `Patient_add`.`physicianid`, `Patient_add`.`educationid`, `Patient_add`.`housestatid`, `Patient_add`.`insuranceid`, `Patient_add`.`disabilityid`, `Patient_add`.`veteranid`, `Patient_add`.`employmentid`, `Patient_add`.`relationshipid`, `Patient_add`.`alcoholid`, `Patient_add`.`foodstampid`, `Patient_add`.`hometypeid`, `Patient_add`.`transportid`, `Patient_add`.`patientid`, `Patient_add`.`fname`, `Patient_add`.`lname`, `Patient_add`.`dob`
                                                                         FROM (
-                                                                          SELECT `SocialHistory`.`sid`, `SocialHistory`.`householdincome`, `SocialHistory`.`numchildren`, `SocialHistory`.`numfammember`, `SocialHistory`.`heareab`, `SocialHistory`.`cooperid`, `SocialHistory`.`physicianid`, `SocialHistory`.`educationid`, `SocialHistory`.`housestatid`, `SocialHistory`.`insuranceid`, `SocialHistory`.`disabilityid`, `SocialHistory`.`veteranid`, `SocialHistory`.`employmentid`, `SocialHistory`.`relationshipid`, `SocialHistory`.`alcoholid`, `SocialHistory`.`foodstampid`, `SocialHistory`.`hometypeid`, `SocialHistory`.`transportid`, `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`
+                                                                            SELECT `SocialHistory`.`sid`, `SocialHistory`.`householdincome`, `SocialHistory`.`numchildren`, `SocialHistory`.`numfammember`, `SocialHistory`.`heareab`, `SocialHistory`.`cooperid`, `SocialHistory`.`physicianid`, `SocialHistory`.`educationid`, `SocialHistory`.`housestatid`, `SocialHistory`.`insuranceid`, `SocialHistory`.`disabilityid`, `SocialHistory`.`veteranid`, `SocialHistory`.`employmentid`, `SocialHistory`.`relationshipid`, `SocialHistory`.`alcoholid`, `SocialHistory`.`foodstampid`, `SocialHistory`.`hometypeid`, `SocialHistory`.`transportid`, `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`
                                                                             FROM `SocialHistory`
                                                                             INNER JOIN `Patient`
                                                                             ON `Patient`.`patientid` = `SocialHistory`.`patientid`
@@ -99,22 +95,22 @@ $stmt->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $nu
         <th>Date of Birth</th>
         <th>Social ID</th>
         <th>Household Income</th>
-        <th>Number of Children</th>
-        <th>Number of Family Members in Household</th>
+        <th>Number of Children in Household under 18</th>
+        <th>Number of People in Household including Oneself</th>
         <th>How Heard About EAB</th>
-        <th>Physician at Cooper Green?</th>
-        <th>Have PCP?</th>
-        <th>Education Level</th>
-        <th>Head of Household?</th>
-        <th>Insurance Status</th>
-        <th>Disability Status</th>
-        <th>Veteran Status</th>
-        <th>Employment Status</th>
+        <th>Have a phhysician at Cooper Green?</th>
+        <th>Have a primary care provider?</th>
+        <th>Highest Level of Education Achieved</th>
+        <th>Head of one's Household?</th>
+        <th>Have insurance?</th>
+        <th>On disability?</th>
+        <th>Veteran or not?</th>
+        <th>Employed or not?</th>
         <th>Relationship Status</th>
-        <th>Alcohol Status</th>
-        <th>Foodstamps Program?</th>
-        <th>Type of Home?</th>
-        <th>Method of Transport</th>                                               
+        <th>Drinking Alcohol Status</th>
+        <th>Receiving foodstamps or not?</th>
+        <th>Type of Home</th>
+        <th>Method of Transport to Clinic</th>                                               
       </tr>
 
 <?php
@@ -149,3 +145,4 @@ $stmt->close();
 $con->close();
 ?>
 	</table>
+<?php require_once("includes/footer.php"); ?>

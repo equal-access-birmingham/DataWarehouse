@@ -1,18 +1,15 @@
-<html>
-  <head>
+<?php include("includes/header_require_login.php"); ?>
     <title>Submitted Responses to EAB New Patient Intake Form: Date of Last Pap Smear</title>
-  </head>
-  <body>
+<?php require_once("includes/menu.php"); ?>
     <p>Please View and Check Responses to the Intake Form: Date of Last Pap Smear</p>
     <p> <a href="download_papsmear.php" target="_blank"> Download Pap Smear Data as CSV File</a> </p>
-  </body>
-</html>
+
 
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-require_once("referencefiles/db.php");
+require_once("includes/db.php");
 
 $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->error);
 
@@ -50,7 +47,7 @@ $stmt->close();
 $con->close();
 ?>
   </table>
-
+<?php require_once("includes/footer.php"); ?>
 
 
 

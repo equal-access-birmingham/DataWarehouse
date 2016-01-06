@@ -109,6 +109,21 @@ INSERT INTO `AllergyList`(allergylist) VALUES
   ("Other Antibiotic Drugs"),
   ("Severe Food Allergy");
 
+CREATE TABLE IF NOT EXISTS `EmergencyR` (
+`emergencyrid` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+`emergencyr` VARCHAR(50)
+);
+INSERT INTO `EmergencyR`(emergencyr) VALUES
+  (""),
+  ("Sibling"),
+  ("Parent"),
+  ("Child"),
+  ("Grandparent"),
+  ("Grandchild"),
+  ("Cousin"),
+  ("Friend"),
+  ("Other Relative");
+
 
 CREATE TABLE IF NOT EXISTS `Patient` (
 `patientid` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -128,8 +143,12 @@ CONSTRAINT `City.cityid_Patient.cityid` FOREIGN KEY(`cityid`) REFERENCES `City` 
 CONSTRAINT `State.stateid_Patient.stateid` FOREIGN KEY(`stateid`) REFERENCES `State` (`stateid`),
 `zipid` BIGINT UNSIGNED NOT NULL,
 CONSTRAINT `Zip.zipid_Patient.zipid` FOREIGN KEY(`zipid`) REFERENCES `Zip` (`zipid`),
+`emergencyrid` BIGINT UNSIGNED NOT NULL,
+CONSTRAINT `EmergencyR.emergencyrid_Patient.EmergencyRid` FOREIGN KEY(`emergencyrid`) REFERENCES `EmergencyR` (`emergencyrid`),
 `phone_number` VARCHAR(50),
 `email_address` VARCHAR(50),
+`emergency_name` VARCHAR(50),
+`emergency_number` VARCHAR(50),
 `citizenid` BIGINT UNSIGNED NOT NULL,
 CONSTRAINT `CitizenStatus.citizenid_Patient.citizenid` FOREIGN KEY(`citizenid`) REFERENCES `CitizenStatus` (`citizenid`),
 `languageid` BIGINT UNSIGNED NOT NULL,
