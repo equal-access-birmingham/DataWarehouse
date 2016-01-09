@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `EmergencyR` (
 );
 INSERT INTO `EmergencyR`(emergencyr) VALUES
   (""),
+  ("Spouse"),
   ("Sibling"),
   ("Parent"),
   ("Child"),
