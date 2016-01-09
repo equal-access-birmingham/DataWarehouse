@@ -49,8 +49,23 @@ $visittypeid = 2;
 $emergency_name = $_GET['emergency_name'];
 $emergencyrid = $_GET['emergencyrid'];
 $emergency_number = $_GET['emergency_number'];
-//requiring that the necessary fields were filled in
-if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number){
+
+require_once("includes/db.php");
+
+$con = new mysqli($host, $db_user, $db_pass, $db_db);
+
+// This query counts the number of entries in the table that have the submitted fname, lname, dob, and street address
+$query = "SELECT COUNT(*) FROM `Patient` WHERE fname = ? and lname = ? and dob = ? and address_street = ?";
+$stmt = $con->prepare($query);
+$stmt->bind_param("ssss", $fname, $lname, $dob, $address_street);
+$stmt->execute();
+$stmt->bind_result($count);
+$stmt->fetch();
+$stmt->close();
+
+//requiring that the necessary fields were filled in and error check that ensures duplicate individuals don't get added to the roster  
+if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number && !$count){
+
 //calculating info based on reported smoking history
   $smokingstatus = $_GET["smokingstatus"];
 
@@ -74,9 +89,6 @@ $drugaddition = strtolower($_GET["drugaddition"]);
 $allergyaddition = strtolower($_GET["allergyaddition"]);
 $languageaddition = strtolower($_GET["languageaddition"]);    
 
-require_once("includes/db.php");
-
-$con = new mysqli($host, $db_user, $db_pass, $db_db);
 
 // ADDING NEW CITY TO CITY TABLE IN DATABASE
 if ($cityaddition) {
@@ -441,10 +453,15 @@ $stmt_papsmear->close();
 <?php require_once("includes/menu.php"); ?>
 <?php
     if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number){
-    echo "<h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
+        if (!$count){
+			echo "<h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
+		}
+		else {
+			echo"<h1>Please do not refresh the page. Please take the tablet to the receptionist.</h1>";
+		}
     }
     else{
-        echo"<h1>You missed a required field. Please fill in all required fields.</h1> $emergency_number"; //if the fields were not filled, display this
+        echo"<h1>You missed a required field. Please fill in all required fields.</h1>"; //if the fields were not filled, display this
     }
 ?>
 <?php require_once("includes/footer.php"); ?>

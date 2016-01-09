@@ -29,8 +29,17 @@ $zipaddition = $_GET["zipaddition"];
 require_once("includes/db.php");
 
 $con = new mysqli($host, $db_user, $db_pass, $db_db);
+// This query counts the number of entries in the table that have the submitted chief complaint, date, person, and reason for visit
+$query = "SELECT COUNT(*) FROM `PatientVisit` WHERE patientid = ? and currentdate = ? and pstat = ? and reasonforvisitid = ?";
+$stmt = $con->prepare($query);
+$stmt->bind_param("ssss", $patientid, $currentdate, $pstat, $reasonforvisitid);
+$stmt->execute();
+$stmt->bind_result($count);
+$stmt->fetch();
+$stmt->close();
+
 //requiring that the necessary fields were filled in
-if ($hometypeid && $reasonforvisitid && $pstat && $visittypeid && $emergency_name && $emergencyrid && $emergency_number && $transportid){
+if ($hometypeid && $reasonforvisitid && $pstat && $visittypeid && $emergency_name && $emergencyrid && $emergency_number && $transportid && !$count){
 // ADDING NEW CITY TO CITY TABLE IN DATABASE
 if ($cityaddition) {
   //preloading input (was already lower case) and changing it so first letter of each word is capital
@@ -208,10 +217,15 @@ $stmt_patientvisit->close();
 <?php
   //requiring that the necessary fields were filled in
   if ($hometypeid && $reasonforvisitid && $pstat && $visittypeid && $emergency_name && $emergencyrid && $emergency_number && $transportid){
-    echo "      <h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>";
-  }
-  else{ //if they didn't fill in the necessary info
-    echo"      <h1>You missed a required field. Please fill in all required fields.</h1>";
-  }
+        if (!$count){
+			echo "<h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
+		}
+		else {
+			echo"<h1>Please do not refresh the page. Please take the tablet to the receptionist.</h1>";
+		}
+    }
+    else{ //if they didn't fill in the necessary info
+        echo"      <h1>You missed a required field. Please fill in all required fields.</h1>";
+    }
 ?>
 <?php require_once("includes/footer.php"); ?>
