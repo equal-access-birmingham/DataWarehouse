@@ -83,6 +83,7 @@ define("WORDING_PASSWORD", "Password");
 define("WORDING_PROFILE_PICTURE", "Your profile picture (from gravatar):");
 define("WORDING_REGISTER", "Register");
 define("WORDING_REGISTER_NEW_ACCOUNT", "Create new account");
+define("WORDING_REGISTRATION_CAPTCHA", "Please enter catcha phrase above");
 define("WORDING_REGISTRATION_EMAIL", "User's email (sets up an account with a user name and temporary password by emailing this information to the given address)");
 define("WORDING_REGISTRATION_PASSWORD", "Password (min. 6 characters!)");
 define("WORDING_REGISTRATION_PASSWORD_REPEAT", "Password repeat");
