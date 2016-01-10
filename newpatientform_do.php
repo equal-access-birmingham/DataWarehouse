@@ -64,7 +64,7 @@ $stmt->fetch();
 $stmt->close();
 
 //requiring that the necessary fields were filled in and error check that ensures duplicate individuals don't get added to the roster  
-if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number && !$count){
+if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number && !$count){
 
 //calculating info based on reported smoking history
   $smokingstatus = $_GET["smokingstatus"];
@@ -452,7 +452,7 @@ $stmt_papsmear->close();
       <title>EAB Database</title>       
 <?php require_once("includes/menu.php"); ?>
 <?php
-    if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number){
+    if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number){
         if (!$count){
 			echo "<h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
 		}
