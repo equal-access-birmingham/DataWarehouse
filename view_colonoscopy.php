@@ -1,7 +1,6 @@
 <?php include("includes/header_require_login.php"); ?>
-    <title>Submitted Responses to EAB New Patient Intake Form: Date of Last Colonoscopy</title>
+    <title>Patients' Most Recent Colonoscopy Date</title>
 <?php require_once("includes/menu.php"); ?>
-    <p>Please View and Check Responses to the Intake Form: Date of Last Colonoscopy</p>
     <p> <a href="download_colonoscopy.php" target="_blank"> Download Colonoscopy Data as CSV File</a> </p>
 
 <?php
@@ -21,7 +20,7 @@ $stmt = $con->prepare($query);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $colonoscopy);
 ?>
-    <h1>EAB Patients List: Date of Last Colonoscopy</h1>
+    <h1>EAB Patients' Most Recent Colonoscopy Date</h1>
     <table class="table table-bordered table-striped">
       <tr>
         <th>Patient ID</th>

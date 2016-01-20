@@ -23,7 +23,7 @@
 <?php
 if ($login->isUserLoggedIn() == true) {
     echo "
-            <li><a href=\"newpatientformtest.php\">New Patient</a></li>
+            <li><a href=\"newpatientform.php\">New Patient</a></li>
             <li><a href=\"select_patient.php\">Returning Patient</a></li>";
 }
 if ($permissions->isUserAdmin() == true)  {

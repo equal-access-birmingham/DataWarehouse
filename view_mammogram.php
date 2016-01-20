@@ -1,7 +1,6 @@
 <?php include("includes/header_require_login.php"); ?>
-    <title>Submitted Responses to EAB New Patient Intake Form: Patient Visit Information</title>
+    <title>Patients' Most Recent Mammogram Date</title>
 <?php require_once("includes/menu.php"); ?>
-    <p>Please View and Check Responses to the Intake Form: Mammogram Dates</p>
     <p> <a href="download_mammogram.php" target="_blank"> Download Mammogram Data as CSV File</a> </p>
 
 
@@ -22,7 +21,7 @@ $stmt = $con->prepare($query);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $mammogram);
 ?>
-    <h1>EAB Patients List: Mammogram</h1>
+    <h1>EAB Patients' Most Recent Mammogram Date</h1>
     <table class="table table-bordered table-striped">
       <tr>
         <th>Patient ID</th>

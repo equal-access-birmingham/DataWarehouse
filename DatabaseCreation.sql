@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `AllergyList` (
 `allergylist` VARCHAR(50)
 );
 INSERT INTO `AllergyList`(allergylist) VALUES
-  ("Sulfa drugs/Sulfonamidies"),
+  ("Sulfa drugs/Sulfonamides"),
   ("Penicillin"),
   ("Tetracycline"),
   ("Codeine"),

@@ -1,5 +1,5 @@
-
 <?php
+//This page allows the generation of a .csv file from the SQL tables generated and seen on the view_patientdemographics.php page
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
@@ -79,6 +79,8 @@ while ($row = $result->fetch_assoc()) {
 	echo implode(",", array_values($row)) . "\r\n";
 
 }
+
+?>
 
 
 

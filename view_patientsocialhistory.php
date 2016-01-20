@@ -1,7 +1,9 @@
 <?php include("includes/header_require_login.php"); ?>
-  	<title>Submitted Responses to EAB New Patient Intake Form: Social History</title>
+
+  	<title>Patient Social History</title>
+
 <?php require_once("includes/menu.php"); ?>
-  	<p>Please View and Check Responses to the Intake Form: Social History</p>
+
     <p> <a href="download_patientsocialhistory.php" target="_blank"> Download Patient Social History Data as CSV File </a> </p>
 
 <?php
@@ -86,7 +88,7 @@ $stmt = $con->prepare($query);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 ?>
-    <h1>EAB Patients List: Social History</h1>
+    <h1>EAB Patient Social History Information</h1>
     <table class="table table-bordered table-striped">
       <tr>
         <th>Patient ID</th>

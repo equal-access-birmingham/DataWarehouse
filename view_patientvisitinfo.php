@@ -1,9 +1,7 @@
 <?php include("includes/header_require_login.php"); ?>
-    <title>Submitted Responses to EAB New Patient Intake Form: Patient Visit Information</title>
+    <title>Patient Visit Information</title>
 <?php require_once("includes/menu.php"); ?>
-    <p>Please View and Check Responses to the Intake Form: Patient Visit Information</p>
     <p> <a href="download_patientvisitinfo.php" target="_blank"> Download Patient Visit Information as CSV File</a> </p>
-
 
 <?php
 error_reporting(E_ALL);
@@ -32,7 +30,7 @@ $stmt = $con->prepare($query);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat);
 ?>
-    <h1>EAB Patients List: Patient Visit Information</h1>
+    <h1>EAB Patient Visit Information</h1>
     <table class="table table-bordered table-striped">
       <tr>
         <th>Patient ID</th>

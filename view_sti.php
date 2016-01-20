@@ -1,9 +1,10 @@
 <?php include("includes/header_require_login.php"); ?>
-    <title>Submitted Responses to EAB New Patient Intake Form: Sexually Transmitted Infection Dates</title>
-<?php require_once("includes/menu.php"); ?>
-    <p>Please View and Check Responses to the Intake Form: Sexually Transmitted Infection Dates</p>
-    <p> <a href="download_sti.php" target="_blank"> Download STI Data as CSV File</a> </p>
 
+    <title>Patients' Most Recent STI Testing Date</title>
+
+<?php require_once("includes/menu.php"); ?>
+
+    <p> <a href="download_sti.php" target="_blank"> Download STI Data as CSV File</a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -22,7 +23,7 @@ $stmt = $con->prepare($query);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $sti);
 ?>
-    <h1>EAB Patients List: Sexually Transmitted Infections</h1>
+    <h1>EAB Patients' Most Recent STI Testing Date</h1>
     <table class="table table-bordered table-striped">
       <tr>
         <th>Patient ID</th>

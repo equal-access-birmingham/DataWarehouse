@@ -1,9 +1,9 @@
 <?php include("includes/header_require_login.php"); ?>
 
-    <title>Submitted Responses to EAB New Patient Intake Form: Patient Demographics</title>
+    <title>Patient Demographics</title>
         
 <?php require_once("includes/menu.php"); ?>
-    <p>Please View and Check Responses to the Intake Form</p>
+
     <p> <a href="download_patientdemographics.php" target="_blank"> Download Patient Demographics Data as CSV File </a>
 
 <?php
@@ -63,7 +63,7 @@ $stmt = $con->prepare($query) or die("error: " . $con->error);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
 ?>
-    <h1>EAB Patients List</h1>
+    <h1>EAB Patient Demographics</h1>
     <table class="table table-bordered table-striped">
       <tr>
         <th>Patient ID</th>

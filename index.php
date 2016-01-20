@@ -71,7 +71,7 @@ if ($login->isUserLoggedIn() == false) {
     } else {
 ?>
       <div class="row">
-        <a href="newpatientformtest.php" class="btn btn-lg btn-success btn-block btn-space text-center ">New Patient</a>
+        <a href="newpatientform.php" class="btn btn-lg btn-success btn-block btn-space text-center ">New Patient</a>
       </div>
 
       <div class="row">

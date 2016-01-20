@@ -1,3 +1,5 @@
+<!-- This page produces all the information relevant to an individual patient once they are searched for in the Returning Patient Tab (select_patient.php) -->
+
 <?php require_once("includes/header_require_login.php"); ?>
 
     <title>View Individual Patient Information</title>
@@ -145,6 +147,23 @@ $stmt_social->store_result();
 $stmt_social->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 $stmt_social->fetch();
 
+$query = "SELECT `Patient_add`.`patientid`, `Patient_add`.`allergylistid`, `Patient_add`.`patientallergyid`, `AllergyList`.`allergylist`
+            FROM (
+              SELECT `Patient`.`patientid`, `PatientAllergy`.`allergylistid`, `PatientAllergy`.`patientallergyid`
+                FROM `Patient`
+                INNER JOIN `PatientAllergy`
+                ON `Patient`.`patientid` = `PatientAllergy`.`patientid`
+            ) AS `Patient_add`
+            INNER JOIN `AllergyList`
+            ON `Patient_add`.`allergylistid` = `AllergyList`.`allergylistid`
+            WHERE `Patient_add`.`patientid` = ?;";
+
+$stmt_allerg = $con->prepare($query) or die("error: " . $con->error);
+$stmt_allerg->bind_param("s", $patientid) or die($con->error);
+$stmt_allerg->execute();
+$stmt_allerg->store_result();
+$stmt_allerg->bind_result($patientid, $allergylistid, $patientallergyid, $allergylist);
+
 $query = "SELECT `VisitType_add`.`patientid`, `VisitType_add`.`fname`, `VisitType_add`.`lname`, `VisitType_add`.`dob`,`VisitType_add`.`patientvisitid`, `VisitType_add`.`currentdate`, `VisitType_add`.`visittype`, `ReasonforVisit`.`reasonforvisit`, `VisitType_add`.`pstat` 
               FROM (
                   SELECT `VisitType`.`visittype`, `Patient_add`.`patientid`, `Patient_add`.`fname`, `Patient_add`.`lname`, `Patient_add`.`dob`,`Patient_add`.`patientvisitid`, `Patient_add`.`pstat`, `Patient_add`.`currentdate`, `Patient_add`.`reasonforvisitid`, `Patient_add`.`visittypeid` 
@@ -182,6 +201,10 @@ $stmt->fetch();
       <tr>
         <td>Date of Birth</td>
         <td><?php echo"$dob";?></td>
+      </tr>
+      <tr>
+        <td>Type of Home</td>
+        <td><?php echo"$hometype";?></td>
       </tr>
       <tr>
         <td>Street Address</td>
@@ -240,7 +263,7 @@ $stmt->fetch();
         <td><?php echo"$citizen";?></td>
       </tr>
       <tr>
-        <td>Household Income</td>
+        <td>Total Monthly Household Income</td>
         <td><?php echo"$householdincome";?></td>
       </tr>
       <tr>
@@ -300,12 +323,20 @@ $stmt->fetch();
         <td><?php echo"$foodstamp";?></td>
       </tr>
       <tr>
-        <td>Type of Home</td>
-        <td><?php echo"$hometype";?></td>
-      </tr>
-      <tr>
         <td>Method of Transport to Clinic</td>
         <td><?php echo"$transport";?></td>
+      </tr>
+      <tr>
+        <td>Allergies</td>
+        <td>
+          <ul class="list-unstyled">
+<?php
+while ($stmt_allerg->fetch()) {
+    echo "          <li>$allergylist</li>\n";
+}
+?>
+          </ul>
+        </td>
       </tr>
   </table>
 
@@ -316,7 +347,7 @@ $stmt->fetch();
         <th>First Name</th>
         <th>Last Name</th>
         <th>Date of Birth</th>
-        <th>Visit Number (since 1/6/2016) </th>
+        <th>Visit Number (since 1/10/2016) </th>
         <th>Date of Visit</th>
         <th>Visit Type</th>
         <th>Reason for Visit</th>
@@ -343,7 +374,8 @@ do {
 
     $visit_number++;
 
- } while($stmt->fetch());
+} while($stmt->fetch());
+// This do while loop allows the visit number column to be generated. The visits are already recorded sequentially and ordered by date in SQL query above. Creating the variable $visit_number and using the loop lets us add actualy visit numbers since the first initial visit.
 ?>
 
 </table>

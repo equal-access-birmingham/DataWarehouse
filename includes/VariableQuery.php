@@ -1,17 +1,17 @@
 <?php
-$query = "SELECT `cityid`, `city` FROM `City`;";
+$query = "SELECT `cityid`, `city` FROM `City` ORDER BY `city`;";
 $stmt_city = $con->prepare($query);
 $stmt_city->execute();
 $stmt_city->store_result();
 $stmt_city->bind_result($cityid, $city);
 
-$query = "SELECT `stateid`, `state` FROM `State`;";
+$query = "SELECT `stateid`, `state` FROM `State` ORDER BY `state`;";
 $stmt_state = $con->prepare($query);
 $stmt_state->execute();
 $stmt_state->store_result();
 $stmt_state->bind_result($stateid,$state);
 
-$query = "SELECT `zipid`, `zip` FROM `Zip`;";
+$query = "SELECT `zipid`, `zip` FROM `Zip` ORDER BY `zip`;";
 $stmt_zip = $con->prepare($query);
 $stmt_zip->execute();
 $stmt_zip->store_result();
