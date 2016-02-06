@@ -34,14 +34,15 @@ $stmt->bind_result($patient_id, $fname_display, $lname_display, $dob_display);
 ?>
 <?php include("includes/header_require_login.php"); ?>
 
-    <title>EAB: Select Patient</title>
+    <title>Equal Access Birmingham</title>
 
 <?php require_once("includes/menu.php"); ?>
 
   </head>
   <body>
     <h1>Patient Search</h1>
-    <form method="get">
+    <p>Please search for a patient by either first name, last name, date of birth, or all 3.</p>
+    <form method="get" autocomplete="off">
       <div class="form-group">
         <label for="fname">First Name:</label>
         <input type="text" name="fname" id="fname" class="form-control"/>

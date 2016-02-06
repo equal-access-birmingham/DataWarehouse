@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `Gender` (
 `gender` VARCHAR(50)
 );
 INSERT INTO `Gender`(gender) VALUES
+  (""),
   ("Male"),
   ("Female"),
   ("Transgender");
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `Race` (
 `race` VARCHAR(50)
 );
 INSERT INTO `Race`(race) VALUES 
+  (""),
   ("White"),
   ("Black or African American"),
   ("American Indian or Alaska Native"),
@@ -28,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `Ethnicity` (
 `ethnicity` VARCHAR(50)
 );
 INSERT INTO `Ethnicity`(ethnicity) VALUES
+  (""),
   ("Hispanic"),
   ("Non-Hispanic");
 
@@ -37,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `CitizenStatus` (
 `citizen` VARCHAR(50)
 );
 INSERT INTO `CitizenStatus`(citizen) VALUES
+  (""),
   ("US Citizen"),
   ("Permanent Resident"),
   ("Undocumented Resident");
@@ -47,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `City` (
 `city` VARCHAR(50)
 );
 INSERT INTO `City`(city) VALUES
+  (""),
   ("Birmingham"),
   ("Montgomery"),
   ("Huntsville"),
@@ -58,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `State` (
 `state` VARCHAR(50)
 );
 INSERT INTO `State`(state) VALUES
+  (""),
   ("Alabama"),
   ("Georgia"),
   ("Tennessee"),
@@ -70,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `Zip` (
 `zip` VARCHAR(50)
 );
 INSERT INTO `Zip`(zip) VALUES
+  (""),
   ("35205"),
   ("35233"),
   ("35203"),
@@ -83,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `PrimaryLanguage` (
 `language` VARCHAR(50)
 );
 INSERT INTO `PrimaryLanguage`(language) VALUES
+  (""),
   ("English"),
   ("Spanish"),
   ("Mandarin");
@@ -92,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `AllergyList` (
 `allergylist` VARCHAR(50)
 );
 INSERT INTO `AllergyList`(allergylist) VALUES
-  ("Sulfa drugs/Sulfonamides"),
+  ("Sulfa drugs/Sulfonamidies"),
   ("Penicillin"),
   ("Tetracycline"),
   ("Codeine"),
@@ -106,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `EmergencyR` (
 `emergencyr` VARCHAR(50)
 );
 INSERT INTO `EmergencyR`(emergencyr) VALUES
+  (""),
   ("Spouse"),
   ("Sibling"),
   ("Parent"),
@@ -190,8 +199,9 @@ CREATE TABLE IF NOT EXISTS `ReasonforVisit` (
 `reasonforvisit` VARCHAR(50)
 );
 INSERT INTO `ReasonforVisit`(reasonforvisit) VALUES
-  ("Recent Problem (<2 weeks), ex. new back pain"),
-  ("Ongoing Problem (>2 weeks), ex. high blood pressure"),
+  (""),
+  ("Acute Care Managment e.g. Infection, Muscle Pain"),
+  ("Chronic Care Management e.g. Blood Pressure, Diabetes"),
   ("Smoking/Alcohol/Drug Cessation"),
   ("Mental Health");
 
@@ -200,6 +210,7 @@ CREATE TABLE IF NOT EXISTS `VisitType` (
 `visittype` VARCHAR(50)
 );
 INSERT INTO `VisitType`(visittype) VALUES
+  (""),
   ("New Patient"),
   ("Returning Patient");
 
@@ -225,6 +236,7 @@ CREATE TABLE IF NOT EXISTS `CooperGreen` (
 `cooper` VARCHAR(50)
 );
 INSERT INTO `CooperGreen`(cooper) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -234,6 +246,7 @@ CREATE TABLE IF NOT EXISTS `PrimaryPhysician` (
 `physician` VARCHAR(50)
 );
 INSERT INTO `PrimaryPhysician`(physician) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -243,6 +256,7 @@ CREATE TABLE IF NOT EXISTS `EducationLevel` (
 `education` VARCHAR(50)
 );
 INSERT INTO `EducationLevel`(education) VALUES
+  (""),
   ("Some High School"),
   ("High School Diploma"),
   ("GED"),
@@ -256,6 +270,7 @@ CREATE TABLE IF NOT EXISTS `HeadofHousehold` (
 `housestat` VARCHAR(50)
 );
 INSERT INTO `HeadofHousehold`(housestat) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -265,6 +280,7 @@ CREATE TABLE IF NOT EXISTS `MedicalInsurance` (
 `insurance` VARCHAR(50)
 );
 INSERT INTO `MedicalInsurance`(insurance) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -274,6 +290,7 @@ CREATE TABLE IF NOT EXISTS `Disability` (
 `disability` VARCHAR(50)
 );
 INSERT INTO `Disability`(disability) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -283,6 +300,7 @@ CREATE TABLE IF NOT EXISTS `Veteran` (
 `veteran` VARCHAR(50)
 );
 INSERT INTO `Veteran`(veteran) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -292,6 +310,7 @@ CREATE TABLE IF NOT EXISTS `CurrentEmployment` (
 `employment` VARCHAR(50)
 );
 INSERT INTO `CurrentEmployment`(employment) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -301,6 +320,7 @@ CREATE TABLE IF NOT EXISTS `RelationshipStatus` (
 `relationship` VARCHAR(50)
 );
 INSERT INTO `RelationshipStatus`(relationship) VALUES
+  (""),
   ("Never married"),
   ("Married/Partnered"),
   ("Separated"),
@@ -313,6 +333,7 @@ CREATE TABLE IF NOT EXISTS `Alcohol` (
 `alcohol` VARCHAR(50)
 );
 INSERT INTO `Alcohol`(alcohol) VALUES
+  (""),
   ("Never"),
   ("Quit"),
   ("Rarely"),
@@ -325,6 +346,7 @@ CREATE TABLE IF NOT EXISTS `FoodStamp` (
 `foodstamp` VARCHAR(50)
 );
 INSERT INTO `FoodStamp`(foodstamp) VALUES
+  (""),
   ("Yes"),
   ("No");
 
@@ -333,6 +355,7 @@ CREATE TABLE IF NOT EXISTS `HomeType` (
 `hometype` VARCHAR(50)
 );
 INSERT INTO `HomeType`(hometype) VALUES
+  (""),
   ("Homeless"),
   ("Homeless Shelter"),
   ("Rental House/Apartment"),
@@ -343,6 +366,7 @@ CREATE TABLE IF NOT EXISTS `Transport` (
 `transport` VARCHAR(50)
 );
 INSERT INTO `Transport`(transport) VALUES
+  (""),
   ("Walk/Bike"),
   ("Public Transportation"),
   ("Personal Vehicle"),

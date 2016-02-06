@@ -351,20 +351,20 @@ echo "
 ?>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Edit Information</button>
+              <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Edit Information</button>
 <?php
 $query_string = "";
 foreach ($_GET as $get => $value){
   if (is_array($value)){
 	foreach($value as $array_value){
-	  $query_string .= $get . "[]=" . $array_value . "&";
+	  $query_string .= $get . "[]=" . urlencode($array_value) . "&";
 	}
   } else {
-	$query_string .= $get . "=" . $value . "&";
+	$query_string .= $get . "=" . urlencode($value) . "&";
 	}
 }
-//$query_string = urlencode($query_string);
-echo "              <a href=\"newpatientform_do.php?$query_string\" class=\"btn btn-primary\">Submit Information</a>";
+//$query_string = urlencode($query_string); 
+echo "              <a href=\"newpatientform_do.php?$query_string\" class=\"btn btn-primary btn-lg\">Submit Information</a>";
 //END OF MODAL
 ?>
             </div>
@@ -375,18 +375,18 @@ echo "              <a href=\"newpatientform_do.php?$query_string\" class=\"btn 
       <h1>EAB New Patient Intake Form</h1>
       <p> Please update your information in the form below. Asterisks indicate required field.</p>
       <!-- PATIENT TABLE INFO -->
-      <form method="get" >
+      <form method="get" autocomplete="off">
 	    <!-- First Name -->
         <label for ="fname">*First Name:</label>
-        <input type="text" name="fname" id ="fname" value="<?php if (isset($_GET['submit'])) {echo $_GET['fname'];} ?>" class="form-control"/>
+        <input required type="text" name="fname" id ="fname" value="<?php if (isset($_GET['submit'])) {echo $_GET['fname'];} ?>" class="form-control"/>
 		<!-- Last Name -->
         <label for ="lname">*Last Name:</label>
-        <input type="text" name="lname" id ="lname" value="<?php if (isset($_GET['submit'])) { echo $_GET['lname'];} ?>" class="form-control"/>
+        <input required type="text" name="lname" id ="lname" value="<?php if (isset($_GET['submit'])) { echo $_GET['lname'];} ?>" class="form-control"/>
 		<!-- Date of Birth -->
         <label>*Date of Birth:</label>
         <div class="row">
           <div class="col-xs-4">
-            <select name="dob_month" class="form-control"/>
+            <select required name="dob_month" class="form-control"/>
               <option value="">-- Month --</option>
 <?php
 //BIRTH DATE BEGINNING
@@ -414,7 +414,7 @@ for ($month = 1; $month < 13; $month++) {
             </select>
           </div>
           <div class="col-xs-4">
-            <select name="dob_day" class="form-control">
+            <select required name="dob_day" class="form-control">
               <option value="">-- Day --</option>
 <?php
 for ($day = 1; $day < 32; $day++) {
@@ -426,7 +426,7 @@ for ($day = 1; $day < 32; $day++) {
             </select>
           </div>
           <div class="col-xs-4">
-            <select name="dob_year" class="form-control" >
+            <select required name="dob_year" class="form-control" >
               <option value="">-- Year --</option>
 <?php
 $year = date("Y");
@@ -442,7 +442,8 @@ for ($year; $year > $year_past; $year--){
         </div>
 		<!-- Gender -->
         <label>*Gender:</label>
-        <select name="genderid" class="form-control"/>
+        <select required name="genderid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_gender->fetch()){        
   echo "          <option value=\"$genderid\"";
@@ -453,7 +454,8 @@ while ($stmt_gender->fetch()){
         </select>
 		<!-- Ethnicity -->
         <label>*Ethnicity:</label>
-        <select name="ethnicityid" class="form-control"/>
+        <select required name="ethnicityid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_ethnicity->fetch()){        
   echo "          <option value=\"$ethnicityid\"";
@@ -464,7 +466,8 @@ while ($stmt_ethnicity->fetch()){
         </select>
 		<!-- Race -->
         <label>*Race:</label>
-        <select name="raceid" class="form-control"/>
+        <select required name="raceid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_race->fetch()){        
   echo "          <option value=\"$raceid\"";
@@ -476,7 +479,8 @@ while ($stmt_race->fetch()){
 		<!-- END DATE OF BIRTH -->
 		<!-- Type of Home -->
         <label>*What type of home do you live in?</label>
-        <select name="hometypeid" class="form-control">
+        <select required name="hometypeid" class="form-control">
+		  <option value=""></option>
 <?php
 while ($stmt_hometype->fetch()){        
   echo "          <option value=\"$hometypeid\"";
@@ -486,13 +490,14 @@ while ($stmt_hometype->fetch()){
 ?>
         </select> 
 		<!-- Address -->
-        <label>Address:</label>
+        <label>Address: (If listed Homeless Shelter above, please include address of shelter or name.)</label>
         <input type="text" name="address_street" value="<?php if (isset($_GET['submit'])) {echo $_GET['address_street'];} ?>" class="form-control"/>
 		<!-- City -->
         <div class="row">
           <div class="col-xs-6"> 
             <label for="citybox">City:</label>
             <select name="cityid" id ="citybox" class="form-control"/>
+			  <option value=""></option>
 <?php
 while ($stmt_city->fetch()){        
   echo "                <option value=\"$cityid\"";
@@ -513,6 +518,7 @@ while ($stmt_city->fetch()){
           <div class="col-xs-6">
             <label for="statebox">State:</label>
             <select name="stateid" id="statebox" class="form-control"/>
+			  <option value=""></option>
 <?php
 while ($stmt_state->fetch()){        
   echo "              <option value=\"$stateid\"";
@@ -533,6 +539,7 @@ while ($stmt_state->fetch()){
           <div class="col-xs-6">
             <label for="zipbox">Zip:</label>
             <select name="zipid" id="zipbox" class="form-control"/>
+			  <option value=""></option>
 <?php
 while ($stmt_zip->fetch()){        
   echo "              <option value=\"$zipid\"";
@@ -550,23 +557,24 @@ while ($stmt_zip->fetch()){
         </div>
 		<!-- Phone Number -->
         <label>Phone Number:</label>
-        <input type="text" name="phone_number" value="<?php if (isset($_GET['submit'])) {echo $_GET['phone_number'];} ?>" class="form-control"/><!-- automatically have the information filled out after form submit so that they can edit information -->
+        <input type="text" name="phone_number" placeholder="xxx-xxx-xxxx" value="<?php if (isset($_GET['submit'])) {echo $_GET['phone_number'];} ?>" class="form-control"/><!-- automatically have the information filled out after form submit so that they can edit information -->
 		<!-- Email -->
         <label>Email:</label>
         <input type="text" name="email_address" value="<?php if (isset($_GET['submit'])) {echo $_GET['email_address'];} ?>" class="form-control"/><!-- automatically have the information filled out after form submit so that they can edit information -->
 		<!-- Emergency Contact Name -->
         <div class="row">
 		  <div class="container">
-		    <label>Emergency Contact Informaiton:</label>
+		    <label>Emergency Contact Information:</label>
 		  </div>
 	  	  <div class="col-xs-4">
-	  	    <label for="emergencyname">*Name:</label>
+	  	    <label for="emergencyname">Name:</label>
               <input type="text" name="emergency_name" id="emergencyname" value="<?php if (isset($_GET['submit'])) {echo $_GET['emergency_name'];} ?>" class="form-control"/>
 	  	  </div>
 		  <!-- Emergency Contact Relation -->
 	  	  <div class="col-xs-4">
-	        <label for="emergencyr">*Relation:</label>
+	        <label for="emergencyr">Relation:</label>
             <select name="emergencyrid" id ="emergencyr" class="form-control"/>
+			  <option value=""></option>
 			
 <?php
 while ($stmt_emergencyr->fetch()){        
@@ -579,16 +587,17 @@ while ($stmt_emergencyr->fetch()){
 	  	  </div>
 		  <!-- Phone Number -->
 	  	  <div class="col-xs-4">
-	  	    <label for="emergencynumber">*Phone Number:</label>
-              <input type="text" name="emergency_number" id="emergencynumber" value="<?php if (isset($_GET['submit'])) {echo $_GET['emergency_number'];} ?>" class="form-control"/>
+	  	    <label for="emergencynumber">Phone Number:</label>
+              <input type="text" name="emergency_number" placeholder="xxx-xxx-xxxx" id="emergencynumber" value="<?php if (isset($_GET['submit'])) {echo $_GET['emergency_number'];} ?>" class="form-control"/>
 	  	  </div>
         </div>		
 		<!-- Chief Complaint/ What brings you in? -->
-        <label>*In your own words, What brings you to the clinic today?</label>
-        <input type="text" name="pstat" value="<?php if (isset($_GET['submit'])) {echo $_GET['pstat'];} ?>" class="form-control"/>
+        <label>*In your own words, what brings you to the clinic today?</label>
+        <input required type="text" name="pstat" value="<?php if (isset($_GET['submit'])) {echo $_GET['pstat'];} ?>" class="form-control"/>
 		<!-- Reason for Visit (Acute/Chronic) -->		
         <label>*Which option best describes the reason for your visit?</label>
-        <select name="reasonforvisitid" class="form-control"/>
+        <select required name="reasonforvisitid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_reasonforvisit->fetch()){        
   echo "          <option value=\"$reasonforvisitid\"";
@@ -599,7 +608,8 @@ while ($stmt_reasonforvisit->fetch()){
         </select>
 <!-- How did you Travel -->
         <label>*How do you primarily get to EAB clinic to see the doctor?</label>
-        <select name="transportid" class="form-control"/>
+        <select required name="transportid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_transport->fetch()){        
   echo "          <option value=\"$transportid\"";
@@ -612,7 +622,8 @@ while ($stmt_transport->fetch()){
         <div class="row">
           <div class="col-xs-6"> 
             <label>*What is your primary language?:</label>
-            <select name="languageid" class="form-control"/>
+            <select required name="languageid" class="form-control"/>
+			  <option value=""></option>
 <?php
 while ($stmt_language->fetch()){        
   echo "              <option value=\"$languageid\"";
@@ -630,7 +641,8 @@ while ($stmt_language->fetch()){
         </div>
 		<!-- Citizen Status -->
         <label>*What is your Citizenship Status?:</label>
-        <select name="citizenid" class="form-control"/>
+        <select required name="citizenid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_citizen->fetch()){        
   echo "          <option value=\"$citizenid\"";
@@ -641,7 +653,8 @@ while ($stmt_citizen->fetch()){
         </select>
 		<!-- Head of Household -->
         <label>*Are you the head of your household?</label>
-        <select name="housestatid" class="form-control">
+        <select required name="housestatid" class="form-control">
+		  <option value=""></option>
 <?php
 while ($stmt_housestat->fetch()){        
   echo "          <option value=\"$housestatid\"";
@@ -652,7 +665,7 @@ while ($stmt_housestat->fetch()){
         </select>
         <!-- Number of People in Household -->		
         <label>*How many people are in your household including yourself?</label>
-        <select name="numfammember" class="form-control">
+        <select required name="numfammember" class="form-control">
           <option value=""></option>
 <?php
 $numfammembers = array("1","2","3","4","5","6","7","8","9","10","11","12","13");
@@ -665,8 +678,8 @@ for ($numfammember_count = 0; $numfammember_count <count($numfammembers); $numfa
         </select> 
 		<!-- Children under 18 -->
         <label>*How many children under 18 are in your household?</label>
-        <select name="numchildren" class="form-control">
-          <option value="null"></option>
+        <select required name="numchildren" class="form-control">
+          <option value=""></option>
 <?php
 $numchildrens = array("0","1","2","3","4","5","6","7","8");
 for ($numchildren_count = 0; $numchildren_count <count($numchildrens); $numchildren_count++){
@@ -678,7 +691,8 @@ for ($numchildren_count = 0; $numchildren_count <count($numchildrens); $numchild
         </select> 
 		<!-- Relationship Status -->
         <label>*What is your relationship status?</label>
-        <select name="relationshipid" class="form-control"/>
+        <select required name="relationshipid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_relationship->fetch()){        
   echo "          <option value=\"$relationshipid\"";
@@ -688,10 +702,11 @@ while ($stmt_relationship->fetch()){
 ?>
         </select> 
 		<!-- Household Income -->
-        <label>*What is your total monthly household income?</label>
-        <input type="text" name="householdincome" value="<?php if (isset($_GET['submit'])) {echo $_GET['householdincome'];} ?>" class="form-control"> 
+        <label>*What is your total monthly household income (in U.S. dollars $)?</label>
+        <input required type="text" name="householdincome" value="<?php if (isset($_GET['submit'])) {echo $_GET['householdincome'];} ?>" class="form-control"> 
         <label>*Are you currently employed?</label>
-        <select name="employmentid" class="form-control"/>
+        <select required name="employmentid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_employment->fetch()){        
   echo "          <option value=\"$employmentid\"";
@@ -702,7 +717,8 @@ while ($stmt_employment->fetch()){
         </select> 
 		<!-- Disability -->
         <label>*Are you on Disabilty?</label>
-        <select name="disabilityid" class="form-control"/>
+        <select required name="disabilityid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_disability->fetch()){        
   echo "          <option value=\"$disabilityid\"";
@@ -713,7 +729,8 @@ while ($stmt_disability->fetch()){
         </select> 
 		<!-- Foodstamps -->
         <label>*Are you part of the SNAP program formerly known as Foodstamps?</label>
-        <select name="foodstampid" class="form-control"/>
+        <select required name="foodstampid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_foodstamp->fetch()){        
   echo "          <option value=\"$foodstampid\"";
@@ -724,7 +741,8 @@ while ($stmt_foodstamp->fetch()){
         </select>
 		<!-- US Veteran -->
         <label>*Are you a United States Military Veteran?</label>
-        <select name="veteranid" class="form-control"/>
+        <select required name="veteranid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_veteran->fetch()){        
   echo "          <option value=\"$veteranid\"";
@@ -735,7 +753,8 @@ while ($stmt_veteran->fetch()){
         </select>
 		<!-- Level of Education -->
         <label>*What is your highest level of education completed?</label>
-        <select name="educationid" class="form-control">
+        <select required name="educationid" class="form-control">
+		  <option value=""></option>
 <?php
 while ($stmt_education->fetch()){        
   echo "          <option value=\"$educationid\"";
@@ -746,7 +765,8 @@ while ($stmt_education->fetch()){
         </select>
 		<!-- Health Insurance -->		
         <label>*Do you have health insurance?</label>
-        <select name="insuranceid" class="form-control">
+        <select required name="insuranceid" class="form-control">
+		  <option value=""></option>
 <?php
 while ($stmt_insurance->fetch()){        
   echo "          <option value=\"$insuranceid\"";
@@ -757,7 +777,8 @@ while ($stmt_insurance->fetch()){
         </select> 
 		<!-- Primary Care Phsician -->
         <label>*Do you have a primary care physican?</label>
-        <select name="physicianid" class="form-control">
+        <select required name="physicianid" class="form-control">
+		  <option value=""></option>
 <?php
 while ($stmt_physician->fetch()){        
   echo "          <option value=\"$physicianid\"";
@@ -768,7 +789,8 @@ while ($stmt_physician->fetch()){
         </select> 
 		<!-- Cooper Green -->
         <label>*Is your physician at Cooper Green?</label>
-        <select name="cooperid" class="form-control">
+        <select required name="cooperid" class="form-control">
+		  <option value=""></option>
 <?php
 while ($stmt_cooper->fetch()){        
   echo "          <option value=\"$cooperid\"";
@@ -826,7 +848,8 @@ for ($year; $year > $year_past; $year--){
         </select>
 		<!-- Alcohol -->
         <label>*How often do you drink alcohol?</label>
-        <select name="alcoholid" class="form-control"/>
+        <select required name="alcoholid" class="form-control"/>
+		  <option value=""></option>
 <?php
 while ($stmt_alcohol->fetch()){        
   echo "          <option value=\"$alcoholid\"";
@@ -878,7 +901,7 @@ while ($stmt_allergylist->fetch()){
         <input type="text" name="allergyaddition" value="<?php if (isset($_GET['submit'])) {echo $_GET['allergyaddition'];} ?>" class="form-control"/>
         <!-- How did you hear? -->
         <label>*How did you hear about EAB?</label>
-        <input type="text" name="heareab" value="<?php if (isset($_GET['submit'])) {echo $_GET['heareab'];} ?>" class="form-control"/>
+        <input required type="text" name="heareab" value="<?php if (isset($_GET['submit'])) {echo $_GET['heareab'];} ?>" class="form-control"/>
 		<h3>Please answer the questions below if they apply to you:</h3>
 		<!-- MAMMOGRAM DATE -->
         <label>Estimate Date of Last Mammogram:</label>
@@ -1049,7 +1072,7 @@ for ($year; $year > $year_past; $year--){
           </div>
         </div>
         <br />
-        <input type="submit" class="btn btn-success" name="submit" value="Submit" />
+        <input type="submit" class="btn btn-success btn-lg" name="submit" value="Submit" />
 <!--- Make sure this is separate window that pops up after patient fills out most form. Check in officer will add the practicefusion PRn to this. Practice Fusion PRN  -- patientid -->
         <br />
 	    <br />

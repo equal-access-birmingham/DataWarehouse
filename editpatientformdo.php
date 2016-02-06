@@ -2,12 +2,17 @@
 //pulling variables from URL
 $patientid = $_GET['patientid'];
 $hometypeid = $_GET['hometypeid'];
+if ($hometypeid == ""){$hometypeid = null;}
 $address_street = $_GET['address_street'];
 $cityid = $_GET['cityid'];
+if ($cityid == ""){$cityid = null;}
 $stateid = $_GET['stateid'];
+if ($stateid == ""){$stateid = null;}
 $zipid = $_GET['zipid'];
+if ($zipid == ""){$zipid = null;}
 $emergency_name = $_GET['emergency_name'];
 $emergencyrid = $_GET['emergencyrid'];
+if ($emergencyrid == ""){$emergencyrid = null;}
 $emergency_number = $_GET['emergency_number'];
 $mammogram = $_GET['mammogram_year'] . "-" . $_GET['mammogram_month'] . "-" . $_GET['mammogram_day'];
 $colonoscopy = $_GET['colonoscopy_year'] . "-" . $_GET['colonoscopy_month'] . "-" . $_GET['colonoscopy_day'];
@@ -15,7 +20,9 @@ $sti = $_GET['STI_year'] . "-" . $_GET['STI_month'] . "-" . $_GET['STI_day'];
 $papsmear = $_GET['PAP_year'] . "-" . $_GET['PAP_month'] . "-" . $_GET['PAP_day'];
 $visittypeid = 3;
 $reasonforvisitid = $_GET['reasonforvisitid'];
+if ($reasonforvisitid == ""){$reasonforvisitid = null;}
 $transportid = $_GET['transportid'];
+if ($transportid == ""){$transportid = null;}
 $pstat = $_GET['pstat'];
 $currentdate = date("Ymd");
 $phone_number = $_GET['phone_number'];
@@ -39,7 +46,7 @@ $stmt->fetch();
 $stmt->close();
 
 //requiring that the necessary fields were filled in
-if ($hometypeid && $reasonforvisitid && $pstat && $visittypeid && $emergency_name && $emergencyrid && $emergency_number && $transportid && !$count){
+if ($hometypeid && $reasonforvisitid && $pstat && $transportid && !$count){
 // ADDING NEW CITY TO CITY TABLE IN DATABASE
 if ($cityaddition) {
   //preloading input (was already lower case) and changing it so first letter of each word is capital
@@ -173,9 +180,9 @@ $stmt_city->bind_param("ssssssssss",$address_street, $cityid, $stateid, $zipid, 
 $stmt_city->execute();
 $stmt_city->close();
 //changing SOCIAL HISTORY TABLE information to match the information submitted in editpatientform.php
-$query = "UPDATE `SocialHistory` SET `hometypeid` = ? WHERE `patientid` = ?;";
+$query = "UPDATE `SocialHistory` SET `hometypeid` = ?, `transportid` = ? WHERE `patientid` = ?;";
 $stmt_hometype = $con->prepare($query) or die("Error: " . $con->error);
-$stmt_hometype->bind_param("ss",$hometypeid, $patientid);
+$stmt_hometype->bind_param("sss",$hometypeid, $transportid, $patientid);
 $stmt_hometype->execute();
 $stmt_hometype->close();
 //changing MAMMOGRAM TABLE information to match the information submitted in editpatientform.php
@@ -216,7 +223,7 @@ $stmt_patientvisit->close();
 <?php require_once("includes/menu.php"); ?>
 <?php
   //requiring that the necessary fields were filled in
-  if ($hometypeid && $reasonforvisitid && $pstat && $visittypeid && $emergency_name && $emergencyrid && $emergency_number && $transportid){
+  if ($hometypeid && $reasonforvisitid && $pstat && $transportid){
         if (!$count){
 			echo "<h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
 		}
@@ -226,6 +233,7 @@ $stmt_patientvisit->close();
     }
     else{ //if they didn't fill in the necessary info
         echo"      <h1>You missed a required field. Please fill in all required fields.</h1>";
+		echo"<INPUT Type=\"button\" class=\"btn btn-success btn-lg\" VALUE=\"Return to Form\" onClick=\"history.go(-1);return true;\">";
     }
 ?>
 <?php require_once("includes/footer.php"); ?>

@@ -17,13 +17,13 @@ $query = "SELECT `VisitType_add`.`patientid`, `VisitType_add`.`fname`, `VisitTyp
                       FROM (
                           SELECT `PatientVisit`.`patientid`, `PatientVisit`.`patientvisitid`, `PatientVisit`.`pstat`, `PatientVisit`.`currentdate`, `PatientVisit`.`reasonforvisitid`, `PatientVisit`.`visittypeid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`
                           FROM `PatientVisit`
-                          INNER JOIN `Patient`
+                          LEFT JOIN `Patient`
                           ON `PatientVisit`.`patientid` = `Patient`.`patientid`
                       ) AS `Patient_add`
-                      INNER JOIN `VisitType`
+                      LEFT JOIN `VisitType`
                       ON `Patient_add`.`visittypeid` = `VisitType`.`visittypeid`
               ) AS `VisitType_add`
-              INNER JOIN `ReasonforVisit`
+              LEFT JOIN `ReasonforVisit`
               ON `VisitType_add`.`reasonforvisitid` = `ReasonforVisit`.`reasonforvisitid`;";
              
 $stmt = $con->prepare($query);

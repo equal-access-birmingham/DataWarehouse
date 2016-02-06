@@ -2,7 +2,7 @@
 
 <?php require_once("includes/header_require_login.php"); ?>
 
-    <title>View Individual Patient Information</title>
+    <title>Equal Access Birmingham</title>
 
 <?php require_once("includes/menu.php"); ?>
 
@@ -16,6 +16,7 @@ $patientid = $_GET['patientid'];
 
 $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->error);
 
+//Joins all the subtables into the Patient Table. This produces all the demographic and contact informatio for patients.
 $query = "SELECT `PrimaryLanguage_add`.`patientid`, `PrimaryLanguage_add`.`fname`, `PrimaryLanguage_add`.`lname`, `PrimaryLanguage_add`.`dob`, `PrimaryLanguage_add`.`address_street`, `PrimaryLanguage_add`.`city`, `PrimaryLanguage_add`.`state`, `PrimaryLanguage_add`.`zip`, `PrimaryLanguage_add`.`phone_number`, `PrimaryLanguage_add`.`email_address`, `PrimaryLanguage_add`.`emergency_name`, `EmergencyR`.`emergencyr`, `PrimaryLanguage_add`.`emergency_number`, `PrimaryLanguage_add`.`gender`, `PrimaryLanguage_add`.`race`, `PrimaryLanguage_add`.`ethnicity`, `PrimaryLanguage_add`.`language`, `PrimaryLanguage_add`.`citizen`
 FROM (
   SELECT `CitizenStatus_add`.`patientid`, `CitizenStatus_add`.`fname`, `CitizenStatus_add`.`lname`, `CitizenStatus_add`.`emergency_name`, `CitizenStatus_add`.`emergency_number`, `CitizenStatus_add`.`emergencyrid`,  `CitizenStatus_add`.`dob`, `CitizenStatus_add`.`address_street`, `CitizenStatus_add`.`city`, `CitizenStatus_add`.`state`, `CitizenStatus_add`.`zip`, `CitizenStatus_add`.`phone_number`, `CitizenStatus_add`.`email_address`, `CitizenStatus_add`.`gender`, `CitizenStatus_add`.`race`, `CitizenStatus_add`.`ethnicity`, `PrimaryLanguage`.`language`, `CitizenStatus_add`.`citizen`  
@@ -34,31 +35,31 @@ FROM (
                               FROM (
                                   SELECT `Gender`.`gender`, `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`emergency_name`, `Patient`.`emergency_number`, `Patient`.`emergencyrid`, `Patient`.`genderid`, `Patient`.`raceid`, `Patient`.`ethnicityid`, `Patient`.`dob`, `Patient`.`address_street`, `Patient`.`cityid`, `Patient`.`stateid`, `Patient`.`zipid`, `Patient`.`phone_number`, `Patient`.`email_address`, `Patient`.`citizenid`,`Patient`.`languageid`
                                     FROM `Patient`
-                                      INNER JOIN `Gender`
+                                      LEFT JOIN `Gender`
                                       ON `Patient`.`genderid` = `Gender`.`genderid`
                                 ) AS `Gender_add`
-                                INNER JOIN `Race`
+                                LEFT JOIN `Race`
                                 ON `Gender_add`.`raceid` = `Race`.`raceid`
                             ) AS `Race_add`
-                            INNER JOIN `Ethnicity`
+                            LEFT JOIN `Ethnicity`
                             ON `Race_add`.`ethnicityid` = `Ethnicity`.`ethnicityid`
                       ) AS `Ethnicity_add`
-                      INNER JOIN `City`
+                      LEFT JOIN `City`
                       ON `Ethnicity_add`.`cityid` = `City`.`cityid`
                   ) AS `City_add`
-                  INNER JOIN `State`
+                  LEFT JOIN `State`
                   ON `City_add`.`stateid` = `State`.`stateid`
               ) AS `State_add`
-              INNER JOIN `Zip`
+              LEFT JOIN `Zip`
               ON `State_add`.`zipid` = `Zip`.`zipid`
           ) AS `Zip_add`
-          INNER JOIN `CitizenStatus`
+          LEFT JOIN `CitizenStatus`
           ON `Zip_add`.`citizenid` = `CitizenStatus`.`citizenid`
       ) AS `CitizenStatus_add`
-      INNER JOIN `PrimaryLanguage`
+      LEFT JOIN `PrimaryLanguage`
       ON `CitizenStatus_add`.`languageid` = `PrimaryLanguage`.`languageid`
   ) AS `PrimaryLanguage_add`
-  INNER JOIN `EmergencyR`
+  LEFT JOIN `EmergencyR`
   ON `PrimaryLanguage_add`.`emergencyrid` = `EmergencyR`.`emergencyrid`
   WHERE `PrimaryLanguage_add`.`patientid` = ?;";
 
@@ -69,6 +70,9 @@ $stmt_demog->store_result();
 $stmt_demog->bind_result($patientid, $fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
 $stmt_demog->fetch();
 
+//This joins the SocialHistory Table and its foreign key subtables into the Patient Table. Adds social history information to the patient information.
+//With multiple statements being run, you need to rename each statement accordingly. For instance, stmt_demog stands for the demographics information statement.
+//stmt->store_result(); is necessary to include here because of the code we include farther down for the Visit Information table.
 $query = "SELECT `HomeType_add`.`patientid`, `HomeType_add`.`fname`, `HomeType_add`.`lname`, `HomeType_add`.`dob`, `HomeType_add`.`sid`, `HomeType_add`.`householdincome`, `HomeType_add`.`numchildren`, `HomeType_add`.`numfammember`, `HomeType_add`.`heareab`, `HomeType_add`.`cooper`, `HomeType_add`.`physician`, `HomeType_add`.`education`, `HomeType_add`.`housestat`, `HomeType_add`.`insurance`, `HomeType_add`.`disability`, `HomeType_add`.`veteran`, `HomeType_add`.`employment`, `HomeType_add`.`relationship`, `HomeType_add`.`alcohol`, `HomeType_add`.`foodstamp`, `HomeType_add`. `hometype`, `Transport`.`transport`   
           FROM (
             SELECT `HomeType`.`hometype`, `FoodStamp_add`.`sid`, `FoodStamp_add`.`householdincome`, `FoodStamp_add`.`numchildren`, `FoodStamp_add`.`numfammember`, `FoodStamp_add`.`heareab`, `FoodStamp_add`.`hometypeid`, `FoodStamp_add`.`transportid`, `FoodStamp_add`.`patientid`, `FoodStamp_add`.`fname`, `FoodStamp_add`.`lname`, `FoodStamp_add`.`dob`, `FoodStamp_add`.`cooper`, `FoodStamp_add`.`physician`, `FoodStamp_add`.`education`, `FoodStamp_add`.`housestat`, `FoodStamp_add`.`insurance`, `FoodStamp_add`.`disability`, `FoodStamp_add`.`veteran`, `FoodStamp_add`.`employment`, `FoodStamp_add`.`relationship`, `FoodStamp_add`.`alcohol`, `FoodStamp_add`.`foodstamp`                 
@@ -97,46 +101,46 @@ $query = "SELECT `HomeType_add`.`patientid`, `HomeType_add`.`fname`, `HomeType_a
                                                                         FROM (
                                                                             SELECT `SocialHistory`.`sid`, `SocialHistory`.`householdincome`, `SocialHistory`.`numchildren`, `SocialHistory`.`numfammember`, `SocialHistory`.`heareab`, `SocialHistory`.`cooperid`, `SocialHistory`.`physicianid`, `SocialHistory`.`educationid`, `SocialHistory`.`housestatid`, `SocialHistory`.`insuranceid`, `SocialHistory`.`disabilityid`, `SocialHistory`.`veteranid`, `SocialHistory`.`employmentid`, `SocialHistory`.`relationshipid`, `SocialHistory`.`alcoholid`, `SocialHistory`.`foodstampid`, `SocialHistory`.`hometypeid`, `SocialHistory`.`transportid`, `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`
                                                                             FROM `SocialHistory`
-                                                                            INNER JOIN `Patient`
+                                                                            LEFT JOIN `Patient`
                                                                             ON `Patient`.`patientid` = `SocialHistory`.`patientid`
                                                                         ) AS `Patient_add`
-                                                                        INNER JOIN `CooperGreen`
+                                                                        LEFT JOIN `CooperGreen`
                                                                         ON `Patient_add`.`cooperid` = `CooperGreen`.`cooperid`
                                                                     ) AS `CooperGreen_add`
-                                                                    INNER JOIN `PrimaryPhysician`
+                                                                    LEFT JOIN `PrimaryPhysician`
                                                                     ON `CooperGreen_add`.`physicianid` = `PrimaryPhysician`.`physicianid`
                                                                 ) AS `PrimaryPhysician_add`
-                                                                INNER JOIN `EducationLevel`
+                                                                LEFT JOIN `EducationLevel`
                                                                 ON `PrimaryPhysician_add`.`educationid` = `EducationLevel`.`educationid`
                                                             ) AS `EducationLevel_add`
-                                                            INNER JOIN `HeadofHousehold`
+                                                            LEFT JOIN `HeadofHousehold`
                                                             ON `EducationLevel_add`.`housestatid` = `HeadofHousehold`.`housestatid`
                                                         ) AS `HeadofHousehold_add`
-                                                        INNER JOIN `MedicalInsurance`
+                                                        LEFT JOIN `MedicalInsurance`
                                                         ON `HeadofHousehold_add`.`insuranceid` = `MedicalInsurance`.`insuranceid`
                                                     ) AS `MedicalInsurance_add`
-                                                    INNER JOIN `Disability`
+                                                    LEFT JOIN `Disability`
                                                     ON `MedicalInsurance_add`.`disabilityid` = `Disability`.`disabilityid`
                                                 ) AS `Disability_add`
-                                                INNER JOIN `Veteran`
+                                                LEFT JOIN `Veteran`
                                                 ON `Disability_add`.`veteranid` = `Veteran`.`veteranid`
                                             ) AS `Veteran_add`
-                                            INNER JOIN `CurrentEmployment`
+                                            LEFT JOIN `CurrentEmployment`
                                             ON `Veteran_add`.`employmentid` = `CurrentEmployment`.`employmentid`
                                         ) AS `Employment_add`
-                                        INNER JOIN `RelationshipStatus`
+                                        LEFT JOIN `RelationshipStatus`
                                         ON `Employment_add`.`relationshipid` = `RelationshipStatus`.`relationshipid`
                                     ) AS `Relationship_add`
-                                    INNER JOIN `Alcohol`
+                                    LEFT JOIN `Alcohol`
                                     ON `Relationship_add`.`alcoholid` = `Alcohol`.`alcoholid`
                                 ) AS `Alcohol_add`
-                                INNER JOIN `FoodStamp`
+                                LEFT JOIN `FoodStamp`
                                 ON `Alcohol_add`.`foodstampid` = `FoodStamp`.`foodstampid`
                             ) AS `FoodStamp_add`
-                            INNER JOIN `HomeType`
+                            LEFT JOIN `HomeType`
                             ON `FoodStamp_add`.`hometypeid` = `HomeType`.`hometypeid`
                         ) AS `HomeType_add`
-                        INNER JOIN `Transport`
+                        LEFT JOIN `Transport`
                         ON `HomeType_add`.`transportid` = `Transport`.`transportid`
                         WHERE `HomeType_add`.`patientid` = ?;";
 
@@ -147,14 +151,71 @@ $stmt_social->store_result();
 $stmt_social->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 $stmt_social->fetch();
 
+//Joins Mammogram Table.
+$query = "SELECT `Patient`.`patientid`,`Mammogram`.`mammogram`
+            FROM `Patient`
+            LEFT JOIN `Mammogram`
+            ON `Patient`.`patientid` = `Mammogram`.`patientid`
+            WHERE `Patient`.`patientid` = ?;";
+
+$stmt_mam = $con->prepare($query) or die("error: " . $con->error);
+$stmt_mam->bind_param("s", $patientid) or die($con->error);
+$stmt_mam->execute();
+$stmt_mam->store_result();
+$stmt_mam->bind_result($patientid, $mammogram);
+$stmt_mam->fetch();
+
+//Joins PapSmear Table
+$query = "SELECT `Patient`.`patientid`,`PapSmear`.`papsmear`
+            FROM `Patient`
+            LEFT JOIN `PapSmear`
+            ON `Patient`.`patientid` = `PapSmear`.`patientid`
+            WHERE `Patient`.`patientid` = ?;";
+
+$stmt_pap = $con->prepare($query) or die("error: " . $con->error);
+$stmt_pap->bind_param("s", $patientid) or die($con->error);
+$stmt_pap->execute();
+$stmt_pap->store_result();
+$stmt_pap->bind_result($patientid, $papsmear);
+$stmt_pap->fetch();
+
+//Joins Colonoscopy Table
+$query = "SELECT `Patient`.`patientid`,`Colonoscopy`.`colonoscopy`
+            FROM `Patient`
+            LEFT JOIN `Colonoscopy`
+            ON `Patient`.`patientid` = `Colonoscopy`.`patientid`
+            WHERE `Patient`.`patientid` = ?;";
+
+$stmt_col = $con->prepare($query) or die("error: " . $con->error);
+$stmt_col->bind_param("s", $patientid) or die($con->error);
+$stmt_col->execute();
+$stmt_col->store_result();
+$stmt_col->bind_result($patientid, $colonoscopy);
+$stmt_col->fetch();
+
+//Joins STI Table
+$query = "SELECT `Patient`.`patientid`,`STI`.`sti`
+            FROM `Patient`
+            LEFT JOIN `STI`
+            ON `Patient`.`patientid` = `STI`.`patientid`
+            WHERE `Patient`.`patientid` = ?;";
+
+$stmt_sti = $con->prepare($query) or die("error: " . $con->error);
+$stmt_sti->bind_param("s", $patientid) or die($con->error);
+$stmt_sti->execute();
+$stmt_sti->store_result();
+$stmt_sti->bind_result($patientid, $sti);
+$stmt_sti->fetch();
+
+//Joins PatientAllergy Table and subtables. Adds the information about patient allergies.
 $query = "SELECT `Patient_add`.`patientid`, `Patient_add`.`allergylistid`, `Patient_add`.`patientallergyid`, `AllergyList`.`allergylist`
             FROM (
               SELECT `Patient`.`patientid`, `PatientAllergy`.`allergylistid`, `PatientAllergy`.`patientallergyid`
                 FROM `Patient`
-                INNER JOIN `PatientAllergy`
+                LEFT JOIN `PatientAllergy`
                 ON `Patient`.`patientid` = `PatientAllergy`.`patientid`
             ) AS `Patient_add`
-            INNER JOIN `AllergyList`
+            LEFT JOIN `AllergyList`
             ON `Patient_add`.`allergylistid` = `AllergyList`.`allergylistid`
             WHERE `Patient_add`.`patientid` = ?;";
 
@@ -164,19 +225,65 @@ $stmt_allerg->execute();
 $stmt_allerg->store_result();
 $stmt_allerg->bind_result($patientid, $allergylistid, $patientallergyid, $allergylist);
 
+//Joins SocialDrugs Table and subtables. Adds the information about patient illicit drug use.
+$query = "SELECT `Drugs_add`.`patientid`, `Drugs_add`.`sid`, `Drugs_add`.`socialdrugsid`, `Drugs_add`.`drugtypeid`, `DrugType`.`drugtype`
+            FROM (
+              SELECT `SocialHistory`.`patientid`,`SocialHistory`.`sid`, `SocialDrugs`.`socialdrugsid`, `SocialDrugs`.`drugtypeid`
+                FROM `SocialHistory`
+                LEFT JOIN `SocialDrugs`
+                ON `SocialHistory`.`sid` = `SocialDrugs`.`sid`
+            ) AS `Drugs_add`
+            LEFT JOIN `DrugType`
+            ON `Drugs_add`.`drugtypeid` = `DrugType`.`drugtypeid`
+            WHERE `Drugs_add`.`patientid` = ?;";
+
+$stmt_drugs = $con->prepare($query) or die("error: " . $con->error);
+$stmt_drugs->bind_param("s", $patientid) or die($con->error);
+$stmt_drugs->execute();
+$stmt_drugs->store_result();
+$stmt_drugs->bind_result($patientid, $sid, $socialdrugsid, $drugtypeid, $drugtype);
+
+//Joins CurrentSmoker Table. Adds information about current smokers.
+$query = "SELECT `SocialHistory`.`patientid`,`SocialHistory`.`sid`, `CurrentSmoker`.`currentsmokerid`, `CurrentSmoker`.`startdate`, `CurrentSmoker`.`packsperday`
+            FROM `SocialHistory`
+            INNER JOIN `CurrentSmoker`
+            ON `SocialHistory`.`sid` = `CurrentSmoker`.`sid`
+            WHERE `SocialHistory`.`patientid` = ?;";
+
+$stmt_csmoke = $con->prepare($query) or die("error: " . $con->error);
+$stmt_csmoke->bind_param("s", $patientid) or die($con->error);
+$stmt_csmoke->execute();
+$stmt_csmoke->store_result();
+$stmt_csmoke->bind_result($patientid, $sid, $currentsmokerid, $startdate, $packsperday);
+
+//Joins PastSmoker Table. Adds information about past smokers.
+$query = "SELECT `SocialHistory`.`patientid`,`SocialHistory`.`sid`, `PastSmoker`.`pastsmokerid`, `PastSmoker`.`startdate`, `PastSmoker`.`quitdate`, `PastSmoker`.`packsperday`
+            FROM `SocialHistory`
+            INNER JOIN `PastSmoker`
+            ON `SocialHistory`.`sid` = `PastSmoker`.`sid`
+            WHERE `SocialHistory`.`patientid` = ?;";
+
+$stmt_psmoke = $con->prepare($query) or die("error: " . $con->error);
+$stmt_psmoke->bind_param("s", $patientid) or die($con->error);
+$stmt_psmoke->execute();
+$stmt_psmoke->store_result();
+$stmt_psmoke->bind_result($patientid, $sid, $pastsmokerid, $startdate, $quitdate, $packsperday);
+$stmt_csmoke->fetch() or $stmt_psmoke->fetch();
+
+//Joins the PatientVisit Table and subtables. Adds the information about patient visit number and type. 
 $query = "SELECT `VisitType_add`.`patientid`, `VisitType_add`.`fname`, `VisitType_add`.`lname`, `VisitType_add`.`dob`,`VisitType_add`.`patientvisitid`, `VisitType_add`.`currentdate`, `VisitType_add`.`visittype`, `ReasonforVisit`.`reasonforvisit`, `VisitType_add`.`pstat` 
               FROM (
                   SELECT `VisitType`.`visittype`, `Patient_add`.`patientid`, `Patient_add`.`fname`, `Patient_add`.`lname`, `Patient_add`.`dob`,`Patient_add`.`patientvisitid`, `Patient_add`.`pstat`, `Patient_add`.`currentdate`, `Patient_add`.`reasonforvisitid`, `Patient_add`.`visittypeid` 
                       FROM (
                           SELECT `PatientVisit`.`patientid`, `PatientVisit`.`patientvisitid`, `PatientVisit`.`pstat`, `PatientVisit`.`currentdate`, `PatientVisit`.`reasonforvisitid`, `PatientVisit`.`visittypeid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`
                           FROM `PatientVisit`
-                          INNER JOIN `Patient`
+                          LEFT JOIN `Patient`
                           ON `PatientVisit`.`patientid` = `Patient`.`patientid`
                       ) AS `Patient_add`
-                      INNER JOIN `VisitType`
+                      LEFT JOIN `VisitType`
                       ON `Patient_add`.`visittypeid` = `VisitType`.`visittypeid`
                   ) AS `VisitType_add`
-                  INNER JOIN `ReasonforVisit`
+                  LEFT JOIN `ReasonforVisit`
                   ON `VisitType_add`.`reasonforvisitid` = `ReasonforVisit`.`reasonforvisitid`
                   WHERE `VisitType_add`.`patientid` = ?
                   ORDER BY `VisitType_add`.`currentdate` ASC;";
@@ -186,148 +293,209 @@ $stmt->bind_param("s", $patientid) or die($con->error);
 $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat);
 $stmt->fetch();
-
 ?>
-    <h1><?php echo "$fname";?> <?php echo "$lname";?>'s Demographic and Social Information</h1>
-    <table class="table table-bordered table-striped">
+
+<!-- Building the tables with all the information and variables pulled from the database using the query statements above -->
+    <h1><?php echo "$fname";?> <?php echo "$lname";?></h1>
+    <p><b><u>Demographic and Contact Information</b></u></p>
+    <table class="table-bordered table-striped table-condensed">
       <tr>
-        <td>First Name</td>
-        <td><?php echo"$fname";?></td>
-      </tr>
-      <tr>
-        <td>Last Name</td>
-        <td><?php echo"$lname";?></td>
-      </tr>
-      <tr>
-        <td>Date of Birth</td>
+        <td><b>Date of Birth:</b></td>
         <td><?php echo"$dob";?></td>
+        <td><b>Current Age:</b></td>
+        <td>
+<?php
+//Simple PHP age Calculator
+//Calculate and returns age based on the date provided by the user.
+//@param   date of birth('Format:yyyy-mm-dd').
+//@return  age based on date of birth
+function ageCalculator($dob){
+    if(!empty($dob)){
+        $birthdate = new DateTime($dob);
+        $today   = new DateTime('today');
+        $age = $birthdate->diff($today)->y;
+        return $age;
+    }else{
+        return 0;
+    }
+}
+echo ageCalculator($dob);
+?>
+        </td>
       </tr>
       <tr>
-        <td>Type of Home</td>
+        <td><b>Type of Home:</b></td>
         <td><?php echo"$hometype";?></td>
+        <td><b>Address:</b></td>
+        <td><?php echo"$address_street";?>, <?php echo"$city";?>, <?php echo"$state";?> <?php echo"$zip";?></td>
       </tr>
       <tr>
-        <td>Street Address</td>
-        <td><?php echo"$address_street";?></td>
-      </tr>
-      <tr>
-        <td>City</td>
-        <td><?php echo"$city";?></td>
-      </tr>
-      <tr>
-        <td>State</td>
-        <td><?php echo"$state";?></td>
-      </tr>
-      <tr>
-        <td>Zip Code</td>
-        <td><?php echo"$zip";?></td>
-      </tr>
-      <tr>
-        <td>Phone Number</td>
+        <td><b>Phone Number:</b></td>
         <td><?php echo"$phone_number";?></td>
-      </tr>
-      <tr>
-        <td>Email Address</td>
+        <td><b>Email Address:</b></td>
         <td><?php echo"$email_address";?></td>
       </tr>
       <tr>
-        <td>Emergency Contact Name</td>
-        <td><?php echo"$emergency_name";?></td>
-      </tr>
-      <tr>
-        <td>Emergency Contact Relationship</td>
-        <td><?php echo"$emergencyr";?></td>
-      </tr>
-      <tr>
-        <td>Emergency Contact Phone Number</td>
-        <td><?php echo"$emergency_number";?></td>
-      </tr>
-      <tr>
-        <td>Gender</td>
+        <td><b>Gender:</b></td>
         <td><?php echo"$gender";?></td>
-      </tr>
-      <tr>
-        <td>Race</td>
+        <td><b>Race:</b></td>
         <td><?php echo"$race";?></td>
       </tr>
       <tr>
-        <td>Ethnicity</td>
+        <td><b>Ethnicity:</b></td>
         <td><?php echo"$ethnicity";?></td>
-      </tr>
-      <tr>
-        <td>Primary Language Spoken</td>
+        <td><b>Primary Language Spoken:</b></td>
         <td><?php echo"$language";?></td>
       </tr>
       <tr>
-        <td>Citizenship Status</td>
+        <td><b>Citizenship Status:</b></td>
         <td><?php echo"$citizen";?></td>
-      </tr>
-      <tr>
-        <td>Total Monthly Household Income</td>
-        <td><?php echo"$householdincome";?></td>
-      </tr>
-      <tr>
-        <td>Number of Children in Household under 18</td>
-        <td><?php echo"$numchildren";?></td>
-      </tr>
-      <tr>
-        <td>Number of People in Household including Oneself</td>
-        <td><?php echo"$numfammember";?></td>
-      </tr>
-      <tr>
-        <td>How Heard about EAB</td>
+        <td><b>How Heard about EAB:<b></td>
         <td><?php echo"$heareab";?></td>
       </tr>
       <tr>
-        <td>Have a Physician at Cooper Green?</td>
-        <td><?php echo"$cooper";?></td>
+        <td><b>Emergency Contact:</b></td>
+        <td><?php echo"$emergency_name";?> (<?php echo"$emergencyr";?>)</td>
+        <td><b>Emergency Contact Phone Number:</b></td>
+        <td><?php echo"$emergency_number";?></td>
       </tr>
+    </table></br>
+
+      <p><b><u>Social Information</b></u></p>
+    <table class="table-bordered table-striped table-condensed">   
       <tr>
-        <td>Have a primary care provider?</td>
-        <td><?php echo"$physician";?></td>
-      </tr>
-      <tr>
-        <td>Highest Level of Education Achieved</td>
-        <td><?php echo"$education";?></td>
-      </tr>
-      <tr>
-        <td>Head of one's household?</td>
+        <td><b>Head of one's household?</b></td>
         <td><?php echo"$housestat";?></td>
-      </tr>
-      <tr>
-        <td>Have insurance?</td>
-        <td><?php echo"$insurance";?></td>
-      </tr>
-      <tr>
-        <td>On disability?</td>
-        <td><?php echo"$disability";?></td>
-      </tr>
-      <tr>
-        <td>Veteran or not?</td>
-        <td><?php echo"$veteran";?></td>
-      </tr>
-      <tr>
-        <td>Employed or not?</td>
-        <td><?php echo"$employment";?></td>
-      </tr>
-      <tr>
-        <td>Relationship Status</td>
+        <td><b>Relationship Status:</b></td>
         <td><?php echo"$relationship";?></td>
       </tr>
       <tr>
-        <td>Drinking Alcohol Status</td>
-        <td><?php echo"$alcohol";?></td>
+        <td><b>Employed or not?</b></td>
+        <td><?php echo"$employment";?></td>
+        <td><b>Total Monthly Household Income (in U.S. dollars $):</b></td>
+        <td><?php echo"$householdincome";?></td>
       </tr>
       <tr>
-        <td>Receiving Foodstamps or not?</td>
+        <td><b>Number of People in Household including Oneself:</b></td>
+        <td><?php echo"$numfammember";?></td>
+        <td><b>Number of Children in Household under 18:</b></td>
+        <td><?php echo"$numchildren";?></td>
+      </tr>
+      <tr>
+        <td><b>Have insurance?</b></td>
+        <td><?php echo"$insurance";?></td>
+        <td><b>Have a Physician at Cooper Green?</b></td>
+        <td><?php echo"$cooper";?></td>
+      </tr>
+      <tr>
+        <td><b>Have a primary care provider?</b></td>
+        <td><?php echo"$physician";?></td>
+        <td><b>U.S. Military Veteran or not?</b></td>
+        <td><?php echo"$veteran";?></td>
+      </tr>
+      <tr>
+        <td><b>On disability?</b></td>
+        <td><?php echo"$disability";?></td>
+        <td><b>Receiving Foodstamps or not?</b></td>
         <td><?php echo"$foodstamp";?></td>
       </tr>
       <tr>
-        <td>Method of Transport to Clinic</td>
+        <td><b>Highest Level of Education Achieved:</b></td>
+        <td><?php echo"$education";?></td>
+        <td><b>Method of Transport to Clinic:</b></td>
         <td><?php echo"$transport";?></td>
       </tr>
       <tr>
-        <td>Allergies</td>
+        <td><b>How often drink alcohol:</b></td>
+        <td><?php echo"$alcohol";?></td>
+        <td><b>Current and Past Drug Use:</b></td>
+        <td>
+          <ul class="list-unstyled">
+<?php
+while ($stmt_drugs->fetch()) {
+    echo "          <li>$drugtype</li>\n";
+}
+?>
+          </ul>
+        </td>
+      </tr>
+<?php
+if ($pastsmokerid == "") {$pastsmokerid == null;}
+if ($currentsmokerid == "") {$currentsmokerid == null;}
+if ($currentsmokerid == null && $pastsmokerid == null){ 
+?>
+	  <tr>
+	    <td><b>Smoking Status:</b></td>
+		<td>Non-Smoker</td>
+	  </tr>
+	</table>
+	
+<?php 
+	}
+elseif ($currentsmokerid != null) {
+$packyears = (date("Y") - explode('-',$startdate)[0]) * $packsperday
+?>
+	  <tr>
+	    <td><b>Smoking Tobacco Status:</b></td>
+		<td>Current Smoker</td>
+		<td><b>Packs per Day:</b></td>
+		<td><?php echo $packsperday; ?></td>
+	  </tr>
+	  <tr>
+	    <td><b>Smoking Start Date:</b></td>
+		<td><?php echo $startdate; ?></td>
+	    <td><b>Smoking PackYears:</b></td>
+		<td><?php echo $packyears; ?></td>
+	  </tr>
+	</table> 
+<?php
+	}
+elseif ($pastsmokerid != null){
+$packyears = (explode('-',$quitdate)[0] - explode('-',$startdate)[0]) * $packsperday;
+?>
+	  <tr>
+	    <td><b>Smoking Tobacco Status:</b></td>
+		<td>Past Smoker</td>
+		<td><b>Packs per Day:</b></td>
+		<td><?php echo $packsperday; ?></td>
+	  </tr>
+	  <tr>
+	    <td><b>Smoking Start Date:</b></td>
+		<td><?php echo $startdate; ?></td>
+	    <td><b>Smoking Quit Date:</b></td>
+		<td><?php echo $quitdate; ?></td>
+	  </tr>
+	  <tr>
+	    <td><b>Smoking PackYears:</b></td>
+		<td><?php echo $packyears; ?></td>
+	  </tr>
+	</table>
+<?php
+	}
+?>
+<!-- Steve insert smoking php magic here -->
+    </table></br>
+
+      <p><b><u>Health Screenings and Maintenance</b></u></p>
+    <table class="table-bordered table-striped table-condensed">   
+      <tr>
+        <td><b>Date of Last Mammogram:</b></td>
+        <td><?php echo"$mammogram";?></td>
+        <td><b>Date of Last Pap Smear:</b></td>
+        <td><?php echo"$papsmear";?></td>
+      </tr>
+      <tr>
+        <td><b>Date of Last Colonoscopy:</b></td>
+        <td><?php echo"$colonoscopy";?></td>
+        <td><b>Date of Last STI Test:</b></td>
+        <td><?php echo"$sti";?></td>
+      </tr>
+    </table></br>
+
+      <p><b><u>Medical Information</b></u></p>
+    <table class="table-bordered table-striped table-condensed">  
+      <tr>
+        <td><b>Allergies:</b></td>
         <td>
           <ul class="list-unstyled">
 <?php
@@ -338,15 +506,11 @@ while ($stmt_allerg->fetch()) {
           </ul>
         </td>
       </tr>
-  </table>
+  </table></br>
 
-    <h1><?php echo "$fname";?> <?php echo "$lname";?>'s Visit Information</h1>
-
-    <table class="table table-bordered table-striped">
+      <p><b><u>Visit Information</b></u></p>
+    <table class="table table-bordered table-striped table-condensed">
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
         <th>Visit Number (since 1/10/2016) </th>
         <th>Date of Visit</th>
         <th>Visit Type</th>
@@ -362,9 +526,6 @@ do {
 
     echo "
       <tr>
-        <td>$fname</td>
-        <td>$lname</td>
-        <td>$dob</td>
         <td>$visit_number</td>
         <td>$currentdate</td>
         <td>$visittype</td>
@@ -386,8 +547,9 @@ $con->close();
 ?>
 
 <?php require_once("includes/footer.php"); ?>
-
+  </body>
 </html>
+
 
 
 

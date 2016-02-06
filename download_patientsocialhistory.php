@@ -46,46 +46,46 @@ $query = "SELECT `HomeType_add`.`patientid`, `HomeType_add`.`fname`, `HomeType_a
                                                                         FROM (
                                                                           SELECT `SocialHistory`.`sid`, `SocialHistory`.`householdincome`, `SocialHistory`.`numchildren`, `SocialHistory`.`numfammember`, `SocialHistory`.`heareab`, `SocialHistory`.`cooperid`, `SocialHistory`.`physicianid`, `SocialHistory`.`educationid`, `SocialHistory`.`housestatid`, `SocialHistory`.`insuranceid`, `SocialHistory`.`disabilityid`, `SocialHistory`.`veteranid`, `SocialHistory`.`employmentid`, `SocialHistory`.`relationshipid`, `SocialHistory`.`alcoholid`, `SocialHistory`.`foodstampid`, `SocialHistory`.`hometypeid`, `SocialHistory`.`transportid`, `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`
                                                                             FROM `SocialHistory`
-                                                                            INNER JOIN `Patient`
+                                                                            LEFT JOIN `Patient`
                                                                             ON `Patient`.`patientid` = `SocialHistory`.`patientid`
                                                                         ) AS `Patient_add`
-                                                                        INNER JOIN `CooperGreen`
+                                                                        LEFT JOIN `CooperGreen`
                                                                         ON `Patient_add`.`cooperid` = `CooperGreen`.`cooperid`
                                                                     ) AS `CooperGreen_add`
-                                                                    INNER JOIN `PrimaryPhysician`
+                                                                    LEFT JOIN `PrimaryPhysician`
                                                                     ON `CooperGreen_add`.`physicianid` = `PrimaryPhysician`.`physicianid`
                                                                 ) AS `PrimaryPhysician_add`
-                                                                INNER JOIN `EducationLevel`
+                                                                LEFT JOIN `EducationLevel`
                                                                 ON `PrimaryPhysician_add`.`educationid` = `EducationLevel`.`educationid`
                                                             ) AS `EducationLevel_add`
-                                                            INNER JOIN `HeadofHousehold`
+                                                            LEFT JOIN `HeadofHousehold`
                                                             ON `EducationLevel_add`.`housestatid` = `HeadofHousehold`.`housestatid`
                                                         ) AS `HeadofHousehold_add`
-                                                        INNER JOIN `MedicalInsurance`
+                                                        LEFT JOIN `MedicalInsurance`
                                                         ON `HeadofHousehold_add`.`insuranceid` = `MedicalInsurance`.`insuranceid`
                                                     ) AS `MedicalInsurance_add`
-                                                    INNER JOIN `Disability`
+                                                    LEFT JOIN `Disability`
                                                     ON `MedicalInsurance_add`.`disabilityid` = `Disability`.`disabilityid`
                                                 ) AS `Disability_add`
-                                                INNER JOIN `Veteran`
+                                                LEFT JOIN `Veteran`
                                                 ON `Disability_add`.`veteranid` = `Veteran`.`veteranid`
                                             ) AS `Veteran_add`
-                                            INNER JOIN `CurrentEmployment`
+                                            LEFT JOIN `CurrentEmployment`
                                             ON `Veteran_add`.`employmentid` = `CurrentEmployment`.`employmentid`
                                         ) AS `Employment_add`
-                                        INNER JOIN `RelationshipStatus`
+                                        LEFT JOIN `RelationshipStatus`
                                         ON `Employment_add`.`relationshipid` = `RelationshipStatus`.`relationshipid`
                                     ) AS `Relationship_add`
-                                    INNER JOIN `Alcohol`
+                                    LEFT JOIN `Alcohol`
                                     ON `Relationship_add`.`alcoholid` = `Alcohol`.`alcoholid`
                                 ) AS `Alcohol_add`
-                                INNER JOIN `FoodStamp`
+                                LEFT JOIN `FoodStamp`
                                 ON `Alcohol_add`.`foodstampid` = `FoodStamp`.`foodstampid`
                             ) AS `FoodStamp_add`
-                            INNER JOIN `HomeType`
+                            LEFT JOIN `HomeType`
                             ON `FoodStamp_add`.`hometypeid` = `HomeType`.`hometypeid`
                         ) AS `HomeType_add`
-                        INNER JOIN `Transport`
+                        LEFT JOIN `Transport`
                         ON `HomeType_add`.`transportid` = `Transport`.`transportid`;";
 
 $stmt = $con->prepare($query);

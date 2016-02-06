@@ -9,7 +9,7 @@
 if ($login->isUserLoggedIn() == false) {
 ?>
 
-      <form method="post" action="index.php" name="loginform">
+      <form method="post" action="index.php" name="loginform" autocomplete="off">
         <div class="form-group">
           <label for="user_name">Username</label>
           <input id="user_name" type="text" class="form-control" name="user_name" required />
@@ -28,7 +28,7 @@ if ($login->isUserLoggedIn() == false) {
         </div>
       </form>
       <br />
-      <a href="password_reset.php" class="btn btn-info btn-xs"><?php echo WORDING_FORGOT_MY_PASSWORD; ?></a>
+      <a href="password_reset.php" class="btn btn-warning btn-xs"><?php echo WORDING_FORGOT_MY_PASSWORD; ?></a>
 
 <?php
 } else {
@@ -41,7 +41,7 @@ if ($login->isUserLoggedIn() == false) {
 
       <p>You have <?php echo $_SESSION['verify_time']; ?> days remaining to verify your account.</p>
 
-      <form method="post" action="index.php" name="user_edit_form_password">
+      <form method="post" action="index.php" name="user_edit_form_password" autocomplete="off">
         <div class="form-group">
           <label for="user_password_old"><?php echo WORDING_OLD_PASSWORD; ?></label>
           <input id="user_password_old" class="form-control" type="password" name="user_password_old" autocomplete="off" />
@@ -63,7 +63,7 @@ if ($login->isUserLoggedIn() == false) {
       </form>
 
       <!-- Logout Link -->
-      <a href="index.php?logout"><?php echo WORDING_LOGOUT; ?></a>
+      <a href="index.php?logout">Logout</a>
 
 
 <?php

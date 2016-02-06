@@ -16,7 +16,7 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->er
 
 $query = "SELECT `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`, `PapSmear`.`papsmear`
             FROM `Patient`
-            INNER JOIN `PapSmear`
+            LEFT JOIN `PapSmear`
             ON `Patient`.`patientid` = `PapSmear`.`patientid`;";
              
 $stmt = $con->prepare($query);

@@ -20,7 +20,7 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->er
 
 $query = "SELECT `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`dob`, `Colonoscopy`.`colonoscopy`
             FROM `Patient`
-            INNER JOIN `Colonoscopy`
+            LEFT JOIN `Colonoscopy`
             ON `Patient`.`patientid` = `Colonoscopy`.`patientid`;";
              
 $stmt = $con->prepare($query);

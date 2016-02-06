@@ -32,31 +32,31 @@ FROM (
                               FROM (
                                   SELECT `Gender`.`gender`, `Patient`.`patientid`, `Patient`.`fname`, `Patient`.`lname`, `Patient`.`emergency_name`, `Patient`.`emergency_number`, `Patient`.`emergencyrid`, `Patient`.`genderid`, `Patient`.`raceid`, `Patient`.`ethnicityid`, `Patient`.`dob`, `Patient`.`address_street`, `Patient`.`cityid`, `Patient`.`stateid`, `Patient`.`zipid`, `Patient`.`phone_number`, `Patient`.`email_address`, `Patient`.`citizenid`,`Patient`.`languageid`
                                     FROM `Patient`
-                                      INNER JOIN `Gender`
+                                      LEFT JOIN `Gender`
                                       ON `Patient`.`genderid` = `Gender`.`genderid`
                                 ) AS `Gender_add`
-                                INNER JOIN `Race`
+                                LEFT JOIN `Race`
                                 ON `Gender_add`.`raceid` = `Race`.`raceid`
                             ) AS `Race_add`
-                            INNER JOIN `Ethnicity`
+                            LEFT JOIN `Ethnicity`
                             ON `Race_add`.`ethnicityid` = `Ethnicity`.`ethnicityid`
                       ) AS `Ethnicity_add`
-                      INNER JOIN `City`
+                      LEFT JOIN `City`
                       ON `Ethnicity_add`.`cityid` = `City`.`cityid`
                   ) AS `City_add`
-                  INNER JOIN `State`
+                  LEFT JOIN `State`
                   ON `City_add`.`stateid` = `State`.`stateid`
               ) AS `State_add`
-              INNER JOIN `Zip`
+              LEFT JOIN `Zip`
               ON `State_add`.`zipid` = `Zip`.`zipid`
           ) AS `Zip_add`
-          INNER JOIN `CitizenStatus`
+          LEFT JOIN `CitizenStatus`
           ON `Zip_add`.`citizenid` = `CitizenStatus`.`citizenid`
       ) AS `CitizenStatus_add`
-      INNER JOIN `PrimaryLanguage`
+      LEFT JOIN `PrimaryLanguage`
       ON `CitizenStatus_add`.`languageid` = `PrimaryLanguage`.`languageid`
   ) AS `PrimaryLanguage_add`
-  INNER JOIN `EmergencyR`
+  LEFT JOIN `EmergencyR`
   ON `PrimaryLanguage_add`.`emergencyrid` = `EmergencyR`.`emergencyrid`;";
 
 $stmt = $con->prepare($query) or die("error: " . $con->error);

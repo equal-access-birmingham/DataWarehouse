@@ -15,7 +15,7 @@ $registration = new Registration();
 
 <!-- show registration form, but only if we didn't submit already -->
 <?php if (!$registration->registration_successful) { ?>
-      <form method="post" action="register.php" name="registerform">
+      <form method="post" action="register.php" name="registerform" autocomplete="off">
         <div class="form-group">
           <label for="user_email"><?php echo WORDING_REGISTRATION_EMAIL; ?></label>
           <input id="user_email" class="form-control" type="email" name="user_email" required />

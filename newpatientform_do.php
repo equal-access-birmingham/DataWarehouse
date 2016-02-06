@@ -1,43 +1,72 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set("displayed_errors",1);
+error_reporting(E_ALL);
+ini_set("displayed_errors",1);
 //LOADING ALL VARIABLES FROM URL
 $drugs = $_GET['drugs'];
 $allergies = $_GET['allergies'];
 $fname = $_GET['fname'];
 $lname = $_GET['lname'];
 $dob = $_GET['dob_year'] . "-" . $_GET['dob_month'] . "-" . $_GET['dob_day'];
+$dobcheck1 = $_GET['dob_year'];
+$dobcheck2 = $_GET['dob_month'];
+$dobcheck3 = $_GET['dob_day'];
 $address_street = $_GET['address_street'];
 $cityid = $_GET['cityid'];
+if ($cityid == ""){$cityid = null;}
 $stateid = $_GET['stateid'];
+if ($stateid == ""){$stateid = null;}
 $zipid = $_GET['zipid'];
+if ($zipid == ""){$zipid = null;}
 $phone_number = $_GET['phone_number'];
 $email_address = $_GET['email_address'];
 $genderid = $_GET['genderid'];
+if ($genderid == ""){$genderid = null;}
 $ethnicityid = $_GET['ethnicityid'];
+if ($zipid == ""){$zipid = null;}
 $raceid = $_GET['raceid'];
-$languageid = $_GET['languageid'];
-$citizenid = $_GET['citizenid'];
-$hometypeid = $_GET['hometypeid'];
-$housestatid = $_GET['housestatid'];
+if ($raceid == ""){$raceid = null;} 
+$languageid = $_GET['languageid']; 
+if ($languageid == ""){$languageid = null;} 
+$citizenid = $_GET['citizenid']; 
+if ($citizenid == ""){$citizenid = null;} 
+$hometypeid = $_GET['hometypeid']; 
+if ($hometypeid == ""){$hometypeid = null;} 
+$housestatid = $_GET['housestatid']; 
+if ($housestatid == ""){$housestatid = null;} 
 $numfammember = $_GET['numfammember'];
+if ($numfammember == ""){$numfammember = null;}
 $numchildren = $_GET['numchildren'];
+if ($numchildren == ""){$numchildren = null;}
 $relationshipid = $_GET['relationshipid'];
+if ($relationshipid == ""){$relationshipid = null;}
 $householdincome = $_GET['householdincome'];
 $employmentid = $_GET['employmentid'];
+if ($employmentid == ""){$employmentid = null;}
 $disabilityid = $_GET['disabilityid'];
+if ($disabilityid == ""){$disabilityid = null;}
 $foodstampid = $_GET['foodstampid'];
+if ($foodstampid == ""){$foodstampid = null;}
 $veteranid = $_GET['veteranid'];
+if ($veteranid == ""){$veteranid = null;}
 $educationid = $_GET['educationid'];
+if ($educationid == ""){$educationid = null;}
 $insuranceid = $_GET['insuranceid'];
+if ($insuranceid == ""){$insuranceid = null;}
 $physicianid = $_GET['physicianid'];
+if ($physicianid == ""){$physicianid = null;}
 $cooperid = $_GET['cooperid'];
+if ($cooperid == ""){$cooperid = null;}
 $timesmoked = $_GET['timesmoked'];
+if ($timesmoked == ""){$timesmoked = null;}
 $packsperday = $_GET['packsperday'];
+if ($packsperday == ""){$packsperday = null;}
 $alcoholid = $_GET['alcoholid'];
+if ($alcoholid == ""){$alcoholid = null;}
 $transportid = $_GET['transportid'];
+if ($transportid == ""){$transportid = null;}
 $heareab = $_GET['heareab'];
 $reasonforvisitid = $_GET['reasonforvisitid'];
+if ($reasonforvisitid == ""){$reasonforvisitid = null;}
 $mammogram = $_GET['mammogram_year'] . "-" . $_GET['mammogram_month'] . "-" . $_GET['mammogram_day'];
 $colonoscopy = $_GET['colonoscopy_year'] . "-" . $_GET['colonoscopy_month'] . "-" . $_GET['colonoscopy_day'];
 $sti = $_GET['STI_year'] . "-" . $_GET['STI_month'] . "-" . $_GET['STI_day'];
@@ -48,6 +77,7 @@ $currentdate = date("Ymd");
 $visittypeid = 2;
 $emergency_name = $_GET['emergency_name'];
 $emergencyrid = $_GET['emergencyrid'];
+if ($emergencyrid == ""){$emergencyrid = null;}
 $emergency_number = $_GET['emergency_number'];
 
 require_once("includes/db.php");
@@ -55,16 +85,16 @@ require_once("includes/db.php");
 $con = new mysqli($host, $db_user, $db_pass, $db_db);
 
 // This query counts the number of entries in the table that have the submitted fname, lname, dob, and street address
-$query = "SELECT COUNT(*) FROM `Patient` WHERE fname = ? and lname = ? and dob = ? and address_street = ?";
+$query = "SELECT COUNT(*) FROM `Patient` WHERE fname = ? and lname = ? and dob = ?";
 $stmt = $con->prepare($query);
-$stmt->bind_param("ssss", $fname, $lname, $dob, $address_street);
+$stmt->bind_param("sss", $fname, $lname, $dob);
 $stmt->execute();
 $stmt->bind_result($count);
 $stmt->fetch();
 $stmt->close();
 
 //requiring that the necessary fields were filled in and error check that ensures duplicate individuals don't get added to the roster  
-if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number && !$count){
+if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid&& $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && !$count){
 
 //calculating info based on reported smoking history
   $smokingstatus = $_GET["smokingstatus"];
@@ -88,7 +118,7 @@ $zipaddition = $_GET["zipaddition"];
 $drugaddition = strtolower($_GET["drugaddition"]);
 $allergyaddition = strtolower($_GET["allergyaddition"]);
 $languageaddition = strtolower($_GET["languageaddition"]);    
-
+ 
 
 // ADDING NEW CITY TO CITY TABLE IN DATABASE
 if ($cityaddition) {
@@ -452,7 +482,7 @@ $stmt_papsmear->close();
       <title>EAB Database</title>       
 <?php require_once("includes/menu.php"); ?>
 <?php
-    if ($fname && $lname && $dob && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && $emergency_name && $emergencyrid && $emergency_number){
+    if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid&& $cooperid && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat){
         if (!$count){
 			echo "<h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
 		}
@@ -462,6 +492,7 @@ $stmt_papsmear->close();
     }
     else{
         echo"<h1>You missed a required field. Please fill in all required fields.</h1>"; //if the fields were not filled, display this
-    }
+		echo"<INPUT Type=\"button\" class=\"btn btn-success btn-lg\" VALUE=\"Return to Form\" onClick=\"history.go(-1);return true;\">";
+	}
 ?>
 <?php require_once("includes/footer.php"); ?>
