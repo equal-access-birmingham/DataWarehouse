@@ -381,9 +381,9 @@ $stmt_patient->execute();
 $stmt_patient->store_result();
 $stmt_patient->close();
 // find the patientid for the patient just submitted
-$query = "SELECT `patientid` from `Patient` WHERE (`fname`, `lname`, `genderid`, `raceid`, `ethnicityid`, `dob`, `address_street`, `cityid`, `stateid`, `zipid`, `emergencyrid`, `phone_number`, `email_address`, `emergency_name`, `emergency_number`, `citizenid`, `languageid`) = (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+$query = "SELECT `patientid` from `Patient` WHERE (`fname`, `lname`, `dob`) = (?, ?, ?);";
 $stmt_patientid = $con->prepare($query);
-$stmt_patientid->bind_param("sssssssssssssssss", $fname, $lname, $genderid, $raceid, $ethnicityid, $dob, $address_street, $cityid, $stateid, $zipid, $emergencyrid, $phone_number, $email_address, $emergency_name, $emergency_number, $citizenid, $languageid);
+$stmt_patientid->bind_param("sss", $fname, $lname, $dob);
 $stmt_patientid->execute();
 $stmt_patientid->store_result();
 $stmt_patientid->bind_result($patientid);

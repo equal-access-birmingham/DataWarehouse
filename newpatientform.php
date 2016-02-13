@@ -776,7 +776,7 @@ while ($stmt_insurance->fetch()){
 ?>
         </select> 
 		<!-- Primary Care Phsician -->
-        <label>*Do you have a primary care physican?</label>
+        <label>*Do you have a primary care physican? (not counting EAB/this clinic)</label>
         <select required name="physicianid" class="form-control">
 		  <option value=""></option>
 <?php

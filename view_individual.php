@@ -17,7 +17,7 @@ $patientid = $_GET['patientid'];
 $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->error);
 
 //Joins all the subtables into the Patient Table. This produces all the demographic and contact informatio for patients.
-$query = "SELECT `PrimaryLanguage_add`.`patientid`, `PrimaryLanguage_add`.`fname`, `PrimaryLanguage_add`.`lname`, `PrimaryLanguage_add`.`dob`, `PrimaryLanguage_add`.`address_street`, `PrimaryLanguage_add`.`city`, `PrimaryLanguage_add`.`state`, `PrimaryLanguage_add`.`zip`, `PrimaryLanguage_add`.`phone_number`, `PrimaryLanguage_add`.`email_address`, `PrimaryLanguage_add`.`emergency_name`, `EmergencyR`.`emergencyr`, `PrimaryLanguage_add`.`emergency_number`, `PrimaryLanguage_add`.`gender`, `PrimaryLanguage_add`.`race`, `PrimaryLanguage_add`.`ethnicity`, `PrimaryLanguage_add`.`language`, `PrimaryLanguage_add`.`citizen`
+$query = "SELECT `PrimaryLanguage_add`.`fname`, `PrimaryLanguage_add`.`lname`, `PrimaryLanguage_add`.`dob`, `PrimaryLanguage_add`.`address_street`, `PrimaryLanguage_add`.`city`, `PrimaryLanguage_add`.`state`, `PrimaryLanguage_add`.`zip`, `PrimaryLanguage_add`.`phone_number`, `PrimaryLanguage_add`.`email_address`, `PrimaryLanguage_add`.`emergency_name`, `EmergencyR`.`emergencyr`, `PrimaryLanguage_add`.`emergency_number`, `PrimaryLanguage_add`.`gender`, `PrimaryLanguage_add`.`race`, `PrimaryLanguage_add`.`ethnicity`, `PrimaryLanguage_add`.`language`, `PrimaryLanguage_add`.`citizen`
 FROM (
   SELECT `CitizenStatus_add`.`patientid`, `CitizenStatus_add`.`fname`, `CitizenStatus_add`.`lname`, `CitizenStatus_add`.`emergency_name`, `CitizenStatus_add`.`emergency_number`, `CitizenStatus_add`.`emergencyrid`,  `CitizenStatus_add`.`dob`, `CitizenStatus_add`.`address_street`, `CitizenStatus_add`.`city`, `CitizenStatus_add`.`state`, `CitizenStatus_add`.`zip`, `CitizenStatus_add`.`phone_number`, `CitizenStatus_add`.`email_address`, `CitizenStatus_add`.`gender`, `CitizenStatus_add`.`race`, `CitizenStatus_add`.`ethnicity`, `PrimaryLanguage`.`language`, `CitizenStatus_add`.`citizen`  
       FROM (
@@ -67,13 +67,15 @@ $stmt_demog = $con->prepare($query) or die("error: " . $con->error);
 $stmt_demog->bind_param("s", $patientid) or die($con->error);
 $stmt_demog->execute();
 $stmt_demog->store_result();
-$stmt_demog->bind_result($patientid, $fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
+$stmt_demog->bind_result($fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
 $stmt_demog->fetch();
+
+var_dump ($patientid);
 
 //This joins the SocialHistory Table and its foreign key subtables into the Patient Table. Adds social history information to the patient information.
 //With multiple statements being run, you need to rename each statement accordingly. For instance, stmt_demog stands for the demographics information statement.
 //stmt->store_result(); is necessary to include here because of the code we include farther down for the Visit Information table.
-$query = "SELECT `HomeType_add`.`patientid`, `HomeType_add`.`fname`, `HomeType_add`.`lname`, `HomeType_add`.`dob`, `HomeType_add`.`sid`, `HomeType_add`.`householdincome`, `HomeType_add`.`numchildren`, `HomeType_add`.`numfammember`, `HomeType_add`.`heareab`, `HomeType_add`.`cooper`, `HomeType_add`.`physician`, `HomeType_add`.`education`, `HomeType_add`.`housestat`, `HomeType_add`.`insurance`, `HomeType_add`.`disability`, `HomeType_add`.`veteran`, `HomeType_add`.`employment`, `HomeType_add`.`relationship`, `HomeType_add`.`alcohol`, `HomeType_add`.`foodstamp`, `HomeType_add`. `hometype`, `Transport`.`transport`   
+$query = "SELECT `HomeType_add`.`sid`, `HomeType_add`.`householdincome`, `HomeType_add`.`numchildren`, `HomeType_add`.`numfammember`, `HomeType_add`.`heareab`, `HomeType_add`.`cooper`, `HomeType_add`.`physician`, `HomeType_add`.`education`, `HomeType_add`.`housestat`, `HomeType_add`.`insurance`, `HomeType_add`.`disability`, `HomeType_add`.`veteran`, `HomeType_add`.`employment`, `HomeType_add`.`relationship`, `HomeType_add`.`alcohol`, `HomeType_add`.`foodstamp`, `HomeType_add`. `hometype`, `Transport`.`transport`   
           FROM (
             SELECT `HomeType`.`hometype`, `FoodStamp_add`.`sid`, `FoodStamp_add`.`householdincome`, `FoodStamp_add`.`numchildren`, `FoodStamp_add`.`numfammember`, `FoodStamp_add`.`heareab`, `FoodStamp_add`.`hometypeid`, `FoodStamp_add`.`transportid`, `FoodStamp_add`.`patientid`, `FoodStamp_add`.`fname`, `FoodStamp_add`.`lname`, `FoodStamp_add`.`dob`, `FoodStamp_add`.`cooper`, `FoodStamp_add`.`physician`, `FoodStamp_add`.`education`, `FoodStamp_add`.`housestat`, `FoodStamp_add`.`insurance`, `FoodStamp_add`.`disability`, `FoodStamp_add`.`veteran`, `FoodStamp_add`.`employment`, `FoodStamp_add`.`relationship`, `FoodStamp_add`.`alcohol`, `FoodStamp_add`.`foodstamp`                 
               FROM (
@@ -148,11 +150,15 @@ $stmt_social = $con->prepare($query) or die("error: " . $con->error);
 $stmt_social->bind_param("s", $patientid) or die($con->error);
 $stmt_social->execute();
 $stmt_social->store_result();
-$stmt_social->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
+$stmt_social->bind_result($sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 $stmt_social->fetch();
 
+var_dump ($sid);
+var_dump ($numchildren);
+var_dump ($numfammember);
+
 //Joins Mammogram Table.
-$query = "SELECT `Patient`.`patientid`,`Mammogram`.`mammogram`
+$query = "SELECT `Mammogram`.`mammogram`
             FROM `Patient`
             LEFT JOIN `Mammogram`
             ON `Patient`.`patientid` = `Mammogram`.`patientid`
@@ -162,11 +168,11 @@ $stmt_mam = $con->prepare($query) or die("error: " . $con->error);
 $stmt_mam->bind_param("s", $patientid) or die($con->error);
 $stmt_mam->execute();
 $stmt_mam->store_result();
-$stmt_mam->bind_result($patientid, $mammogram);
+$stmt_mam->bind_result($mammogram);
 $stmt_mam->fetch();
 
 //Joins PapSmear Table
-$query = "SELECT `Patient`.`patientid`,`PapSmear`.`papsmear`
+$query = "SELECT `PapSmear`.`papsmear`
             FROM `Patient`
             LEFT JOIN `PapSmear`
             ON `Patient`.`patientid` = `PapSmear`.`patientid`
@@ -176,11 +182,11 @@ $stmt_pap = $con->prepare($query) or die("error: " . $con->error);
 $stmt_pap->bind_param("s", $patientid) or die($con->error);
 $stmt_pap->execute();
 $stmt_pap->store_result();
-$stmt_pap->bind_result($patientid, $papsmear);
+$stmt_pap->bind_result($papsmear);
 $stmt_pap->fetch();
 
 //Joins Colonoscopy Table
-$query = "SELECT `Patient`.`patientid`,`Colonoscopy`.`colonoscopy`
+$query = "SELECT `Colonoscopy`.`colonoscopy`
             FROM `Patient`
             LEFT JOIN `Colonoscopy`
             ON `Patient`.`patientid` = `Colonoscopy`.`patientid`
@@ -190,11 +196,11 @@ $stmt_col = $con->prepare($query) or die("error: " . $con->error);
 $stmt_col->bind_param("s", $patientid) or die($con->error);
 $stmt_col->execute();
 $stmt_col->store_result();
-$stmt_col->bind_result($patientid, $colonoscopy);
+$stmt_col->bind_result($colonoscopy);
 $stmt_col->fetch();
 
 //Joins STI Table
-$query = "SELECT `Patient`.`patientid`,`STI`.`sti`
+$query = "SELECT `STI`.`sti`
             FROM `Patient`
             LEFT JOIN `STI`
             ON `Patient`.`patientid` = `STI`.`patientid`
@@ -204,11 +210,11 @@ $stmt_sti = $con->prepare($query) or die("error: " . $con->error);
 $stmt_sti->bind_param("s", $patientid) or die($con->error);
 $stmt_sti->execute();
 $stmt_sti->store_result();
-$stmt_sti->bind_result($patientid, $sti);
+$stmt_sti->bind_result($sti);
 $stmt_sti->fetch();
 
 //Joins PatientAllergy Table and subtables. Adds the information about patient allergies.
-$query = "SELECT `Patient_add`.`patientid`, `Patient_add`.`allergylistid`, `Patient_add`.`patientallergyid`, `AllergyList`.`allergylist`
+$query = "SELECT `Patient_add`.`allergylistid`, `Patient_add`.`patientallergyid`, `AllergyList`.`allergylist`
             FROM (
               SELECT `Patient`.`patientid`, `PatientAllergy`.`allergylistid`, `PatientAllergy`.`patientallergyid`
                 FROM `Patient`
@@ -223,10 +229,10 @@ $stmt_allerg = $con->prepare($query) or die("error: " . $con->error);
 $stmt_allerg->bind_param("s", $patientid) or die($con->error);
 $stmt_allerg->execute();
 $stmt_allerg->store_result();
-$stmt_allerg->bind_result($patientid, $allergylistid, $patientallergyid, $allergylist);
+$stmt_allerg->bind_result($allergylistid, $patientallergyid, $allergylist);
 
 //Joins SocialDrugs Table and subtables. Adds the information about patient illicit drug use.
-$query = "SELECT `Drugs_add`.`patientid`, `Drugs_add`.`sid`, `Drugs_add`.`socialdrugsid`, `Drugs_add`.`drugtypeid`, `DrugType`.`drugtype`
+$query = "SELECT `Drugs_add`.`socialdrugsid`, `Drugs_add`.`drugtypeid`, `DrugType`.`drugtype`
             FROM (
               SELECT `SocialHistory`.`patientid`,`SocialHistory`.`sid`, `SocialDrugs`.`socialdrugsid`, `SocialDrugs`.`drugtypeid`
                 FROM `SocialHistory`
@@ -241,10 +247,10 @@ $stmt_drugs = $con->prepare($query) or die("error: " . $con->error);
 $stmt_drugs->bind_param("s", $patientid) or die($con->error);
 $stmt_drugs->execute();
 $stmt_drugs->store_result();
-$stmt_drugs->bind_result($patientid, $sid, $socialdrugsid, $drugtypeid, $drugtype);
+$stmt_drugs->bind_result($socialdrugsid, $drugtypeid, $drugtype);
 
 //Joins CurrentSmoker Table. Adds information about current smokers.
-$query = "SELECT `SocialHistory`.`patientid`,`SocialHistory`.`sid`, `CurrentSmoker`.`currentsmokerid`, `CurrentSmoker`.`startdate`, `CurrentSmoker`.`packsperday`
+$query = "SELECT `CurrentSmoker`.`currentsmokerid`, `CurrentSmoker`.`startdate`, `CurrentSmoker`.`packsperday`
             FROM `SocialHistory`
             INNER JOIN `CurrentSmoker`
             ON `SocialHistory`.`sid` = `CurrentSmoker`.`sid`
@@ -254,10 +260,10 @@ $stmt_csmoke = $con->prepare($query) or die("error: " . $con->error);
 $stmt_csmoke->bind_param("s", $patientid) or die($con->error);
 $stmt_csmoke->execute();
 $stmt_csmoke->store_result();
-$stmt_csmoke->bind_result($patientid, $sid, $currentsmokerid, $startdate, $packsperday);
+$stmt_csmoke->bind_result($currentsmokerid, $startdate, $packsperday);
 
 //Joins PastSmoker Table. Adds information about past smokers.
-$query = "SELECT `SocialHistory`.`patientid`,`SocialHistory`.`sid`, `PastSmoker`.`pastsmokerid`, `PastSmoker`.`startdate`, `PastSmoker`.`quitdate`, `PastSmoker`.`packsperday`
+$query = "SELECT `PastSmoker`.`pastsmokerid`, `PastSmoker`.`startdate`, `PastSmoker`.`quitdate`, `PastSmoker`.`packsperday`
             FROM `SocialHistory`
             INNER JOIN `PastSmoker`
             ON `SocialHistory`.`sid` = `PastSmoker`.`sid`
@@ -267,11 +273,11 @@ $stmt_psmoke = $con->prepare($query) or die("error: " . $con->error);
 $stmt_psmoke->bind_param("s", $patientid) or die($con->error);
 $stmt_psmoke->execute();
 $stmt_psmoke->store_result();
-$stmt_psmoke->bind_result($patientid, $sid, $pastsmokerid, $startdate, $quitdate, $packsperday);
+$stmt_psmoke->bind_result($pastsmokerid, $startdate, $quitdate, $packsperday);
 $stmt_csmoke->fetch() or $stmt_psmoke->fetch();
 
 //Joins the PatientVisit Table and subtables. Adds the information about patient visit number and type. 
-$query = "SELECT `VisitType_add`.`patientid`, `VisitType_add`.`fname`, `VisitType_add`.`lname`, `VisitType_add`.`dob`,`VisitType_add`.`patientvisitid`, `VisitType_add`.`currentdate`, `VisitType_add`.`visittype`, `ReasonforVisit`.`reasonforvisit`, `VisitType_add`.`pstat` 
+$query = "SELECT `VisitType_add`.`patientvisitid`, `VisitType_add`.`currentdate`, `VisitType_add`.`visittype`, `ReasonforVisit`.`reasonforvisit`, `VisitType_add`.`pstat` 
               FROM (
                   SELECT `VisitType`.`visittype`, `Patient_add`.`patientid`, `Patient_add`.`fname`, `Patient_add`.`lname`, `Patient_add`.`dob`,`Patient_add`.`patientvisitid`, `Patient_add`.`pstat`, `Patient_add`.`currentdate`, `Patient_add`.`reasonforvisitid`, `Patient_add`.`visittypeid` 
                       FROM (
@@ -291,7 +297,7 @@ $query = "SELECT `VisitType_add`.`patientid`, `VisitType_add`.`fname`, `VisitTyp
 $stmt = $con->prepare($query) or die("error: " . $con->error);
 $stmt->bind_param("s", $patientid) or die($con->error);
 $stmt->execute();
-$stmt->bind_result($patientid, $fname, $lname, $dob, $patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat);
+$stmt->bind_result($patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat);
 $stmt->fetch();
 ?>
 
