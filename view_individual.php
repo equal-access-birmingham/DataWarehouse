@@ -70,8 +70,6 @@ $stmt_demog->store_result();
 $stmt_demog->bind_result($fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
 $stmt_demog->fetch();
 
-var_dump ($patientid);
-
 //This joins the SocialHistory Table and its foreign key subtables into the Patient Table. Adds social history information to the patient information.
 //With multiple statements being run, you need to rename each statement accordingly. For instance, stmt_demog stands for the demographics information statement.
 //stmt->store_result(); is necessary to include here because of the code we include farther down for the Visit Information table.
@@ -152,10 +150,6 @@ $stmt_social->execute();
 $stmt_social->store_result();
 $stmt_social->bind_result($sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 $stmt_social->fetch();
-
-var_dump ($sid);
-var_dump ($numchildren);
-var_dump ($numfammember);
 
 //Joins Mammogram Table.
 $query = "SELECT `Mammogram`.`mammogram`
