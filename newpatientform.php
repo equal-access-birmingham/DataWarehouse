@@ -625,26 +625,27 @@ while ($stmt_zip->fetch()){
                 <input type="text" name="emergency_name" id="emergencyname" value="<?php if (isset($_GET['submit'])) {echo $_GET['emergency_name'];} ?>" class="form-control"/>
               </div>
 
-            <!-- Emergency Contact Relation -->
-            <div class="col-xs-4">
-              <label for="emergencyr">Relation:</label>
-              <select name="emergencyrid" id ="emergencyr" class="form-control"/>
-                <option value=""></option>
+              <!-- Emergency Contact Relation -->
+              <div class="col-xs-4">
+                <label for="emergencyr">Relation:</label>
+                <select name="emergencyrid" id ="emergencyr" class="form-control"/>
+                  <option value=""></option>
       
 <?php
 while ($stmt_emergencyr->fetch()){        
-  echo "                <option value=\"$emergencyrid\"";
-  if (isset($_GET['submit'])) {if ($_GET['emergencyrid'] == $emergencyrid){echo "selected";}}//automatically have the information filled out after form submit so that they can edit information
-  echo ">$emergencyr</option>\n";
+    echo "                  <option value=\"$emergencyrid\"";
+    if (isset($_GET['submit'])) {if ($_GET['emergencyrid'] == $emergencyrid){echo "selected";}}//automatically have the information filled out after form submit so that they can edit information
+    echo ">$emergencyr</option>\n";
 }
 ?>
-              </select>
-            </div>
+                </select>
+              </div>
 
-            <!-- Phone Number -->
-            <div class="col-xs-4">
-              <label for="emergencynumber">Phone Number:</label>
-              <input type="text" name="emergency_number" placeholder="xxx-xxx-xxxx" id="emergencynumber" value="<?php if (isset($_GET['submit'])) {echo $_GET['emergency_number'];} ?>" class="form-control"/>
+              <!-- Phone Number -->
+              <div class="col-xs-4">
+                <label for="emergencynumber">Phone Number:</label>
+                <input type="text" name="emergency_number" placeholder="xxx-xxx-xxxx" id="emergencynumber" value="<?php if (isset($_GET['submit'])) {echo $_GET['emergency_number'];} ?>" class="form-control"/>
+              </div>
             </div>
           </div>
           
