@@ -4,22 +4,22 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
     // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
     // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-    require_once('libraries/password_compatibility_library.php');
+    require_once('php-login-admin/libraries/password_compatibility_library.php');
 }
 // include the config
-require_once('config/config.php');
+require_once('php-login-admin/config/config.php');
 
 // include the to-be-used language, english by default. feel free to translate your project and include something else
-require_once('translations/en.php');
+require_once('php-login-admin/translations/en.php');
 
 // include the PHPMailer library
-require_once('libraries/PHPMailer.php');
+require_once('php-login-admin/libraries/PHPMailer.php');
 
 // load the login class
-require_once('classes/Login.php');
+require_once('php-login-admin/classes/Login.php');
 
 // load the permissions class
-require_once('classes/Permissions.php');
+require_once('php-login-admin/classes/Permissions.php');
 
 // create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.

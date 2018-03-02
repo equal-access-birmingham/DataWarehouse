@@ -17,43 +17,46 @@ if($permissions->confirm_action_prompt)
 }
 ?>
 
-      <h2><?php echo $_SESSION['user_name']; ?> <?php echo WORDING_ADMIN_EDIT_ACCOUNTS; ?></h2>
+      <h2 style="margin-bottom: 30px"><?php echo $_SESSION['user_name']; ?> <?php echo WORDING_ADMIN_EDIT_ACCOUNTS; ?></h2>
 
-      <a href="register.php" class="btn btn-info btn-xs"><?php echo WORDING_REGISTER_NEW_ACCOUNT; ?></a>
-
-      <br /><br />
 
       <!-- Table of all users encapsulated by a form to allow checkboxes for quickly modifying account permissions -->
       <form method="post" action="admin.php">
-        <input type="submit" class="btn btn-info btn-xs" name="update_accounts" value="<?php echo WORDING_UPDATE; ?>" /> 
-        <table class="table table-striped" border="1">
+        <div class="form-group" style="display: inline-block">
+          <a href="register.php" class="btn btn-info btn-sm"><?php echo WORDING_REGISTER_NEW_ACCOUNT; ?></a>
+        </div>
+        <div class="form-group pull-right">
+          <input type="submit" class="btn btn-info btn-sm" name="update_accounts" value="<?php echo WORDING_UPDATE; ?>" /> 
+        </div>
+        
+        <table class="table table-striped">
           <tr>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>User Registration Date</th>
-            <th>Admin</th>
-            <th>Reset Account</th>
-            <th>Delete Account</th>
+            <th class="text-center">User Name</th>
+            <th class="text-center">User Email</th>
+            <th class="text-center">User Registration Date</th>
+            <th class="text-center">Admin</th>
+            <th class="text-center">Reset Account</th>
+            <th class="text-center">Delete Account</th>
           </tr>
 <?php
 // Creates table
 foreach($permissions->getEachUsersData() as $data)
 {
-  echo "
+    echo "
           <tr>
-            <td>$data->user_name</td>
-            <td>$data->user_email</td>
-            <td>$data->user_registration_datetime</td>\n";
+            <td class=\"text-center\">$data->user_name</td>
+            <td class=\"text-center\">$data->user_email</td>
+            <td class=\"text-center\">$data->user_registration_datetime</td>\n";
   
-  // Automatically checks admins so that they can be unchecked to remove admin privilege
-  echo "            <td><input type=\"checkbox\" name=\"admin[]\" value=\"$data->user_id\" ";
-  if($data->admin == 1) echo "checked";
-  echo " /></td>\n";
+    // Automatically checks admins so that they can be unchecked to remove admin privilege
+    echo "            <td class=\"text-center\"><input type=\"checkbox\" name=\"admin[]\" value=\"$data->user_id\" ";
+    if($data->admin == 1) echo "checked";
+    echo " /></td>\n";
 
-// Creates checkbox arrays for "reset_account" and "delete_account" so that multiple actions can be selected at once
-  echo "
-            <td><input type=\"checkbox\" name=\"reset_account[]\" value=\"$data->user_id\" /></td>
-            <td><input type=\"checkbox\" name=\"delete_account[]\" value=\"$data->user_id\" /></td>
+    // Creates checkbox arrays for "reset_account" and "delete_account" so that multiple actions can be selected at once
+    echo "
+            <td class=\"text-center\"><input type=\"checkbox\" name=\"reset_account[]\" value=\"$data->user_id\" /></td>
+            <td class=\"text-center\"><input type=\"checkbox\" name=\"delete_account[]\" value=\"$data->user_id\" /></td>
           </tr>\n";
 }
 ?>
@@ -63,6 +66,6 @@ foreach($permissions->getEachUsersData() as $data)
       <br />
 
       <!-- backlink -->
-      <a href="index.php" class="btn btn-warning btn-xs"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
+      <a href="index.php" class="btn btn-warning btn-sm"><?php echo WORDING_BACK_TO_LOGIN; ?></a>
       
 <?php require_once("includes/footer.php"); ?>

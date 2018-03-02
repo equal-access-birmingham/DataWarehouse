@@ -28,7 +28,7 @@ if ($login->isUserLoggedIn() == false) {
         </div>
       </form>
       <br />
-      <a href="password_reset.php" class="btn btn-warning btn-xs"><?php echo WORDING_FORGOT_MY_PASSWORD; ?></a>
+      <a href="password_reset.php" class="btn btn-warning btn-sm"><?php echo WORDING_FORGOT_MY_PASSWORD; ?></a>
 
 <?php
 } else {
@@ -71,15 +71,21 @@ if ($login->isUserLoggedIn() == false) {
     } else {
 ?>
       <div class="row">
-        <a href="newpatientform.php" class="btn btn-lg btn-success btn-block btn-space text-center ">New Patient</a>
+        <div class="col-xs-12">
+          <a href="newpatientform.php" class="btn btn-lg btn-success btn-block btn-space text-center ">New Patient</a>
+        </div>
       </div>
 
       <div class="row">
-        <a href="select_patient.php" class="btn btn-lg btn-success btn-block btn-space text-center">Returning Patient</a>
+        <div class="col-xs-12">
+          <a href="select_patient.php" class="btn btn-lg btn-success btn-block btn-space text-center">Returning Patient</a>
+        </div>
       </div>
 
       <div class="row">
-        <a href="index.php?logout" class="btn btn-sm btn-warning text-center">Log Out</a>
+        <div class="col-xs-12">
+          <a href="index.php?logout" class="btn btn-sm btn-warning text-center">Log Out</a>
+        </div>
       </div>
 
 <?php
