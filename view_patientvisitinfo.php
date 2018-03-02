@@ -1,7 +1,7 @@
 <?php include("includes/header_require_login.php"); ?>
     <title>Patient Visit Information</title>
 <?php require_once("includes/menu.php"); ?>
-    <p> <a href="download_patientvisitinfo.php" target="_blank"> Download Patient Visit Information as CSV File</a> </p>
+    <p> <a href="download_patientvisitinfo.php" target="_blank" class="btn btn-primary"> Download Patient Visit Information as CSV File</a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -31,38 +31,41 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat);
 ?>
     <h1>EAB Patient Visit Information</h1>
-    <table class="table table-bordered table-striped">
-      <tr>
-        <th>Patient ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
-        <th>Patient Visit ID</th>
-        <th>Date of Visit</th>
-        <th>Visit Type</th>
-        <th>Reason for Visit</th>
-        <th>Chief Complaint</th>
-      </tr>
+    
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th class="text-center">Patient ID</th>
+          <th class="text-center">First Name</th>
+          <th class="text-center">Last Name</th>
+          <th class="text-center">Date of Birth</th>
+          <th class="text-center">Patient Visit ID</th>
+          <th class="text-center">Date of Visit</th>
+          <th class="text-center">Visit Type</th>
+          <th class="text-center">Reason for Visit</th>
+          <th class="text-center">Chief Complaint</th>
+        </tr>
 
 <?php
 while($stmt->fetch()) {
     echo "
-      <tr>
-        <td>$patientid</td>
-        <td>$fname</td>
-        <td>$lname</td>
-        <td>$dob</td>
-        <td>$patientvisitid</td>
-        <td>$currentdate</td>
-        <td>$visittype</td>
-        <td>$reasonforvisit</td>
-        <td>$pstat</td>
-      </tr>\n";
+        <tr>
+          <td class=\"text-center\">$patientid</td>
+          <td class=\"text-center\">$fname</td>
+          <td class=\"text-center\">$lname</td>
+          <td class=\"text-center\">$dob</td>
+          <td class=\"text-center\">$patientvisitid</td>
+          <td class=\"text-center\">$currentdate</td>
+          <td class=\"text-center\">$visittype</td>
+          <td class=\"text-center\">$reasonforvisit</td>
+          <td class=\"text-center\">$pstat</td>
+        </tr>\n";
  }
 $stmt->close();
 $con->close();
 ?>
-  </table>
+    </table>
+  </div>
 <?php require_once("includes/footer.php"); ?>
 
 

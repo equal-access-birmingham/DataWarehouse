@@ -4,7 +4,7 @@
 
 <?php require_once("includes/menu.php"); ?>
 
-    <p> <a href="download_patientsocialhistory.php" target="_blank"> Download Patient Social History Data as CSV File </a> </p>
+    <p> <a href="download_patientsocialhistory.php" target="_blank" class="btn btn-primary"> Download Patient Social History Data as CSV File </a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -89,62 +89,65 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 ?>
     <h1>EAB Patient Social History Information</h1>
-    <table class="table table-bordered table-striped">
-      <tr>
-        <th>Patient ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
-        <th>Social ID</th>
-        <th>Household Income</th>
-        <th>Number of Children in Household under 18</th>
-        <th>Number of People in Household including Oneself</th>
-        <th>How Heard About EAB</th>
-        <th>Have a phhysician at Cooper Green?</th>
-        <th>Have a primary care provider?</th>
-        <th>Highest Level of Education Achieved</th>
-        <th>Head of one's Household?</th>
-        <th>Have insurance?</th>
-        <th>On disability?</th>
-        <th>Veteran or not?</th>
-        <th>Employed or not?</th>
-        <th>Relationship Status</th>
-        <th>Drinking Alcohol Status</th>
-        <th>Receiving foodstamps or not?</th>
-        <th>Type of Home</th>
-        <th>Method of Transport to Clinic</th>                                               
-      </tr>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th class="text-center">Patient ID</th>
+          <th class="text-center">First Name</th>
+          <th class="text-center">Last Name</th>
+          <th class="text-center">Date of Birth</th>
+          <th class="text-center">Social ID</th>
+          <th class="text-center">Household Income</th>
+          <th class="text-center">Number of Children in Household under 18</th>
+          <th class="text-center">Number of People in Household including Oneself</th>
+          <th class="text-center">How Heard About EAB</th>
+          <th class="text-center">Have a phhysician at Cooper Green?</th>
+          <th class="text-center">Have a primary care provider?</th>
+          <th class="text-center">Highest Level of Education Achieved</th>
+          <th class="text-center">Head of one's Household?</th>
+          <th class="text-center">Have insurance?</th>
+          <th class="text-center">On disability?</th>
+          <th class="text-center">Veteran or not?</th>
+          <th class="text-center">Employed or not?</th>
+          <th class="text-center">Relationship Status</th>
+          <th class="text-center">Drinking Alcohol Status</th>
+          <th class="text-center">Receiving foodstamps or not?</th>
+          <th class="text-center">Type of Home</th>
+          <th class="text-center">Method of Transport to Clinic</th>                                               
+        </tr>
 
 <?php
 while($stmt->fetch()) {
     echo "
-      <tr>
-        <td>$patientid</td>
-        <td>$fname</td>
-        <td>$lname</td>
-        <td>$dob</td>
-        <td>$sid</td>
-        <td>$householdincome</td>
-        <td>$numchildren</td>
-        <td>$numfammember</td>
-        <td>$heareab</td>
-        <td>$cooper</td>
-        <td>$physician</td>
-        <td>$education</td>
-        <td>$housestat</td>
-        <td>$insurance</td>
-        <td>$disability</td>
-        <td>$veteran</td>
-        <td>$employment</td>
-        <td>$relationship</td>
-        <td>$alcohol</td>
-        <td>$foodstamp</td>
-        <td>$hometype</td>
-        <td>$transport</td>
-      </tr>\n";
+        <tr>
+          <td class=\"text-center\">$patientid</td>
+          <td class=\"text-center\">$fname</td>
+          <td class=\"text-center\">$lname</td>
+          <td class=\"text-center\">$dob</td>
+          <td class=\"text-center\">$sid</td>
+          <td class=\"text-center\">$householdincome</td>
+          <td class=\"text-center\">$numchildren</td>
+          <td class=\"text-center\">$numfammember</td>
+          <td class=\"text-center\">$heareab</td>
+          <td class=\"text-center\">$cooper</td>
+          <td class=\"text-center\">$physician</td>
+          <td class=\"text-center\">$education</td>
+          <td class=\"text-center\">$housestat</td>
+          <td class=\"text-center\">$insurance</td>
+          <td class=\"text-center\">$disability</td>
+          <td class=\"text-center\">$veteran</td>
+          <td class=\"text-center\">$employment</td>
+          <td class=\"text-center\">$relationship</td>
+          <td class=\"text-center\">$alcohol</td>
+          <td class=\"text-center\">$foodstamp</td>
+          <td class=\"text-center\">$hometype</td>
+          <td class=\"text-center\">$transport</td>
+        </tr>\n";
  }
 $stmt->close();
 $con->close();
 ?>
-	</table>
+	  </table>
+  </div>
+
 <?php require_once("includes/footer.php"); ?>

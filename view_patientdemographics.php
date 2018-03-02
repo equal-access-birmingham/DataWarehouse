@@ -4,7 +4,7 @@
         
 <?php require_once("includes/menu.php"); ?>
 
-    <p> <a href="download_patientdemographics.php" target="_blank"> Download Patient Demographics Data as CSV File </a>
+    <p> <a href="download_patientdemographics.php" target="_blank" class="btn btn-primary"> Download Patient Demographics Data as CSV File </a>
 
 <?php
 error_reporting(E_ALL);
@@ -64,55 +64,59 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
 ?>
     <h1>EAB Patient Demographics</h1>
-    <table class="table table-bordered table-striped">
-      <tr>
-        <th>Patient ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
-        <th>Street Address</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Phone Number</th>
-        <th>Email Address</th>
-        <th>Emergency Contact Name</th>
-        <th>Emergency Contact Relationship</th>
-        <th>Emergency Contact Phone Number</th>
-        <th>Gender</th>
-        <th>Race</th>
-        <th>Ethnicity</th>
-        <th>Language Spoken</th>
-        <th>Citizen</th>
-      </tr>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th class="text-center">Patient ID</th>
+          <th class="text-center">First Name</th>
+          <th class="text-center">Last Name</th>
+          <th class="text-center">Date of Birth</th>
+          <th class="text-center">Street Address</th>
+          <th class="text-center">City</th>
+          <th class="text-center">State</th>
+          <th class="text-center">Zip</th>
+          <th class="text-center">Phone Number</th>
+          <th class="text-center">Email Address</th>
+          <th class="text-center">Emergency Contact Name</th>
+          <th class="text-center">Emergency Contact Relationship</th>
+          <th class="text-center">Emergency Contact Phone Number</th>
+          <th class="text-center">Gender</th>
+          <th class="text-center">Race</th>
+          <th class="text-center">Ethnicity</th>
+          <th class="text-center">Language Spoken</th>
+          <th class="text-center">Citizen</th>
+        </tr>
 
 <?php
 while($stmt->fetch()) {
     echo "
-      <tr>
-        <td>$patientid</td>
-        <td>$fname</td>
-        <td>$lname</td>
-        <td>$dob</td>
-        <td>$address_street</td>
-        <td>$city</td>
-        <td>$state</td>
-        <td>$zip</td>
-        <td>$phone_number</td>
-        <td>$email_address</td>
-        <td>$emergency_name</td>
-        <td>$emergencyr</td>
-        <td>$emergency_number</td>
-        <td>$gender</td>
-        <td>$race</td>
-        <td>$ethnicity</td>
-        <td>$language</td>
-        <td>$citizen</td>
-      </tr>\n";
- }
+        <tr>
+          <td class=\"text-center\">$patientid</td>
+          <td class=\"text-center\">$fname</td>
+          <td class=\"text-center\">$lname</td>
+          <td class=\"text-center\">$dob</td>
+          <td class=\"text-center\">$address_street</td>
+          <td class=\"text-center\">$city</td>
+          <td class=\"text-center\">$state</td>
+          <td class=\"text-center\">$zip</td>
+          <td class=\"text-center\">$phone_number</td>
+          <td class=\"text-center\">$email_address</td>
+          <td class=\"text-center\">$emergency_name</td>
+          <td class=\"text-center\">$emergencyr</td>
+          <td class=\"text-center\">$emergency_number</td>
+          <td class=\"text-center\">$gender</td>
+          <td class=\"text-center\">$race</td>
+          <td class=\"text-center\">$ethnicity</td>
+          <td class=\"text-center\">$language</td>
+          <td class=\"text-center\">$citizen</td>
+        </tr>\n";
+}
 $stmt->close();
 $con->close();
 ?>
+    </table>
+  </div>
+
 <?php require_once("includes/footer.php"); ?>
 
 

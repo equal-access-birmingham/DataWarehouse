@@ -1,7 +1,7 @@
 <?php include("includes/header_require_login.php"); ?>
     <title>Patients' Most Recent Colonoscopy Date</title>
 <?php require_once("includes/menu.php"); ?>
-    <p> <a href="download_colonoscopy.php" target="_blank"> Download Colonoscopy Data as CSV File</a> </p>
+    <p> <a href="download_colonoscopy.php" target="_blank" class="btn btn-primary"> Download Colonoscopy Data as CSV File</a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -21,30 +21,32 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $colonoscopy);
 ?>
     <h1>EAB Patients' Most Recent Colonoscopy Date</h1>
-    <table class="table table-bordered table-striped">
-      <tr>
-        <th>Patient ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
-        <th>Date of Last Colonoscopy</th>
-      </tr>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th class="text-center">Patient ID</th>
+          <th class="text-center">First Name</th>
+          <th class="text-center">Last Name</th>
+          <th class="text-center">Date of Birth</th>
+          <th class="text-center">Date of Last Colonoscopy</th>
+        </tr>
 
 <?php
 while($stmt->fetch()) {
     echo "
-      <tr>
-        <td>$patientid</td>
-        <td>$fname</td>
-        <td>$lname</td>
-        <td>$dob</td>
-        <td>$colonoscopy</td>
-      </tr>\n";
+        <tr>
+          <td class=\"text-center\">$patientid</td>
+          <td class=\"text-center\">$fname</td>
+          <td class=\"text-center\">$lname</td>
+          <td class=\"text-center\">$dob</td>
+          <td class=\"text-center\">$colonoscopy</td>
+        </tr>\n";
  }
 $stmt->close();
 $con->close();
 ?>
-  </table>
+    </table>
+  </div>
 <?php require_once("includes/footer.php"); ?>
 
 
