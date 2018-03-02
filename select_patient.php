@@ -1,6 +1,6 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set("display_errors",1);
+error_reporting(E_ALL);
+ini_set("display_errors",1);
 
 require("includes/db.php");
 
@@ -13,20 +13,41 @@ $dob = $_GET['dob_year'] . "-" . $_GET['dob_month'] . "-" . $_GET['dob_day'];
 $query = "SELECT `patientid`, `fname`, `lname`, `dob` FROM `Patient` WHERE `fname` LIKE ? AND `lname` LIKE ?";
 
 // Add dob selection criteria to query if present
-if (!empty($_GET['dob_year']) && !empty($_GET['dob_month']) && !empty($_GET['dob_day'])) {
-    $query .= " AND `dob` = ?;";
-}
-
-$stmt = $con->prepare($query);
+// if (!empty($_GET['dob_year']) && !empty($_GET['dob_month']) && !empty($_GET['dob_day'])) {
+//     $query .= " AND `dob` = ?;";
+// }
 
 $fname_query = $fname. "%";
 $lname_query = $lname. "%";
 
-if(empty($_GET['dob_year']) || empty($_GET['dob_month']) || empty($_GET['dob_day'])){
-    $stmt->bind_param("ss", $fname_query, $lname_query);
-} else {
-    $stmt->bind_param("sss", $fname_query, $lname_query, $dob);
+$query_params = array();
+$query_params[] = &$fname_query;
+$query_params[] = &$lname_query;
+if (! empty($_GET['dob_year'])) {
+    $query .= " AND YEAR(`dob`) = ?";
+    $query_params[] = &$_GET['dob_year'];
 }
+
+if (! empty($_GET['dob_month'])) {
+    $query .= " AND MONTH(`dob`) = ?";
+    $query_params[] = &$_GET['dob_month'];
+}
+
+if (! empty($_GET['dob_day'])) {
+    $query .= " AND DAY(`dob`) = ?";
+    $query_params[] = &$_GET['dob_day'];
+}
+
+$stmt = $con->prepare($query);
+
+// if(empty($_GET['dob_year']) || empty($_GET['dob_month']) || empty($_GET['dob_day'])){
+//     $stmt->bind_param("ss", $fname_query, $lname_query);
+// } else {
+//     $stmt->bind_param("sss", $fname_query, $lname_query, $dob);
+// }
+
+$bind_params = array_merge(array(str_repeat('s', count($query_params))), $query_params);
+call_user_func_array(array(&$stmt, 'bind_param'), $bind_params);
 
 $stmt->execute();
 $stmt->bind_result($patient_id, $fname_display, $lname_display, $dob_display);
@@ -38,10 +59,9 @@ $stmt->bind_result($patient_id, $fname_display, $lname_display, $dob_display);
 
 <?php require_once("includes/menu.php"); ?>
 
-  </head>
-  <body>
     <h1>Patient Search</h1>
     <p>Please search for a patient by either first name, last name, date of birth, or all 3.</p>
+
     <form method="get" autocomplete="off">
       <div class="form-group">
         <label for="fname">First Name:</label>
@@ -76,46 +96,47 @@ $month_array = array(
   12 =>"December",
 );
 for ($month = 1; $month < 13; $month++) {
-  echo "        <option value=\"$month\"";
+  echo "              <option value=\"$month\"";
     if ($_GET['dob_month'] == $month){echo "selected";}
   echo ">$month_array[$month]</option>\n";
 }
 ?>
-          </select>
-        </div>
-        <div class="col-xs-4">
-          <select name="dob_day" class="form-control">
-            <option value="">-- Day --</option>
+            </select>
+          </div>
+          <div class="col-xs-4">
+            <select name="dob_day" class="form-control">
+              <option value="">-- Day --</option>
 <?php
 for ($day = 1; $day < 32; $day++) {
-  echo "        <option value=\"$day\"";
+  echo "              <option value=\"$day\"";
   if ($_GET['dob_day'] == $day){echo "selected";}
   echo ">$day</option>\n";
 }
 ?>
-          </select>
-        </div>
-        <div class="col-xs-4">
-          <select name="dob_year" class="form-control">
-            <option value="">-- Year --</option>
+            </select>
+          </div>
+          <div class="col-xs-4">
+            <select name="dob_year" class="form-control">
+              <option value="">-- Year --</option>
 <?php
 $year = date("Y");
 $year_past = $year - 120;
 for ($year; $year > $year_past; $year--){
-    echo "            <option value=\"$year\"";
+    echo "              <option value=\"$year\"";
     if ($_GET['dob_year'] == $year){echo "selected";}
     echo ">$year</option>\n";
 }
 ?>
-          </select>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <input type="submit" class="btn btn-success" name="submit" value="Search" />
-    </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-success" name="submit" value="Search" />
+      </div>
+    </form>
 
-<div class="starter-template">
+
 <?php
 if (isset($_GET['submit'])) {
     echo "
@@ -127,27 +148,22 @@ if (isset($_GET['submit'])) {
         <th>Action</th>
       </tr>\n";
 
-    while ($stmt->fetch())  {
+    while ($stmt->fetch()) {
         echo "      <tr>
         <td>$fname_display</td>
         <td>$lname_display</td>
         <td>$dob_display</td>
         <td>
-            <a href=\"editpatientform.php?patientid=$patient_id\" class=\"btn btn-success\">Returning Patient Form</a>
-            <a href=\"view_individual.php?patientid=$patient_id\" class=\"btn btn-success\">View Patient Info</a>
+          <a href=\"editpatientform.php?patientid=$patient_id\" class=\"btn btn-success\">Returning Patient Form</a>
+          <a href=\"view_individual.php?patientid=$patient_id\" class=\"btn btn-success\">View Patient Info</a>
         </td>
       </tr>\n";
     }
+    echo "
+    </table>";
 }
 
 
 ?>
-</div>
-      
-    </table>
-     
-     </form>
 
-   </body>
-
-</html>
+<?php require_once('includes/footer.php'); ?>
