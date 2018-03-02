@@ -40,12 +40,6 @@ if (! empty($_GET['dob_day'])) {
 
 $stmt = $con->prepare($query);
 
-// if(empty($_GET['dob_year']) || empty($_GET['dob_month']) || empty($_GET['dob_day'])){
-//     $stmt->bind_param("ss", $fname_query, $lname_query);
-// } else {
-//     $stmt->bind_param("sss", $fname_query, $lname_query, $dob);
-// }
-
 $bind_params = array_merge(array(str_repeat('s', count($query_params))), $query_params);
 call_user_func_array(array(&$stmt, 'bind_param'), $bind_params);
 
