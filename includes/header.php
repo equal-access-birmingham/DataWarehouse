@@ -1,4 +1,9 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+
 if (version_compare(PHP_VERSION, '5.3.7', '<')) {
     exit('Sorry, this script does not run on a PHP version smaller than 5.3.7 !');
 } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
