@@ -2,6 +2,10 @@
 //error_reporting(E_ALL);
 //ini_set("display_errors",1);
 
+/**
+ * Need to make a database change so that the cooper green part of the database reflects the change to health first
+ */
+
 //LOAD DATABASE INFORMATION
 require("includes/db.php");
 
@@ -93,14 +97,15 @@ if (isset($_GET['submit'])) {
     $stmt_getcitizen->fetch();
     $stmt_getcitizen->close();
 
+    // Database change needed...
     $query = "SELECT `cooper` from `CooperGreen` WHERE (`cooperid`) = (?);";
-    $stmt_getcooper = $con->prepare($query);
-    $stmt_getcooper->bind_param("s", $_GET['cooperid']);
-    $stmt_getcooper->execute();
-    $stmt_getcooper->store_result();
-    $stmt_getcooper->bind_result($cooper);
-    $stmt_getcooper->fetch();
-    $stmt_getcooper->close();
+    $$stmt_get_health_first = $con->prepare($query);
+    $$stmt_get_health_first->bind_param("s", $_GET['health_first_id']);
+    $$stmt_get_health_first->execute();
+    $$stmt_get_health_first->store_result();
+    $$stmt_get_health_first->bind_result($health_first);
+    $$stmt_get_health_first->fetch();
+    $$stmt_get_health_first->close();
 
     $query = "SELECT `employment` from `CurrentEmployment` WHERE (`employmentid`) = (?);";
     $stmt_getemployment = $con->prepare($query);
@@ -345,7 +350,7 @@ echo "
                 <li>Education: $education</li>
                 <li>Insurance: $insurance</li>
                 <li>Primary Care Physician: $physician</li> 
-                <li>Physician at Cooper Green:$cooper</li>
+                <li>Health First card: $health_first</li>
                 <li>Smoking: $smokystats</li>
                 <li>Alcohol: $alcohol</li>
                 <li>Substances: $alldrugs " . $_GET['drugaddition'] . "</li>
@@ -896,16 +901,16 @@ while ($stmt_physician->fetch()){
             </select>
           </div>
 
-          <!-- Cooper Green -->
+          <!-- Health First Card -->
           <div class="form-group">
-            <label>*Is your physician at Cooper Green?</label>
-            <select required name="cooperid" class="form-control">
+            <label>*Do you have a Health First card?</label>
+            <select required name="health_first_id" class="form-control">
               <option value=""></option>
 <?php
-while ($stmt_cooper->fetch()){        
-  echo "              <option value=\"$cooperid\"";
-  if (isset($_GET['submit'])) {if ($_GET['cooperid'] == $cooperid){echo "selected";}}
-  echo ">$cooper</option>\n";
+while ($stmt_health_first->fetch()){        
+  echo "              <option value=\"$health_first_id\"";
+  if (isset($_GET['submit'])) {if ($_GET['health_first_id'] == $health_first_id){echo "selected";}}
+  echo ">$health_first</option>\n";
 }
 ?>
             </select>
@@ -1247,7 +1252,7 @@ $stmt_gender->close();
 $stmt_race->close();
 $stmt_language->close();
 $stmt_citizen->close();
-$stmt_cooper->close();
+$stmt_health_first->close();
 $stmt_employment->close();
 $stmt_physician->close();
 $stmt_education->close();

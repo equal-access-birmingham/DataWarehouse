@@ -48,10 +48,10 @@ $stmt_citizen->store_result();
 $stmt_citizen->bind_result($citizenid,$citizen);
 
 $query = "SELECT `cooperid`, `cooper` FROM `CooperGreen`;";
-$stmt_cooper = $con->prepare($query);
-$stmt_cooper->execute();
-$stmt_cooper->store_result();
-$stmt_cooper->bind_result($cooperid,$cooper);
+$stmt_health_first = $con->prepare($query);
+$stmt_health_first->execute();
+$stmt_health_first->store_result();
+$stmt_health_first->bind_result($health_first_id, $health_first);
 
 $query = "SELECT `employmentid`, `employment` FROM `CurrentEmployment`;";
 $stmt_employment = $con->prepare($query);

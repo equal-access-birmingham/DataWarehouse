@@ -148,7 +148,7 @@ $stmt_social = $con->prepare($query) or die("error: " . $con->error);
 $stmt_social->bind_param("s", $patientid) or die($con->error);
 $stmt_social->execute();
 $stmt_social->store_result();
-$stmt_social->bind_result($sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
+$stmt_social->bind_result($sid, $householdincome, $numchildren, $numfammember, $heareab, $health_first_card, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 $stmt_social->fetch();
 
 //Joins Mammogram Table.
@@ -384,8 +384,8 @@ echo ageCalculator($dob);
       <tr>
         <td><b>Have insurance?</b></td>
         <td><?php echo"$insurance";?></td>
-        <td><b>Have a Physician at Cooper Green?</b></td>
-        <td><?php echo"$cooper";?></td>
+        <td><b>Health First Card?</b></td>
+        <td><?php echo"$health_first_card";?></td>
       </tr>
       <tr>
         <td><b>Have a primary care provider?</b></td>
