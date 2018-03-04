@@ -90,9 +90,9 @@ $month_array = array(
   12 =>"December",
 );
 for ($month = 1; $month < 13; $month++) {
-  echo "              <option value=\"$month\"";
+    echo "              <option value=\"$month\"";
     if ($_GET['dob_month'] == $month){echo "selected";}
-  echo ">$month_array[$month]</option>\n";
+    echo ">$month_array[$month]</option>\n";
 }
 ?>
             </select>
@@ -134,22 +134,23 @@ for ($year; $year > $year_past; $year--){
 <?php
 if (isset($_GET['submit'])) {
     echo "
-    <table class=\"table table-hover table-bordered table-striped\">
+    <table class=\"table table-hover table-striped\">
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
+        <th class=\"text-center\">First Name</th>
+        <th class=\"text-center\">Last Name</th>
+        <th class=\"text-center\">Date of Birth</th>
         <th>Action</th>
       </tr>\n";
 
     while ($stmt->fetch()) {
         echo "      <tr>
-        <td>$fname_display</td>
-        <td>$lname_display</td>
-        <td>$dob_display</td>
+        <td class=\"text-center\">$fname_display</td>
+        <td class=\"text-center\">$lname_display</td>
+        <td class=\"text-center\">$dob_display</td>
         <td>
-          <a href=\"editpatientform.php?patientid=$patient_id\" class=\"btn btn-success\">Returning Patient Form</a>
-          <a href=\"view_individual.php?patientid=$patient_id\" class=\"btn btn-success\">View Patient Info</a>
+          <a href=\"editpatientform.php?patientid=$patient_id\" class=\"btn btn-primary\">Returning Patient Form</a>
+          <a href=\"view_individual.php?patientid=$patient_id\" class=\"btn btn-info\">Clinical Summary</a>
+          <a href=\"social_services_summary.php?patientid=$patient_id\" class=\"btn btn-success\">Social Services Summary</a>
         </td>
       </tr>\n";
     }

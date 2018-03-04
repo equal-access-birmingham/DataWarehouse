@@ -28,7 +28,7 @@ if ($login->isUserLoggedIn() == true) {
 }
 if ($permissions->isUserAdmin() == true)  {
 	echo"
-            <li><a href=\"viewdata.php\">View Patients</a></li>
+            <li><a href=\"viewdata.php\">Research Data</a></li>
             <li><a href=\"admin.php\">Administration</a></li>";
 } ?>
           </ul>

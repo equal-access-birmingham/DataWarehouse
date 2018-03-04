@@ -82,12 +82,6 @@ if ($login->isUserLoggedIn() == false) {
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <a href="index.php?logout" class="btn btn-sm btn-warning text-center">Log Out</a>
-        </div>
-      </div>
-
 <?php
     }
 }
