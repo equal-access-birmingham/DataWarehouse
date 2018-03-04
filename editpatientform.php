@@ -133,14 +133,14 @@ echo "
               <ul>
                 <li>Name: $fname $lname</li>
                 <li>DOB: $dob</li>
-				<li>Why you are here: " . $_GET['pstat'] . "</li>
-				<li>Reason for Visit: $reasonforvisit</li>
-				<li>Type of Home: $hometype</li>
+                <li>Why you are here: " . $_GET['pstat'] . "</li>
+                <li>Reason for Visit: $reasonforvisit</li>
+                <li>Type of Home: $hometype</li>
                 <li>Address:" . $_GET['address_street'] . " $city" . $_GET['cityaddition'] . ", " . " $state " . $_GET['stateaddition'] . " " . " $zip " . $_GET['zipaddition'] . "</li>
                 <li>Phone: " . $_GET['phone_number'] . "</li>
                 <li>Email:" . $_GET['email_address'] . "</li>
                 <li>Emergency Contact:". $_GET['emergency_name'] . "  Relation:" . $emergencyr . "  Number:" . $_GET['emergency_number'] . "</li>
-				<li>Transportation: $transport</li>
+                <li>Transportation: $transport</li>
                 <li>Last Mammogram: " . $_GET['mammogram_month'] . "-" . $_GET['mammogram_day'] . "-" . $_GET['mammogram_year'] . "</li>
                 <li>Last Colonoscopy: " . $_GET['colonoscopy_month'] . "-" . $_GET['colonoscopy_day'] . "-" . $_GET['colonoscopy_year'] . "</li>
                 <li>Last STI check: " . $_GET['STI_month'] . "-" . $_GET['STI_day'] . "-" . $_GET['STI_year'] . "</li>
@@ -152,14 +152,14 @@ echo "
               <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Edit Information</button>
 <?php
 $query_string = "";
-foreach ($_GET as $get => $value){
-  if (is_array($value)){
-	foreach($value as $array_value){
-	  $query_string .= $get . "[]=" . $array_value . "&";
-	}
-  } else {
-	$query_string .= $get . "=" . $value . "&";
-	}
+foreach ($_GET as $get => $value) {
+    if (is_array($value)){
+        foreach($value as $array_value) {
+            $query_string .= $get . "[]=" . $array_value . "&";
+        }
+    } else {
+        $query_string .= $get . "=" . $value . "&";
+    }
 }
 //$query_string = urlencode($query_string);
 echo "              <a href=\"editpatientformdo.php?$query_string\" class=\"btn btn-primary btn-lg\">Submit Information</a>";
@@ -188,13 +188,13 @@ $stmt_zip = $con->prepare($query);
 $stmt_zip->execute();
 $stmt_zip->store_result();
 $stmt_zip->bind_result($zipid,$zip);
-		
+    
 $query = "SELECT `hometypeid`, `hometype` FROM `HomeType`;";
 $stmt_hometype = $con->prepare($query);
 $stmt_hometype->execute();
 $stmt_hometype->store_result();
 $stmt_hometype->bind_result($hometypeid,$hometype);
-		
+    
 $query = "SELECT `emergencyrid`, `emergencyr` FROM `EmergencyR`;";
 $stmt_emergencyr = $con->prepare($query);
 $stmt_emergencyr->execute();
@@ -265,194 +265,260 @@ $stmt_pap->fetch();
 
 
 echo "
-      <h3> Name: $fname $lname </h3>
-      <h3> Date of Birth: $dob </h3><br />
-	  <h4>Asterisks indicate required fields.</h4>";
+      <h3 style=\"display: inline-block\"> Name: $fname $lname </h3>
+      <h3 class=\"pull-right\"> Date of Birth: $dob </h3><br />
+      <h4>Asterisks indicate required fields.</h4>";
  ?>
       <!-- Open the form - EVERYTHING BELOW THIS LINE IS EDITED IN THE DATABASE UPON SUBMISSION-->
-	  <form method="get" action="editpatientform.php" autocomplete="off">
-	    <!-- transfer patient id using the form but hide from user -->
+      <form method="get" action="editpatientform.php" autocomplete="off">
+      <!-- transfer patient id using the form but hide from user -->
         <input type="text" name="patientid" value="<?php echo $patientid; ?>" style="display: none;" />
-		<!-- Ask them about Chief Complaint -->
-	    <label>*In your own words, What brings you to the clinic today?</label>
-        <input required type="text" name="pstat" value="<?php echo $_GET['pstat']; ?>" class="form-control"/>
-				<!-- Ask them about Acute/Chronic etc. care -->
-        <label>*Which option best describes the reason for your visit?</label>
-        <select required name="reasonforvisitid" class="form-control"/>
-		  <option value=""></option>
+        
+        <!-- Ask them about Chief Complaint -->
+        <div class="form-group">
+          <label>*In your own words, What brings you to the clinic today?</label>
+          <input required type="text" name="pstat" value="<?php echo $_GET['pstat']; ?>" class="form-control"/>
+        </div>
+
+
+          <!-- Ask them about Acute/Chronic etc. care -->
+        <div class="form-group">
+          <label>*Which option best describes the reason for your visit?</label>
+          <select required name="reasonforvisitid" class="form-control"/>
+            <option value=""></option>
 <?php
 while ($stmt_reasonforvisit->fetch()){        
-  echo "          <option value=\"$reasonforvisitid\"";
+  echo "            <option value=\"$reasonforvisitid\"";
   if ($_GET['reasonforvisitid'] == $reasonforvisitid){echo "selected";}
   echo ">$reasonforvisit</option>\n";
 }
 ?>
-        </select>
-		<h4>Please review the information below and update it if necessary:</h4>
-		<!-- Ask them about type of home -->
-        <label>*What type of home do you live in?</label>
-        <select required name="hometypeid" class="form-control">
+          </select>
+        </div>
+
+        <h4>Please review the information below and update it if necessary:</h4>
+        
+        <!-- Ask them about type of home -->
+        <div class="form-group">
+          <label>*What type of home do you live in?</label>
+          <select required name="hometypeid" class="form-control">
 <?php
 while ($stmt_hometype->fetch()){        
-    echo "          <option value=\"$hometypeid\"";
+    echo "            <option value=\"$hometypeid\"";
     if (isset($_GET['submit'])) {
-		if ($_GET['hometypeid'] == $hometypeid){echo "selected";}
-	}
-	else{
-		if ($hometypeidselect == $hometypeid){echo "selected";}//automatically select the information that is in the database
-	}
+    if ($_GET['hometypeid'] == $hometypeid){echo "selected";}
+  }
+  else{
+    if ($hometypeidselect == $hometypeid){echo "selected";}//automatically select the information that is in the database
+  }
     echo ">$hometype</option>\n";
 }
 ?>
-        </select> 
-		<!-- Ask them about Address -->
-        <label>Address:</label>
-        <input type="text" name="address_street" value="<?php 
-		if (isset($_GET['submit'])) {echo $_GET['address_street'];}	
-		else{echo $address_streetselect;} ?>" class="form-control"/><!-- automatically select the information that is in the database -->
-        <div class="row">
-          <div class="col-xs-6"> 
-		    <!-- Ask them about City -->
-            <label for="citybox">City:</label>
-            <select name="cityid" id ="citybox" class="form-control"/>
-			  <option value=""></option>
+          </select>
+        </div>
+        
+        <!-- Ask them about Address -->
+        <div class="form-group">
+          <label>Address:</label>
+          <input type="text" name="address_street" value="<?php
+    if (isset($_GET['submit'])) {echo $_GET['address_street'];}	
+    else{echo $address_streetselect;} ?>" class="form-control"/><!-- automatically select the information that is in the database -->
+        </div>
+
+        <!-- Ask them about City -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-xs-6"> 
+              <label for="citybox">City:</label>
+              <select name="cityid" id ="citybox" class="form-control"/>
+                <option value=""></option>
 <?php
 while ($stmt_city->fetch()){        
-    echo "              <option value=\"$cityid\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['cityid'] == $cityid){echo "selected";}
-	}	
-	else{
-		if ($cityidselect == $cityid){echo "selected";}//automatically select the information that is in the database
-	}
+    echo "                <option value=\"$cityid\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['cityid'] == $cityid){echo "selected";}
+  }	
+  else{
+    if ($cityidselect == $cityid){echo "selected";}//automatically select the information that is in the database
+  }
     echo ">$city</option>\n";
 }
 ?>
-            </select>
-          </div>
-          <div class="col-xs-6">
-		    <!-- Ask them about City Addition -->
-            <label for="cityadditionbox">Other city not listed:</label>
-            <input type="text" name="cityaddition" id="cityadditionbox" value="<?php echo $_GET['cityaddition']; ?>" class="form-control"/><!-- automatically select the information that is in the database -->
+                </select>
+              </div>
+
+            <!-- Ask them about City Addition -->
+            <div class="col-xs-6">
+              <label for="cityadditionbox">Other city not listed:</label>
+              <input type="text" name="cityaddition" id="cityadditionbox" value="<?php echo $_GET['cityaddition']; ?>" class="form-control"/><!-- automatically select the information that is in the database -->
+            </div>
           </div>
         </div>
-        <div class="row"> 
-          <div class="col-xs-6">
-		    <!-- Ask them about State -->
-            <label for="statebox">State:</label>
-            <select name="stateid" id="statebox" class="form-control"/>	
-              <option value=""></option>			
+          
+          <!-- Ask them about State -->
+        <div class="form-group">
+          <div class="row"> 
+            <div class="col-xs-6">
+              <label for="statebox">State:</label>
+              <select name="stateid" id="statebox" class="form-control"/>	
+                <option value=""></option>			
 <?php
 while ($stmt_state->fetch()){        
-    echo "              <option value=\"$stateid\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['stateid'] == $stateid){echo "selected";}
-	}	
-	else{	
-		if ($stateidselect == $stateid){echo "selected";}//automatically select the information that is in the database
-	}
+    echo "                <option value=\"$stateid\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['stateid'] == $stateid){echo "selected";}
+  }	
+  else{	
+    if ($stateidselect == $stateid){echo "selected";}//automatically select the information that is in the database
+  }
     echo ">$state</option>\n";
 }
 ?>
-            </select>
-          </div>
-          <div class="col-xs-6">
-            <label for="stateadditionbox">Other state not listed:</label>
-            <input type="text" name="stateaddition" id="stateadditionbox" value="<?php echo $_GET['stateaddition']; ?>" class="form-control"/><!-- automatically select the information that is in the database -->
+              </select>
+            </div>
+
+            <div class="col-xs-6">
+              <label for="stateadditionbox">Other state not listed:</label>
+              <input type="text" name="stateaddition" id="stateadditionbox" value="<?php echo $_GET['stateaddition']; ?>" class="form-control"/><!-- automatically select the information that is in the database -->
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-6">
-		    <!-- Ask them about Zip -->
-            <label for="zipbox">Zip:</label>
-            <select name="zipid" id="zipbox" class="form-control"/>
-			  <option value=""></option>
+
+        <!-- Ask them about Zip -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-xs-6">
+              <label for="zipbox">Zip:</label>
+              <select name="zipid" id="zipbox" class="form-control"/>
+                <option value=""></option>
 <?php
 while ($stmt_zip->fetch()){        
-    echo "              <option value=\"$zipid\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['zipid'] == $zipid){echo "selected";}
-	}	
-	else{	
-		if ($zipidselect == $zipid){echo "selected";}
-	}
+    echo "                <option value=\"$zipid\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['zipid'] == $zipid){echo "selected";}
+  }	
+  else{	
+    if ($zipidselect == $zipid){echo "selected";}
+  }
     echo ">$zip</option>\n";
 }
 ?>
-            </select>
-          </div>
-          <div class="col-xs-6">
-		    <!-- Ask them about Zip Addition -->
-            <label for="zipadditionbox">Other zip not listed:</label>
-            <input type="text" name="zipaddition" id="zipadditionbox" value="<?php echo $_GET['zipaddition']; ?>" class="form-control"/>
+              </select>
+            </div>
+
+            <!-- Ask them about Zip Addition -->
+            <div class="col-xs-6">
+              <label for="zipadditionbox">Other zip not listed:</label>
+              <input type="text" name="zipaddition" id="zipadditionbox" value="<?php echo $_GET['zipaddition']; ?>" class="form-control"/>
+            </div>
           </div>
         </div>
-		<!-- Ask them about Phone Number -->
-        <label>Phone Number:</label>
-        <input type="text" name="phone_number" value="<?php 
-		if (isset($_GET['submit'])) {echo $_GET['phone_number'];}
-		else{echo $phone_numberselect;} ?>" placeholder="xxx-xxx-xxxx" class="form-control"/>
+
+        <!-- Ask them about Phone Number -->
+        <div class="form-group">
+          <label>Phone Number:</label>
+          <input type="text" name="phone_number" value="<?php 
+    if (isset($_GET['submit'])) {echo $_GET['phone_number'];}
+    else{echo $phone_numberselect;} ?>" placeholder="xxx-xxx-xxxx" class="form-control"/>
+        </div>
+          
         <!-- Ask them about Email -->
-		<label>Email:</label>
-        <input type="text" name="email_address" value="<?php 
-		if (isset($_GET['submit'])) {echo $_GET['phone_number'];}
-		else{echo $email_addressselect;} ?>" class="form-control"/>
-        <div class="row"> 
-		  <div class="container">
-		    <label>Emergency Contact Information:</label>
-		  </div>
-          <div class="col-xs-4">
-		    <!-- Ask them about Emergency Contact Name -->
-            <label for="emergencyname">Name:</label>
-            <input type="text" name="emergency_name" id="emergencyname" value="<?php
-			if (isset($_GET['submit'])) {echo $_GET['emergency_name'];}
-			else{echo $emergency_nameselect;} ?>" class="form-control"/>
-          </div>
-          <div class="col-xs-4">
-		    <!-- Ask them about Emergency Contact Relationship -->
-            <label for="emergencyr">Relation:</label>
-            <select name="emergencyrid" id ="emergencyr" class="form-control"/>
-			  <option value=""></option>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="text" name="email_address" value="<?php 
+    if (isset($_GET['submit'])) {echo $_GET['phone_number'];}
+    else{echo $email_addressselect;} ?>" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+          <label>Emergency Contact Information:</label>
+          <div class="row"> 
+
+            <!-- Ask them about Emergency Contact Name -->
+            <div class="col-xs-4">
+              <label for="emergencyname">Name:</label>
+              <input type="text" name="emergency_name" id="emergencyname" value="<?php
+        if (isset($_GET['submit'])) {echo $_GET['emergency_name'];}
+        else{echo $emergency_nameselect;} ?>" class="form-control"/>
+            </div>
+
+            <div class="col-xs-4">
+              <!-- Ask them about Emergency Contact Relationship -->
+              <label for="emergencyr">Relation:</label>
+              <select name="emergencyrid" id ="emergencyr" class="form-control"/>
+                <option value=""></option>
 
 <?php
 while ($stmt_emergencyr->fetch()){        
-    echo "              <option value=\"$emergencyrid\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['emergencyrid'] == $emergencyrid){echo "selected";}
-	}	
-	else{	
-		if ($emergencyridselect == $emergencyrid){echo "selected";}
-	}
+    echo "                <option value=\"$emergencyrid\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['emergencyrid'] == $emergencyrid){echo "selected";}
+  }	
+  else{	
+    if ($emergencyridselect == $emergencyrid){echo "selected";}
+  }
     echo ">$emergencyr</option>\n";
 }
 ?>
-            </select>
-          </div>
-          <div class="col-xs-4">
-		    <!-- Ask them about Emergency Contact Phone Number -->
-            <label for="emergencynumber">Phone Number:</label>
-            <input type="text" name="emergency_number" id="emergencynumber" placeholder="xxx-xxx-xxxx" value="<?php 
-			if (isset($_GET['submit'])) {echo $_GET['emergency_number'];}
-			else{echo $emergency_numberselect;} ?>" class="form-control"/>
+              </select>
+            </div>
+
+            <!-- Ask them about Emergency Contact Phone Number -->
+            <div class="col-xs-4">
+              <label for="emergencynumber">Phone Number:</label>
+              <input type="text" name="emergency_number" id="emergencynumber" placeholder="xxx-xxx-xxxx" value="<?php 
+      if (isset($_GET['submit'])) {echo $_GET['emergency_number'];}
+      else{echo $emergency_numberselect;} ?>" class="form-control"/>
+            </div>
           </div>
         </div>
-		<!-- Ask them about ransoportation to the clinic -->
+
+      <h3>Healthcare Access</h3>  
+
+      <!-- Ask them about transportation to the clinic -->
+      <div class="form-group">
         <label>*How do you primarily get to clinic?</label>
         <select required name="transportid" class="form-control"/>
 <?php
 while ($stmt_transport->fetch()){        
-    echo "        <option value=\"$transportid\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['transportid'] == $transportid){echo "selected";}
-	}	
-	else{
-		if ($transportidselect == $transportid){echo "selected";}
-	}
+    echo "          <option value=\"$transportid\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['transportid'] == $transportid){echo "selected";}
+  }	
+  else{
+    if ($transportidselect == $transportid){echo "selected";}
+  }
     echo ">$transport</option>\n";
 }
 ?>
-        </select><br />
-		<!-- Ask them about Mammogram -->
+        </select>
+      </div>
+
+      <!-- TODO: add functionallity -->
+      <div class="form-group">
+        <label>Do you have a Health First card?</label>
+        <select name="health_first_card" class="form-control">
+          <option value=""></option>
+          <option value="">Yes</option>
+          <option value="">No</option>
+        </select>
+      </div>
+
+      <!-- TODO: add functionallity -->
+      <div class="form-group">
+        <label>Do you need social services today (e.g. transportation, employment, housing)?</label>
+        <select name="social_services_id" class="form-control">
+          <option value=""></option>
+          <option value="">Yes</option>
+          <option value="">No</option>
+        </select>
+      </div>
+
+
+      <h3>Medical History</h3>
+
+      <!-- Ask them about Mammogram -->
+      <div class="form-group">
         <label>Estimate Date of Last Mammogram:</label>
         <div class="row">
           <div class="col-xs-4">
@@ -460,35 +526,37 @@ while ($stmt_transport->fetch()){
               <option value="">-- Month --</option>
 <?php
 for ($month = 1; $month < 13; $month++) {
-	echo "              <option value=\"$month\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['mammogram_month'] == $month){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$mammodate)[1] == $month){echo "selected";}
-	}
-	echo ">$month_array[$month]</option>\n";
+  echo "              <option value=\"$month\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['mammogram_month'] == $month){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$mammodate)[1] == $month){echo "selected";}
+  }
+  echo ">$month_array[$month]</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="mammogram_day" class="form-control">
               <option value="">-- Day --</option>
 <?php
 for ($day = 1; $day < 32; $day++) {
     echo "              <option value=\"$day\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['mammogram_day'] == $day){echo "selected";}
-	}	
-	else{
-		if (explode('-',$mammodate)[2] == $day){echo "selected";}
-	}
+  if (isset($_GET['submit'])) {
+    if ($_GET['mammogram_day'] == $day){echo "selected";}
+  }	
+  else{
+    if (explode('-',$mammodate)[2] == $day){echo "selected";}
+  }
     echo ">$day</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="mammogram_year" class="form-control">
               <option value="">-- Year --</option>
@@ -496,56 +564,63 @@ for ($day = 1; $day < 32; $day++) {
 $year = date("Y");
 $year_past = $year - 120;
 for ($year; $year > $year_past; $year--){
-	echo "              <option value=\"$year\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['mammogram_year'] == $year){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$mammodate)[0] == $year){echo "selected";}
-	}
-	echo ">$year</option>\n";
+  echo "              <option value=\"$year\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['mammogram_year'] == $year){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$mammodate)[0] == $year){echo "selected";}
+  }
+  echo ">$year</option>\n";
 }
 ?>
             </select>
           </div>
         </div>
-		<label>Estimate Date of Last PAP Smear:</label>
-		<!-- Ask them about PAP Smear -->
+      </div>
+
+
+      <div class="form-group">
+        <label>Estimate Date of Last PAP Smear:</label>
+
+        <!-- Ask them about PAP Smear -->
         <div class="row">
           <div class="col-xs-4">
             <select name="PAP_month" class="form-control"/>
               <option value="">-- Month --</option>
 <?php
 for ($month = 1; $month < 13; $month++) {
-	echo "              <option value=\"$month\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['PAP_month'] == $month){echo "selected";}
-	}	
-	else{		
-		if (explode('-',$papdate)[1] == $month){echo "selected";}
-	}
-	echo ">$month_array[$month]</option>\n";
+  echo "              <option value=\"$month\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['PAP_month'] == $month){echo "selected";}
+  }	
+  else{		
+    if (explode('-',$papdate)[1] == $month){echo "selected";}
+  }
+  echo ">$month_array[$month]</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="PAP_day" class="form-control">
               <option value="">-- Day --</option>
 <?php
 for ($day = 1; $day < 32; $day++) {
-	echo "              <option value=\"$day\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['PAP_day'] == $day){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$papdate)[2] == $day){echo "selected";}
-	}
-	echo ">$day</option>\n";
+  echo "              <option value=\"$day\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['PAP_day'] == $day){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$papdate)[2] == $day){echo "selected";}
+  }
+  echo ">$day</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="PAP_year" class="form-control">
               <option value="">-- Year --</option>
@@ -553,20 +628,23 @@ for ($day = 1; $day < 32; $day++) {
 $year = date("Y");
 $year_past = $year - 120;
 for ($year; $year > $year_past; $year--){
-	echo "              <option value=\"$year\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['PAP_year'] == $year){echo "selected";}
-	}	
-	else{		
-		if (explode('-',$papdate)[0] == $year){echo "selected";}
-	}
-	echo ">$year</option>\n";
+  echo "              <option value=\"$year\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['PAP_year'] == $year){echo "selected";}
+  }	
+  else{		
+    if (explode('-',$papdate)[0] == $year){echo "selected";}
+  }
+  echo ">$year</option>\n";
 }
 ?>    
             </select>
           </div>
         </div>
-		<!-- Ask them about Colonoscopy -->
+      </div>
+
+      <!-- Ask them about Colonoscopy -->
+      <div class="form-group">
         <label>Estimate Date of Last Colonoscopy:</label>
         <div class="row">
           <div class="col-xs-4">
@@ -574,35 +652,37 @@ for ($year; $year > $year_past; $year--){
               <option value="">-- Month --</option>
 <?php
 for ($month = 1; $month < 13; $month++) {
-	echo "              <option value=\"$month\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['colonoscopy_month'] == $month){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$colodate)[1] == $month){echo "selected";}
-	}
-	echo ">$month_array[$month]</option>\n";
+  echo "              <option value=\"$month\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['colonoscopy_month'] == $month){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$colodate)[1] == $month){echo "selected";}
+  }
+  echo ">$month_array[$month]</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="colonoscopy_day" class="form-control">
               <option value="">-- Day --</option>
 <?php
 for ($day = 1; $day < 32; $day++) {
-	echo "              <option value=\"$day\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['colonoscopy_day'] == $day){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$colodate)[2] == $day){echo "selected";}
-	}
-	echo ">$day</option>\n";
+  echo "              <option value=\"$day\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['colonoscopy_day'] == $day){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$colodate)[2] == $day){echo "selected";}
+  }
+  echo ">$day</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="colonoscopy_year" class="form-control">
               <option value="">-- Year --</option>
@@ -610,20 +690,23 @@ for ($day = 1; $day < 32; $day++) {
 $year = date("Y");
 $year_past = $year - 120;
 for ($year; $year > $year_past; $year--){
-	echo "              <option value=\"$year\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['colonoscopy_year'] == $year){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$colodate)[0] == $year){echo "selected";}
-	}
-	echo ">$year</option>\n";
+  echo "              <option value=\"$year\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['colonoscopy_year'] == $year){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$colodate)[0] == $year){echo "selected";}
+  }
+  echo ">$year</option>\n";
 }
 ?>
             </select>
           </div>
         </div>
-		<!-- Ask them about STI/STD -->
+      </div>
+
+      <!-- Ask them about STI/STD -->
+      <div class="form-group">
         <label>Estimate Date of Last STI/STD Test:</label>
         <div class="row">
           <div class="col-xs-4">
@@ -631,35 +714,37 @@ for ($year; $year > $year_past; $year--){
               <option value="">-- Month --</option>
 <?php
 for ($month = 1; $month < 13; $month++) {
-	echo "              <option value=\"$month\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['STI_month'] == $month){echo "selected";}
-	}	
-	else{	
-		if (explode('-',$stidate)[1] == $month){echo "selected";}
-	}
-	echo ">$month_array[$month]</option>\n";
+  echo "              <option value=\"$month\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['STI_month'] == $month){echo "selected";}
+  }	
+  else{	
+    if (explode('-',$stidate)[1] == $month){echo "selected";}
+  }
+  echo ">$month_array[$month]</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="STI_day" class="form-control">
               <option value="">-- Day --</option>
 <?php
 for ($day = 1; $day < 32; $day++) {
-	echo "              <option value=\"$day\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['STI_day'] == $day){echo "selected";}
-	}	
-	else{		
-		if (explode('-',$stidate)[2] == $day){echo "selected";}
-	}
-	echo ">$day</option>\n";
+  echo "              <option value=\"$day\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['STI_day'] == $day){echo "selected";}
+  }	
+  else{		
+    if (explode('-',$stidate)[2] == $day){echo "selected";}
+  }
+  echo ">$day</option>\n";
 }
 ?>
             </select>
           </div>
+
           <div class="col-xs-4">
             <select name="STI_year" class="form-control">
               <option value="">-- Year --</option>
@@ -667,24 +752,25 @@ for ($day = 1; $day < 32; $day++) {
 $year = date("Y");
 $year_past = $year - 120;
 for ($year; $year > $year_past; $year--){
-	echo "              <option value=\"$year\"";
-	if (isset($_GET['submit'])) {
-		if ($_GET['STI_year'] == $year){echo "selected";}
-	}	
-	else{		
-		if (explode('-',$stidate)[0] == $year){echo "selected";}
-	}
-	echo ">$year</option>\n";
+  echo "              <option value=\"$year\"";
+  if (isset($_GET['submit'])) {
+    if ($_GET['STI_year'] == $year){echo "selected";}
+  }	
+  else{		
+    if (explode('-',$stidate)[0] == $year){echo "selected";}
+  }
+  echo ">$year</option>\n";
 }
 ?>
             </select>
           </div>
         </div>
-        <br />
+      </div>
+
+      <div class="form-group">
         <input type="submit" class="btn btn-success" name="submit" value="Submit" /> 
-        <br />
-        <br />
-      </form>
+      </div>
+    </form>
 
 <?php 
 //close out of all the statements and connection opened earlier

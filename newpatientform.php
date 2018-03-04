@@ -343,7 +343,7 @@ echo "
                 <li>Children under 18 in household: " . $_GET['numchildren'] . "</li>
                 <li>Relationship Status: $relationship</li>
                 <li>Total monthly household income: $" . $_GET['householdincome'] . "</li>
-                <li>Employed:$employment</li>
+                <li>Employed: $employment</li>
                 <li>Disability: $disability</li>
                 <li>Foodstamps: $foodstamp</li>
                 <li>Veteran: $veteran</li>
@@ -901,21 +901,6 @@ while ($stmt_physician->fetch()){
             </select>
           </div>
 
-          <!-- Health First Card -->
-          <div class="form-group">
-            <label>*Do you have a Health First card?</label>
-            <select required name="health_first_id" class="form-control">
-              <option value=""></option>
-<?php
-while ($stmt_health_first->fetch()){        
-  echo "              <option value=\"$health_first_id\"";
-  if (isset($_GET['submit'])) {if ($_GET['health_first_id'] == $health_first_id){echo "selected";}}
-  echo ">$health_first</option>\n";
-}
-?>
-            </select>
-          </div>
-
           <!-- Choose Smoking Status -->
           <div class="form-group">
             <label>Do you smoke tobacco?</label>
@@ -1044,6 +1029,33 @@ while ($stmt_allergylist->fetch()){
           <div class="form-group">
             <label>*How did you hear about EAB?</label>
             <input required type="text" name="heareab" value="<?php if (isset($_GET['submit'])) {echo $_GET['heareab'];} ?>" class="form-control"/>
+          </div>
+
+          <h3>Healthcare Access</h3>
+
+          <!-- Health First Card -->
+          <div class="form-group">
+            <label>*Do you have a Health First card?</label>
+            <select required name="health_first_id" class="form-control">
+              <option value=""></option>
+<?php
+while ($stmt_health_first->fetch()){        
+    echo "              <option value=\"$health_first_id\"";
+    if (isset($_GET['submit'])) {if ($_GET['health_first_id'] == $health_first_id){echo "selected";}}
+    echo ">$health_first</option>\n";
+}
+?>
+            </select>
+          </div>
+
+          <!-- Social Services -->
+          <div class="form-group">
+            <label>Do you need social services today (e.g. transportation, employment, housing)?</label>
+            <select required name="social_services_id" id="social_services" class="form-control">
+              <option value=""></option>
+              <option value="">Yes</option>
+              <option value="">No</option>
+            </select>
           </div>
 
           <h3>Please answer the questions below if they apply to you:</h3>
