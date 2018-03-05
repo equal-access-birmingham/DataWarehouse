@@ -29,24 +29,25 @@ if($permissions->confirm_action_prompt)
           <input type="submit" class="btn btn-info btn-sm" name="update_accounts" value="<?php echo WORDING_UPDATE; ?>" /> 
         </div>
         
-        <table class="table table-striped">
-          <tr>
-            <th class="text-center">User Name</th>
-            <th class="text-center">User Email</th>
-            <th class="text-center">User Registration Date</th>
-            <th class="text-center">Admin</th>
-            <th class="text-center">Reset Account</th>
-            <th class="text-center">Delete Account</th>
-          </tr>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <tr>
+              <th class="text-center">User Name</th>
+              <th class="text-center">User Email</th>
+              <th class="text-center">User Registration Date</th>
+              <th class="text-center">Admin</th>
+              <th class="text-center">Reset Account</th>
+              <th class="text-center">Delete Account</th>
+            </tr>
 <?php
 // Creates table
 foreach($permissions->getEachUsersData() as $data)
 {
     echo "
-          <tr>
-            <td class=\"text-center\">$data->user_name</td>
-            <td class=\"text-center\">$data->user_email</td>
-            <td class=\"text-center\">$data->user_registration_datetime</td>\n";
+            <tr>
+              <td class=\"text-center\">$data->user_name</td>
+              <td class=\"text-center\">$data->user_email</td>
+              <td class=\"text-center\">$data->user_registration_datetime</td>\n";
   
     // Automatically checks admins so that they can be unchecked to remove admin privilege
     echo "            <td class=\"text-center\"><input type=\"checkbox\" name=\"admin[]\" value=\"$data->user_id\" ";
@@ -55,12 +56,13 @@ foreach($permissions->getEachUsersData() as $data)
 
     // Creates checkbox arrays for "reset_account" and "delete_account" so that multiple actions can be selected at once
     echo "
-            <td class=\"text-center\"><input type=\"checkbox\" name=\"reset_account[]\" value=\"$data->user_id\" /></td>
-            <td class=\"text-center\"><input type=\"checkbox\" name=\"delete_account[]\" value=\"$data->user_id\" /></td>
-          </tr>\n";
+              <td class=\"text-center\"><input type=\"checkbox\" name=\"reset_account[]\" value=\"$data->user_id\" /></td>
+              <td class=\"text-center\"><input type=\"checkbox\" name=\"delete_account[]\" value=\"$data->user_id\" /></td>
+            </tr>\n";
 }
 ?>
-        </table>
+          </table>
+        </div>
       </form>
 
       <br />
