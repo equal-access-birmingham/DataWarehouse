@@ -6,13 +6,62 @@
 
 <?php require_once("includes/menu.php"); ?> 
     
-    <h1>Please select the data sets you would like to view and download for further analysis</h1>
-    <p><a href="view_patientdemographics.php" class="btn btn-info btn-sm" target="_blank">Patient Demographics Data</a></p>
-    <p><a href="view_patientsocialhistory.php" class="btn btn-info btn-sm" target="_blank">Patient Social History Data</a></p>
-    <p><a href="view_patientvisitinfo.php" class="btn btn-info btn-sm" target="_blank">Patient Visit Information Data</a></p>
-    <p><a href="view_mammogram.php" class="btn btn-info btn-sm" target="_blank">Date of Last Mammogram</a></p>
-    <p><a href="view_sti.php" class="btn btn-info btn-sm" target="_blank">Date of Last Sexually Transmitted Infection</a></p>
-    <p><a href="view_colonoscopy.php" class="btn btn-info btn-sm" target="_blank">Date of Last Colonoscopy</a></p>
-    <p><a href="view_papsmear.php" class="btn btn-info btn-sm" target="_blank">Date of Last Pap Smear</a></p>
+    <h1 style="margin-bottom: 20px">Research Data Sets for Download</h1>
+    <div class="row text-center data-btn-row">
+      <div class="col-sm-3">
+        <a href="view_patientdemographics.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Patient Demographics Data
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-3">
+        <a href="view_patientsocialhistory.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Patient Social History Data
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-3">
+      <a href="view_patientvisitinfo.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Patient Visit Information Data
+          </div>
+        </a>        
+      </div>
+      <div class="col-sm-3">
+        <a href="view_mammogram.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Date of Last Mammogram
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="row text-center data-btn-row">
+      <div class="col-sm-3">
+        <a href="view_sti.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Date of Last Sexually Transmitted Infection
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-3">
+        <a href="view_colonoscopy.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Date of Last Colonoscopy
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-3">
+        <a href="view_paplgear.php" class="data-btn-anchor" target="_blank">
+          <div class="data-btn-container">
+            Date of Last Pap Smear
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <p class="lead">These data sets provide some basic information dumps from the database for use in research.  However, if you are interested in getting a different data format or an answer to a more complicated research question, please contact <a href="mailto:eabitteam@gmail.com">eabitteam@gmail.com</a></p>
 
 <?php require_once("includes/footer.php"); ?>
