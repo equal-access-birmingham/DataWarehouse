@@ -20,7 +20,8 @@ body{
 }
 
 
-.data-btn-anchor:hover {
+.data-btn-anchor:hover,
+.data-btn-anchor:focus {
     text-decoration: none;
 }
 
