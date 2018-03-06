@@ -1,7 +1,6 @@
 <?php include("includes/header_require_login.php"); ?>
     <title>Patients' Most Recent Colonoscopy Date</title>
 <?php require_once("includes/menu.php"); ?>
-    <p> <a href="download_colonoscopy.php" target="_blank" class="btn btn-primary"> Download Colonoscopy Data as CSV File</a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -21,6 +20,8 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $colonoscopy);
 ?>
     <h1>EAB Patients' Most Recent Colonoscopy Date</h1>
+    <p> <a href="download_colonoscopy.php" target="_blank" class="btn btn-primary download-data-btn"> Download Colonoscopy Data as CSV File</a> </p>
+
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>

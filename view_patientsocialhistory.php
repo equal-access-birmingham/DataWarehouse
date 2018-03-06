@@ -4,7 +4,6 @@
 
 <?php require_once("includes/menu.php"); ?>
 
-    <p> <a href="download_patientsocialhistory.php" target="_blank" class="btn btn-primary"> Download Patient Social History Data as CSV File </a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -89,6 +88,8 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $numchildren, $numfammember, $heareab, $cooper, $physician, $education, $housestat, $insurance, $disability, $veteran, $employment, $relationship, $alcohol, $foodstamp, $hometype, $transport);
 ?>
     <h1>EAB Patient Social History Information</h1>
+    <p> <a href="download_patientsocialhistory.php" target="_blank" class="btn btn-primary download-data-btn"> Download Patient Social History Data as CSV File </a> </p>
+
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>

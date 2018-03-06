@@ -28,6 +28,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
     min-height: 70px;
     background-color: #5bc0de;
     border-color: #46b8da;
@@ -50,8 +51,8 @@ body{
   }
   
 
-.data-btn {
-    width: 100%;
-    height: 100%;
-    white-space: normal;
+.download-data-btn {
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
+

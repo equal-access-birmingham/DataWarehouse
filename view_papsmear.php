@@ -4,7 +4,6 @@
 
 <?php require_once("includes/menu.php"); ?>
 
-    <p> <a href="download_papsmear.php" target="_blank" class="btn btn-primary"> Download Pap Smear Data as CSV File</a> </p>
 
 <?php
 error_reporting(E_ALL);
@@ -24,6 +23,8 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $papsmear);
 ?>
     <h1>EAB Patients' Most Recent Pap Smear Date</h1>
+    <p> <a href="download_papsmear.php" target="_blank" class="btn btn-primary download-data-btn"> Download Pap Smear Data as CSV File</a> </p>
+
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>

@@ -4,7 +4,6 @@
         
 <?php require_once("includes/menu.php"); ?>
 
-    <p> <a href="download_patientdemographics.php" target="_blank" class="btn btn-primary"> Download Patient Demographics Data as CSV File </a>
 
 <?php
 error_reporting(E_ALL);
@@ -64,6 +63,8 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $address_street, $city, $state, $zip, $phone_number, $email_address, $emergency_name, $emergencyr, $emergency_number, $gender, $race, $ethnicity, $language, $citizen);
 ?>
     <h1>EAB Patient Demographics</h1>
+    <p> <a href="download_patientdemographics.php" target="_blank" class="btn btn-primary download-data-btn"> Download Patient Demographics Data as CSV File </a>
+
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>

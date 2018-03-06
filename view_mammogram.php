@@ -1,7 +1,6 @@
 <?php include("includes/header_require_login.php"); ?>
     <title>Patients' Most Recent Mammogram Date</title>
 <?php require_once("includes/menu.php"); ?>
-    <p> <a href="download_mammogram.php" target="_blank" class="btn btn-primary"> Download Mammogram Data as CSV File</a> </p>
 
 
 <?php
@@ -22,6 +21,8 @@ $stmt->execute();
 $stmt->bind_result($patientid, $fname, $lname, $dob, $mammogram);
 ?>
     <h1>EAB Patients' Most Recent Mammogram Date</h1>
+    <p><a href="download_mammogram.php" target="_blank" class="btn btn-primary download-data-btn">Download Mammogram Data as CSV File</a></p>
+
     <div class="table-responsive">
       <table class="table table-striped">
         <tr>
