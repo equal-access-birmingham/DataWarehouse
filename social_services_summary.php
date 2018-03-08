@@ -25,10 +25,10 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-print-6">
           <h3>Patient Demographics</h3>
 
-          <table class="table table-striped">
+          <table class="table table-striped table-condensed">
             <tbody>
               <tr>
                 <td><strong>Gender</strong></td>
@@ -50,9 +50,9 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
           </table>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-print-6">
           <h3>Education</h3>
-          <table class="table table-striped">
+          <table class="table table-striped table-condensed">
             <tr>
               <td><strong>Highest Degree</strong></td>
               <td>PhD</td>
@@ -66,9 +66,9 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-print-6">
           <h3>Household</h3>
-          <table class="table table-striped">
+          <table class="table table-striped table-condensed">
             <tbody>
               <tr>
                 <td><strong>Relationship Status</strong></td>
@@ -83,17 +83,17 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
                 <td>50</td>
               </tr>
               <tr>
-                <td><strong>Number in Household older than 18</strong></td>
+                <td><strong>Number of Children in Household</strong></td>
                 <td>Too many</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-print-6">
           <h3>Financial Status</h3>
 
-          <table class="table table-striped">
+          <table class="table table-striped table-condensed">
             <tbody>
               <tr>
                 <td><strong>Income</strong></td>
@@ -117,9 +117,9 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
-          <h3>Smoking, Alcohol, and Other Drugs</h3>
-          <table class="table table-striped">
+        <div class="col-sm-6 col-print-6">
+          <h3>Smoking, Alcohol, and Recreational Drugs</h3>
+          <table class="table table-striped table-condensed">
             <tbody>
               <tr>
                 <td><strong>Smoking Status</strong></td>
@@ -149,10 +149,10 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
           </table>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-print-6">
           <h3>Healthcare Access</h3>
 
-          <table class="table table-striped">
+          <table class="table table-striped table-condensed">
             <tbody>
               <tr>
                 <td><strong>Health Insurance</strong></td>
