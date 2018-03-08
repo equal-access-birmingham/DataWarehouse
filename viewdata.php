@@ -54,7 +54,7 @@
         </a>
       </div>
       <div class="col-sm-3">
-        <a href="view_paplgear.php" class="data-btn-anchor" target="_blank">
+        <a href="view_papsmear.php" class="data-btn-anchor" target="_blank">
           <div class="data-btn-container">
             Date of Last Pap Smear
           </div>

@@ -166,7 +166,8 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db) or die("Error: " . $con->co
           </table>
         </div>
       </div>
-
+        
+      <div class="social-service-note"></div>
       <h3 style="margin-bottom: 50px">Social Services Note (<?php echo (new DateTime("now"))->format("m/d/Y"); ?>)</h3>
 
 <?php require_once("includes/footer.php"); ?>
