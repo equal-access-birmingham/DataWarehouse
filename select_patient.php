@@ -150,6 +150,7 @@ if (isset($_GET['submit'])) {
         <td>
           <a href=\"editpatientform.php?patientid=$patient_id\" class=\"btn btn-primary\">Returning Patient Form</a>
           <a href=\"view_individual.php?patientid=$patient_id\" class=\"btn btn-info\">Clinical Summary</a>
+          <a href=\"view_individual_alt.php?patientid=$patient_id\" class=\"btn btn-warning\">Alternate Clinical Summary</a>
           <a href=\"social_services_summary.php?patientid=$patient_id\" class=\"btn btn-success\">Social Services Summary</a>
         </td>
       </tr>\n";
