@@ -295,7 +295,7 @@ function ageCalculator($dob){
 function americanDate($date) {
     list($year, $month, $day) = explode("-", $date);
     
-    // removes leading and trailing zeros!!!
+    // removes leading zeros!!!
     $year = ltrim($year, "0");
     $month = ltrim($month, "0");
     $day = ltrim($day, "0");
