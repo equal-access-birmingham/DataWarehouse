@@ -102,7 +102,7 @@ $stmt->bind_result($patientid, $fname, $lname, $dob, $sid, $householdincome, $nu
           <th class="text-center">Number of Children in Household under 18</th>
           <th class="text-center">Number of People in Household including Oneself</th>
           <th class="text-center">How Heard About EAB</th>
-          <th class="text-center">Have a phhysician at Cooper Green?</th>
+          <th class="text-center">Have a Health First Card?</th>
           <th class="text-center">Have a primary care provider?</th>
           <th class="text-center">Highest Level of Education Achieved</th>
           <th class="text-center">Head of one's Household?</th>
