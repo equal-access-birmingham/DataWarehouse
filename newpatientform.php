@@ -320,6 +320,12 @@ $('#myModal').modal('toggle');
             </div>
             <div class="modal-body">
 <?php
+$social_services = null;
+if ($_GET['social_services']) {
+    $social_services = "yes";
+} else {
+    $social_services = "no";  
+}
 
 echo "
               <ul>
@@ -351,6 +357,7 @@ echo "
                 <li>Insurance: $insurance</li>
                 <li>Primary Care Physician: $physician</li> 
                 <li>Health First card: $health_first</li>
+                <li>Social services needed: $social_services</li>
                 <li>Smoking: $smokystats</li>
                 <li>Alcohol: $alcohol</li>
                 <li>Substances: $alldrugs " . $_GET['drugaddition'] . "</li>
@@ -1049,12 +1056,13 @@ while ($stmt_health_first->fetch()){
           </div>
 
           <!-- Social Services -->
+          <!-- just a boolean in the database, so hard-coded here -->
           <div class="form-group">
             <label>Do you need social services today (e.g. transportation, employment, housing)?</label>
-            <select required name="social_services_id" id="social_services" class="form-control">
+            <select required name="social_services" id="social_services" class="form-control">
               <option value=""></option>
-              <option value="">Yes</option>
-              <option value="">No</option>
+              <option <?php if ($_GET['social_services']) echo "selected"; ?> value="1">Yes</option>
+              <option <?php if (! $_GET['social_services']) echo "selected"; ?> value="0">No</option>
             </select>
           </div>
 

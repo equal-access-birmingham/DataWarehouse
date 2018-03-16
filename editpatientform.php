@@ -507,7 +507,7 @@ while ($stmt_transport->fetch()){
       <!-- TODO: add functionallity -->
       <div class="form-group">
         <label>Do you need social services today (e.g. transportation, employment, housing)?</label>
-        <select name="social_services_id" class="form-control">
+        <select name="social_services" class="form-control">
           <option value=""></option>
           <option value="">Yes</option>
           <option value="">No</option>
