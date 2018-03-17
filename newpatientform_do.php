@@ -80,6 +80,9 @@ if ($physicianid == "") $physicianid = null;
 $health_first_id = $_GET['health_first_id'];
 if ($health_first_id == "") $health_first_id = null;
 
+$social_services = $_GET['social_services'];
+if ($social_services == "") $social_services = null;
+
 $timesmoked = $_GET['timesmoked'];
 if ($timesmoked == "") $timesmoked = null;
 
@@ -125,7 +128,7 @@ $stmt->fetch();
 $stmt->close();
 
 //requiring that the necessary fields were filled in and error check that ensures duplicate individuals don't get added to the roster  
-if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid&& $health_first_id && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && !$count){
+if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $health_first_id && ! is_null($social_services) && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && !$count){
 
     //calculating info based on reported smoking history
     $smokingstatus = $_GET["smokingstatus"];
@@ -437,9 +440,9 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
     $stmt_sid->close();
 
     // store patient visit info in PatientVisit table using patientid found previously
-    $query = "INSERT INTO `PatientVisit` (`pstat`, `currentdate`, `reasonforvisitid`, `visittypeid`, `patientid`) VALUES (?, ?, ?, ?, ?);";
+    $query = "INSERT INTO `PatientVisit` (`pstat`, `currentdate`, `reasonforvisitid`, `visittypeid`, `patientid`, `socialservicesneeded`) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt_patientvisit = $con->prepare($query);
-    $stmt_patientvisit->bind_param("sssss", $pstat, $currentdate, $reasonforvisitid, $visittypeid, $patientid);
+    $stmt_patientvisit->bind_param("ssssss", $pstat, $currentdate, $reasonforvisitid, $visittypeid, $patientid, $social_services);
     $stmt_patientvisit->execute();
     $stmt_patientvisit->store_result();
     $stmt_patientvisit->close();
@@ -521,7 +524,7 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
 
 <?php require_once("includes/menu.php"); ?>
 <?php
-if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid&& $health_first_id && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat){
+if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $health_first_id && ! is_null($social_services) && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat){
     if (!$count){
         echo "    <h1>Your information has been recorded. Please take the tablet to the receptionist.</h1>"; //if all required fields have been filled, display this
     }
