@@ -1062,7 +1062,7 @@ while ($stmt_health_first->fetch()){
             <select required name="social_services" id="social_services" class="form-control">
               <option value=""></option>
               <option <?php if ($_GET['social_services']) echo "selected"; ?> value="1">Yes</option>
-              <option <?php if (! $_GET['social_services']) echo "selected"; ?> value="0">No</option>
+              <option <?php if ($_GET['social_services'] == "0") echo "selected"; ?> value="0">No</option>
             </select>
           </div>
 
