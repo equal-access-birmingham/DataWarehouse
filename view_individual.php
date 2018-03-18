@@ -252,7 +252,8 @@ $query = "SELECT
             `currentdate`,
             `visittype`,
             `reasonforvisit`,
-            `pstat`
+            `pstat`,
+            `socialservicesneeded`
         FROM
             `Patient`
                 LEFT JOIN
@@ -267,12 +268,20 @@ $query = "SELECT
 $stmt = $con->prepare($query) or die("error: " . $con->error);
 $stmt->bind_param("s", $patientid) or die($con->error);
 $stmt->execute();
-$stmt->bind_result($patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat);
+$stmt->bind_result($patientvisitid, $currentdate, $visittype, $reasonforvisit, $pstat, $socialservicesneeded);
 $stmt->fetch();
 ?>
 
-<!-- Building the tables with all the information and variables pulled from the database using the query statements above -->
+
+    <!-- Building the tables with all the information and variables pulled from the database using the query statements above -->
     <h1><?php echo "$fname";?> <?php echo "$lname";?></h1>
+
+<?php
+if ($socialservicesneeded && (new DateTime('now'))->diff(new DateTime($currentdate))->format("%d") == 0) {
+    echo "    <p style=\"color: red\"><strong>Social services requested today</strong></p>";
+}
+?>
+
     <p><b><u>Demographic and Contact Information</b></u></p>
     <table class="table-bordered table-striped table-condensed">
       <tr>
