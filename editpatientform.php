@@ -28,77 +28,85 @@ $con = new mysqli($host, $db_user, $db_pass, $db_db);
 
 //PULLING IN INFORMATION FOR FOR THE MODAL
 if (isset($_GET['submit'])) {
-$query = "SELECT `fname`, `lname`, `dob` from `Patient` WHERE (`patientid`) = (?);";
-$stmt_patient = $con->prepare($query) or die("Error: " . $con->error);
-$stmt_patient->bind_param("s", $patientid);
-$stmt_patient->execute();
-$stmt_patient->store_result();
-$stmt_patient->bind_result($fname, $lname, $dob);
-$stmt_patient->fetch();
+    $query = "SELECT `fname`, `lname`, `dob` from `Patient` WHERE (`patientid`) = (?);";
+    $stmt_patient = $con->prepare($query) or die("Error: " . $con->error);
+    $stmt_patient->bind_param("s", $patientid);
+    $stmt_patient->execute();
+    $stmt_patient->store_result();
+    $stmt_patient->bind_result($fname, $lname, $dob);
+    $stmt_patient->fetch();
 
-$query = "SELECT `reasonforvisit` from `ReasonforVisit` WHERE (`reasonforvisitid`) = (?);";
-$stmt_getreasonforvisit = $con->prepare($query);
-$stmt_getreasonforvisit->bind_param("s", $_GET['reasonforvisitid']);
-$stmt_getreasonforvisit->execute();
-$stmt_getreasonforvisit->store_result();
-$stmt_getreasonforvisit->bind_result($reasonforvisit);
-$stmt_getreasonforvisit->fetch();
-$stmt_getreasonforvisit->close();
+    $query = "SELECT `reasonforvisit` from `ReasonforVisit` WHERE (`reasonforvisitid`) = (?);";
+    $stmt_getreasonforvisit = $con->prepare($query);
+    $stmt_getreasonforvisit->bind_param("s", $_GET['reasonforvisitid']);
+    $stmt_getreasonforvisit->execute();
+    $stmt_getreasonforvisit->store_result();
+    $stmt_getreasonforvisit->bind_result($reasonforvisit);
+    $stmt_getreasonforvisit->fetch();
+    $stmt_getreasonforvisit->close();
 
-$query = "SELECT `hometype` from `HomeType` WHERE (`hometypeid`) = (?);";
-$stmt_gethometype = $con->prepare($query);
-$stmt_gethometype->bind_param("s", $_GET['hometypeid']);
-$stmt_gethometype->execute();
-$stmt_gethometype->store_result();
-$stmt_gethometype->bind_result($hometype);
-$stmt_gethometype->fetch();
-$stmt_gethometype->close();
+    $query = "SELECT `hometype` from `HomeType` WHERE (`hometypeid`) = (?);";
+    $stmt_gethometype = $con->prepare($query);
+    $stmt_gethometype->bind_param("s", $_GET['hometypeid']);
+    $stmt_gethometype->execute();
+    $stmt_gethometype->store_result();
+    $stmt_gethometype->bind_result($hometype);
+    $stmt_gethometype->fetch();
+    $stmt_gethometype->close();
 
-$query = "SELECT `city` from `City` WHERE (`cityid`) = (?);";
-$stmt_getcity = $con->prepare($query);
-$stmt_getcity->bind_param("s", $_GET['cityid']);
-$stmt_getcity->execute();
-$stmt_getcity->store_result();
-$stmt_getcity->bind_result($city);
-$stmt_getcity->fetch();
-$stmt_getcity->close();
+    $query = "SELECT `city` from `City` WHERE (`cityid`) = (?);";
+    $stmt_getcity = $con->prepare($query);
+    $stmt_getcity->bind_param("s", $_GET['cityid']);
+    $stmt_getcity->execute();
+    $stmt_getcity->store_result();
+    $stmt_getcity->bind_result($city);
+    $stmt_getcity->fetch();
+    $stmt_getcity->close();
 
-$query = "SELECT `state` from `State` WHERE (`stateid`) = (?);";
-$stmt_getstate = $con->prepare($query);
-$stmt_getstate->bind_param("s", $_GET['stateid']);
-$stmt_getstate->execute();
-$stmt_getstate->store_result();
-$stmt_getstate->bind_result($state);
-$stmt_getstate->fetch();
-$stmt_getstate->close();
+    $query = "SELECT `state` from `State` WHERE (`stateid`) = (?);";
+    $stmt_getstate = $con->prepare($query);
+    $stmt_getstate->bind_param("s", $_GET['stateid']);
+    $stmt_getstate->execute();
+    $stmt_getstate->store_result();
+    $stmt_getstate->bind_result($state);
+    $stmt_getstate->fetch();
+    $stmt_getstate->close();
 
-$query = "SELECT `zip` from `Zip` WHERE (`zipid`) = (?);";
-$stmt_getzip = $con->prepare($query);
-$stmt_getzip->bind_param("s", $_GET['zipid']);
-$stmt_getzip->execute();
-$stmt_getzip->store_result();
-$stmt_getzip->bind_result($zip);
-$stmt_getzip->fetch();
-$stmt_getzip->close();
+    $query = "SELECT `zip` from `Zip` WHERE (`zipid`) = (?);";
+    $stmt_getzip = $con->prepare($query);
+    $stmt_getzip->bind_param("s", $_GET['zipid']);
+    $stmt_getzip->execute();
+    $stmt_getzip->store_result();
+    $stmt_getzip->bind_result($zip);
+    $stmt_getzip->fetch();
+    $stmt_getzip->close();
 
-$query = "SELECT `emergencyr` from `EmergencyR` WHERE (`emergencyrid`) = (?);";
-$stmt_getemergencyr = $con->prepare($query);
-$stmt_getemergencyr->bind_param("s", $_GET['emergencyrid']);
-$stmt_getemergencyr->execute();
-$stmt_getemergencyr->store_result();
-$stmt_getemergencyr->bind_result($emergencyr);
-$stmt_getemergencyr->fetch();
-$stmt_getemergencyr->close();
+    $query = "SELECT `emergencyr` from `EmergencyR` WHERE (`emergencyrid`) = (?);";
+    $stmt_getemergencyr = $con->prepare($query);
+    $stmt_getemergencyr->bind_param("s", $_GET['emergencyrid']);
+    $stmt_getemergencyr->execute();
+    $stmt_getemergencyr->store_result();
+    $stmt_getemergencyr->bind_result($emergencyr);
+    $stmt_getemergencyr->fetch();
+    $stmt_getemergencyr->close();
 
-$query = "SELECT `transport` from `Transport` WHERE (`transportid`) = (?);";
-$stmt_gettransport = $con->prepare($query);
-$stmt_gettransport->bind_param("s", $_GET['transportid']);
-$stmt_gettransport->execute();
-$stmt_gettransport->store_result();
-$stmt_gettransport->bind_result($transport);
-$stmt_gettransport->fetch();
-$stmt_gettransport->close();
+    $query = "SELECT `transport` from `Transport` WHERE (`transportid`) = (?);";
+    $stmt_gettransport = $con->prepare($query);
+    $stmt_gettransport->bind_param("s", $_GET['transportid']);
+    $stmt_gettransport->execute();
+    $stmt_gettransport->store_result();
+    $stmt_gettransport->bind_result($transport);
+    $stmt_gettransport->fetch();
+    $stmt_gettransport->close();
 
+    $query = "SELECT `cooper` FROM `CooperGreen` WHERE `cooperid` = ?;";
+    $stmt_gethealthfirst = $con->prepare($query);
+    $stmt_gethealthfirst->bind_param("s", $_GET['health_first_card']);
+    $stmt_gethealthfirst->execute();
+    $stmt_gethealthfirst->store_result();
+    $stmt_gethealthfirst->bind_result($healthfirst);
+    $stmt_gethealthfirst->fetch();
+    $stmt_gethealthfirst->close();
 }
 
 require_once("includes/menu.php");
@@ -115,6 +123,13 @@ $('#myModal').modal('toggle');
 });
       </script>
     ";
+}
+// set social services boolean to human-readable
+$social_services = null;
+if ($_GET['social_services'] == "0") {
+    $social_services = "no";
+} else if ($_GET['social_services'] == "1") {
+    $social_services = "yes";
 }
 ?>
 
@@ -135,12 +150,15 @@ echo "
                 <li>DOB: $dob</li>
                 <li>Why you are here: " . $_GET['pstat'] . "</li>
                 <li>Reason for Visit: $reasonforvisit</li>
+                <li>Social Services Needed: $social_services</li>
+
                 <li>Type of Home: $hometype</li>
                 <li>Address:" . $_GET['address_street'] . " $city" . $_GET['cityaddition'] . ", " . " $state " . $_GET['stateaddition'] . " " . " $zip " . $_GET['zipaddition'] . "</li>
                 <li>Phone: " . $_GET['phone_number'] . "</li>
                 <li>Email:" . $_GET['email_address'] . "</li>
                 <li>Emergency Contact:". $_GET['emergency_name'] . "  Relation:" . $emergencyr . "  Number:" . $_GET['emergency_number'] . "</li>
                 <li>Transportation: $transport</li>
+                <li>Health First Card: " . $healthfirst . "</li>
                 <li>Last Mammogram: " . $_GET['mammogram_month'] . "-" . $_GET['mammogram_day'] . "-" . $_GET['mammogram_year'] . "</li>
                 <li>Last Colonoscopy: " . $_GET['colonoscopy_month'] . "-" . $_GET['colonoscopy_day'] . "-" . $_GET['colonoscopy_year'] . "</li>
                 <li>Last STI check: " . $_GET['STI_month'] . "-" . $_GET['STI_day'] . "-" . $_GET['STI_year'] . "</li>
@@ -213,6 +231,12 @@ $stmt_transport->execute();
 $stmt_transport->store_result();
 $stmt_transport->bind_result($transportid,$transport);
 
+$query = "SELECT `cooperid`, `cooper` from `CooperGreen`;";
+$stmt_health_first = $con->prepare($query);
+$stmt_health_first->execute();
+$stmt_health_first->store_result();
+$stmt_health_first->bind_result($healthfirstid, $healthfirst);
+
 // PULLING IN INFORMATION TO SET DEFAULT SELECTIONS
 //uses patientid retrived earlier to find more information from patient table about the person in question
 $query = "SELECT `fname`, `lname`, `dob`, `address_street`, `cityid`, `stateid`, `zipid`, `emergency_name`, `emergency_number`, `emergencyrid`, `phone_number`, `email_address` from `Patient` WHERE (`patientid`) = (?);";
@@ -223,12 +247,12 @@ $stmt_patient->store_result();
 $stmt_patient->bind_result($fname, $lname, $dob, $address_streetselect, $cityidselect, $stateidselect, $zipidselect, $emergency_nameselect, $emergency_numberselect, $emergencyridselect, $phone_numberselect, $email_addressselect);
 $stmt_patient->fetch();
 //uses patientid retrieved earlier to find more information from social history table about person in question
-$query = "SELECT `hometypeid`, `transportid` from `SocialHistory` WHERE `patientid` = ?;";
+$query = "SELECT `hometypeid`, `transportid`, `cooperid` from `SocialHistory` WHERE `patientid` = ?;";
 $stmt_social = $con->prepare($query);
 $stmt_social->bind_param("s", $patientid);
 $stmt_social->execute();
 $stmt_social->store_result();
-$stmt_social->bind_result($hometypeidselect, $transportidselect);
+$stmt_social->bind_result($hometypeidselect, $transportidselect, $healthfirstidselect);
 $stmt_social->fetch();
 //uses patientid retrieved earlier to find more information from mammogram table about person in question
 $query = "SELECT `mammogram` from `Mammogram` WHERE `patientid` = ?;";
@@ -263,7 +287,6 @@ $stmt_pap->store_result();
 $stmt_pap->bind_result($papdate);
 $stmt_pap->fetch();
 
-
 echo "
       <h3 style=\"display: inline-block\"> Name: $fname $lname </h3>
       <h3 class=\"pull-right\"> Date of Birth: $dob </h3><br />
@@ -293,6 +316,17 @@ while ($stmt_reasonforvisit->fetch()){
   echo ">$reasonforvisit</option>\n";
 }
 ?>
+          </select>
+        </div>
+
+        <!-- Social Services Needed -->
+        <!-- boolean in the database so just hard-coded her -->
+        <div class="form-group">
+          <label>Do you need social services today (e.g. transportation, employment, housing)?</label>
+          <select name="social_services" class="form-control" required>
+            <option value=""></option>
+            <option value="1" <?php if ($social_services == "yes") echo "selected"; ?>>Yes</option>
+            <option value="0" <?php if ($social_services == "no") echo "selected"; ?>>No</option>
           </select>
         </div>
 
@@ -497,20 +531,22 @@ while ($stmt_transport->fetch()){
       <!-- TODO: add functionallity -->
       <div class="form-group">
         <label>Do you have a Health First card?</label>
-        <select name="health_first_card" class="form-control">
-          <option value=""></option>
-          <option value="">Yes</option>
-          <option value="">No</option>
-        </select>
-      </div>
+        <select name="health_first_card" class="form-control" required>
 
-      <!-- TODO: add functionallity -->
-      <div class="form-group">
-        <label>Do you need social services today (e.g. transportation, employment, housing)?</label>
-        <select name="social_services" class="form-control">
-          <option value=""></option>
-          <option value="">Yes</option>
-          <option value="">No</option>
+<?php
+while ($stmt_health_first->fetch()) {
+    echo "          <option value=\"$healthfirstid\" ";
+    
+    if (isset($_GET['submit'])) {
+        if ($_GET['health_first_card'] == $healthfirstid) echo "selected";
+    } else {
+        if ($healthfirstidselect == $healthfirstid) echo "selected";
+    }
+
+    echo ">$healthfirst</option>\n";
+}
+?>
+
         </select>
       </div>
 
