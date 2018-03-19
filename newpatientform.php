@@ -1052,11 +1052,11 @@ while ($stmt_alcohol->fetch()){
 ?>
           </div>
 
-          <!-- Allergy Addition -->
+          <!-- Allergy Addition
           <div class="form-group">
             <label>Other allergy not listed:</label>
             <input type="text" name="allergyaddition" value="<?php if (isset($_GET['submit'])) {echo $_GET['allergyaddition'];} ?>" class="form-control"/>
-          </div>
+          </div> -->
           
           <!-- How did you hear? -->
           <div class="form-group">
