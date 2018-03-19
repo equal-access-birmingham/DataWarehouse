@@ -2,8 +2,18 @@
 error_reporting(E_ALL);
 ini_set("displayed_errors",1);
 //LOADING ALL VARIABLES FROM URL
-$drugs = $_GET['drugs'];
-$allergies = $_GET['allergies'];
+
+// extract drugs from text (optionally enclosed by quotation marks)
+preg_match_all('/"[^"]+?"(?=,?)|[^",]+(?=,?)/', $_GET['drugs'], $matches);
+$drugs = $matches[0];
+
+// extract allergies from get string (optionally enclosed by quotation marks)
+preg_match_all('/"[^"]+?"(?=,?)|[^",]+(?=,?)/', $_GET['allergies'], $matches);
+$allergies = $matches[0];
+
+print_r($drugs);
+print_r($allergies);
+exit;
 $fname = $_GET['fname'];
 $lname = $_GET['lname'];
 $dob = $_GET['dob_year'] . "-" . $_GET['dob_month'] . "-" . $_GET['dob_day'];
@@ -320,86 +330,86 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
     }
 
     // ADDING NEW DRUGTYPES TO DRUGTYPE TABLE -- SAME AS DOCUMENTED ABOVE
-    if ($drugaddition) {
-        $drugaddition = ucwords($drugaddition);
+    // if ($drugaddition) {
+    //     $drugaddition = ucwords($drugaddition);
         
-        $query = "SELECT COUNT(`drugtype`) from `DrugType` WHERE (`drugtype`) = (?);";
-        $stmt_drugcount = $con->prepare($query);
-        $stmt_drugcount->bind_param("s", $drugaddition);
-        $stmt_drugcount->execute();
-        $stmt_drugcount->store_result();
-        $stmt_drugcount->bind_result($isdrugthere);
-        $stmt_drugcount->fetch();
-        $stmt_drugcount->close();
+    //     $query = "SELECT COUNT(`drugtype`) from `DrugType` WHERE (`drugtype`) = (?);";
+    //     $stmt_drugcount = $con->prepare($query);
+    //     $stmt_drugcount->bind_param("s", $drugaddition);
+    //     $stmt_drugcount->execute();
+    //     $stmt_drugcount->store_result();
+    //     $stmt_drugcount->bind_result($isdrugthere);
+    //     $stmt_drugcount->fetch();
+    //     $stmt_drugcount->close();
         
-        if ($isdrugthere == 0){
-            $query = "INSERT INTO `DrugType` (`drugtype`) VALUES (?)";
-            $stmt_druginsert = $con->prepare($query);
-            $stmt_druginsert->bind_param("s", $drugaddition);
-            $stmt_druginsert->execute();
-            $stmt_druginsert->close();
+    //     if ($isdrugthere == 0){
+    //         $query = "INSERT INTO `DrugType` (`drugtype`) VALUES (?)";
+    //         $stmt_druginsert = $con->prepare($query);
+    //         $stmt_druginsert->bind_param("s", $drugaddition);
+    //         $stmt_druginsert->execute();
+    //         $stmt_druginsert->close();
             
-            $query = "SELECT `drugtypeid` from `DrugType` WHERE (`drugtype`) = (?);";
-            $stmt_newdrugid = $con->prepare($query);
-            $stmt_newdrugid->bind_param("s", $drugaddition);
-            $stmt_newdrugid->execute();
-            $stmt_newdrugid->store_result();
-            $stmt_newdrugid->bind_result($drugs[]);
-            $stmt_newdrugid->fetch();
-            $stmt_newdrugid->close();
-        }
-        elseif ($isdrugthere == 1){
-            $query = "SELECT `drugtypeid` from `DrugType` WHERE (`drugtype`) = (?);";
-            $stmt_getdrugid = $con->prepare($query);
-            $stmt_getdrugid->bind_param("s", $drugaddition);
-            $stmt_getdrugid->execute();
-            $stmt_getdrugid->store_result();
-            $stmt_getdrugid->bind_result($drugs[]);
-            $stmt_getdrugid->fetch();
-            $stmt_getdrugid->close();
-        }
-    }
+    //         $query = "SELECT `drugtypeid` from `DrugType` WHERE (`drugtype`) = (?);";
+    //         $stmt_newdrugid = $con->prepare($query);
+    //         $stmt_newdrugid->bind_param("s", $drugaddition);
+    //         $stmt_newdrugid->execute();
+    //         $stmt_newdrugid->store_result();
+    //         $stmt_newdrugid->bind_result($drugs[]);
+    //         $stmt_newdrugid->fetch();
+    //         $stmt_newdrugid->close();
+    //     }
+    //     elseif ($isdrugthere == 1){
+    //         $query = "SELECT `drugtypeid` from `DrugType` WHERE (`drugtype`) = (?);";
+    //         $stmt_getdrugid = $con->prepare($query);
+    //         $stmt_getdrugid->bind_param("s", $drugaddition);
+    //         $stmt_getdrugid->execute();
+    //         $stmt_getdrugid->store_result();
+    //         $stmt_getdrugid->bind_result($drugs[]);
+    //         $stmt_getdrugid->fetch();
+    //         $stmt_getdrugid->close();
+    //     }
+    // }
 
-    // ADDING NEW ALLERGY TO ALLERGYLIST TABLE -- SAME AS DOCUMENTED ABOVE
-    if ($allergyaddition) {
-        $allergyaddition = ucwords($allergyaddition);
+    // // ADDING NEW ALLERGY TO ALLERGYLIST TABLE -- SAME AS DOCUMENTED ABOVE
+    // if ($allergyaddition) {
+    //     $allergyaddition = ucwords($allergyaddition);
         
-        $query = "SELECT COUNT(`allergylist`) from `AllergyList` WHERE (`allergylist`) = (?);";
-        $stmt_allergycount = $con->prepare($query);
-        $stmt_allergycount->bind_param("s", $allergyaddition);
-        $stmt_allergycount->execute();
-        $stmt_allergycount->store_result();
-        $stmt_allergycount->bind_result($isallergythere);
-        $stmt_allergycount->fetch();
-        $stmt_allergycount->close();
+    //     $query = "SELECT COUNT(`allergylist`) from `AllergyList` WHERE (`allergylist`) = (?);";
+    //     $stmt_allergycount = $con->prepare($query);
+    //     $stmt_allergycount->bind_param("s", $allergyaddition);
+    //     $stmt_allergycount->execute();
+    //     $stmt_allergycount->store_result();
+    //     $stmt_allergycount->bind_result($isallergythere);
+    //     $stmt_allergycount->fetch();
+    //     $stmt_allergycount->close();
         
-        if ($isallergythere == 0){
-            $query = "INSERT INTO `AllergyList` (`allergylist`) VALUES (?)";
-            $stmt_allergyinsert = $con->prepare($query);
-            $stmt_allergyinsert->bind_param("s", $allergyaddition);
-            $stmt_allergyinsert->execute();
-            $stmt_allergyinsert->close();
+    //     if ($isallergythere == 0){
+    //         $query = "INSERT INTO `AllergyList` (`allergylist`) VALUES (?)";
+    //         $stmt_allergyinsert = $con->prepare($query);
+    //         $stmt_allergyinsert->bind_param("s", $allergyaddition);
+    //         $stmt_allergyinsert->execute();
+    //         $stmt_allergyinsert->close();
             
-            $query = "SELECT `allergylistid` from `AllergyList` WHERE (`allergylist`) = (?);";
-            $stmt_newallergyid = $con->prepare($query);
-            $stmt_newallergyid->bind_param("s", $allergyaddition);
-            $stmt_newallergyid->execute();
-            $stmt_newallergyid->store_result();
-            $stmt_newallergyid->bind_result($allergies[]);
-            $stmt_newallergyid->fetch();
-            $stmt_newallergyid->close();
-        }
-        elseif ($isallergythere == 1){
-            $query = "SELECT `allergylistid` from `AllergyList` WHERE (`allergylist`) = (?);";
-            $stmt_getallergyid = $con->prepare($query);
-            $stmt_getallergyid->bind_param("s", $allergyaddition);
-            $stmt_getallergyid->execute();
-            $stmt_getallergyid->store_result();
-            $stmt_getallergyid->bind_result($allergies[]);
-            $stmt_getallergyid->fetch();
-            $stmt_getallergyid->close();
-        }
-    }
+    //         $query = "SELECT `allergylistid` from `AllergyList` WHERE (`allergylist`) = (?);";
+    //         $stmt_newallergyid = $con->prepare($query);
+    //         $stmt_newallergyid->bind_param("s", $allergyaddition);
+    //         $stmt_newallergyid->execute();
+    //         $stmt_newallergyid->store_result();
+    //         $stmt_newallergyid->bind_result($allergies[]);
+    //         $stmt_newallergyid->fetch();
+    //         $stmt_newallergyid->close();
+    //     }
+    //     elseif ($isallergythere == 1){
+    //         $query = "SELECT `allergylistid` from `AllergyList` WHERE (`allergylist`) = (?);";
+    //         $stmt_getallergyid = $con->prepare($query);
+    //         $stmt_getallergyid->bind_param("s", $allergyaddition);
+    //         $stmt_getallergyid->execute();
+    //         $stmt_getallergyid->store_result();
+    //         $stmt_getallergyid->bind_result($allergies[]);
+    //         $stmt_getallergyid->fetch();
+    //         $stmt_getallergyid->close();
+    //     }
+    // }
 
 
     //INSERT PATIENT DATA THAT WAS SUBMITED INTO PATIENT TABLE
@@ -448,10 +458,31 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
     $stmt_patientvisit->close();
 
     // store patient allergy information in PatientAllergy table using patientid found previously
+    $query = "SELECT `allergylistid`, COUNT(*) FROM `AllergyList` WHERE `allergylist` = ?;";
+    $stmt_allergy_exists = $con->prepare($query);
+    $stmt_allergy_exists->bind_param("s", $allergy);
+
+    $query = "INSERT INTO `AllergyList` (`allergylist`) VALUES (?);";
+    $stmt_insert_new_allergy = $con->prepare($query);
+    $stmt_insert_new_allergy->bind_param("s", $allergy);
+
     $query = "INSERT INTO `PatientAllergy` (`allergylistid`, `patientid`) VALUES (?, ?);";
     $stmt_patientallergy = $con->prepare($query);
     $stmt_patientallergy->bind_param("ss", $allergy, $patientid); 
+    
     foreach ($allergies as $allergy) { // for each allergy in the array "allergies" defined at the top
+        // Standardize allergy names and remove optional quotation marks
+        $allergy = ucwords(str_replace("\"", "", $allergy));
+
+        $stmt_allergy_exists->execute();
+        $stmt_allergy_exists->store_result();
+        $stmt_allergy_exists->bind_result($allergylistid, $allergy_count);
+
+        if (! $allergy_count) {
+            $stmt_insert_new_allergy->execute();
+            $allergylistid = $con->insert_id;
+        }
+
         $stmt_patientallergy->execute(); //store the drug in the array w/ the person's patientid in the Patient Allergy Table
         $stmt_patientallergy->store_result();
     }
@@ -473,12 +504,33 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
         $stmt_pastsmoker->execute();
         $stmt_pastsmoker->store_result();
         $stmt_pastsmoker->close();
-    } 
+    }
+
     //store drug informaiton in SocialDrugs table using sid found previously
+    $query = "SELECT `drugtypeid`, COUNT(*) FROM `DrugType` WHERE `drugtype` = ?;";
+    $stmt_drug_exists = $con->prepare($query);
+    $stmt_drug_exists->bind_param("s", $drug);
+
+    $query = "INSERT INTO `DrugType` (`drugtype`) VALUES (?);";
+    $stmt_insert_new_drug = $con->prepare($query);
+    $stmt_insert_new_drug->bind_param("s", $drug);
+
     $query = "INSERT INTO `SocialDrugs` (`drugtypeid`, `sid`) VALUES (?, ?);";
     $stmt_socialdrugs = $con->prepare($query);
-    $stmt_socialdrugs->bind_param("ss", $drug, $sid);
+    $stmt_socialdrugs->bind_param("ss", $drug_id, $sid);
     foreach ($drugs as $drug) { //for each drug in the array "drugs" defined at the top
+        // get rid of quotation marks if they are there
+        $drug = ucwords(str_replace("\"", "", $drug));
+
+        $stmt_drug_exists->execute();
+        $stmt_drug_exists->store_result();
+        $stmt_drug_exists->bind_result($drug_id, $drug_count);
+
+        if (! $drug_count) {
+            $stmt_insert_new_drug->execute();
+            $drug_id = $con->insert_id;
+        }
+
         $stmt_socialdrugs->execute(); //store the drug in the array w/ the person's sid (social history id) in the Social Drugs Table
         $stmt_socialdrugs->store_result();
     }

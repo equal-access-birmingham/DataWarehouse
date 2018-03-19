@@ -141,7 +141,7 @@ $query = "SELECT `allergylistid`, `allergylist` FROM `AllergyList`;";
 $stmt_allergylist = $con->prepare($query);
 $stmt_allergylist->execute();
 $stmt_allergylist->store_result();
-$stmt_allergylist->bind_result($allergylistid,$allergylist);
+$stmt_allergylist->bind_result($allergylistid,$allergy);
 
 $query = "SELECT `emergencyrid`, `emergencyr` FROM `EmergencyR`;";
 $stmt_emergencyr = $con->prepare($query);

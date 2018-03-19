@@ -294,6 +294,30 @@ if (isset($_GET['submit'])) {
         $smokystats = "Current Smoker for " . $_GET['packsperday'] . " years at " . $_GET['timesmoked'] . " packs per day";
     }
 }
+
+// Format drugs from database for use with javascript typeahead
+$drug_list = "[";
+$i = 0;
+while($stmt_drugtype->fetch()) {
+    $i++;
+    if ($i != 1) {
+        $drug_list .= ",";
+    }
+    $drug_list .= "\"$drugtype\"";
+}
+$drug_list .= "]";
+
+// format allergies from database for use with javascript typeahead
+$allergy_list = "[";
+$i = 0;
+while($stmt_allergylist->fetch()) {
+    $i++;
+    if ($i != 1) {
+        $allergy_list .= ",";
+    }
+    $allergy_list .= "\"$allergy\"";
+}
+$allergy_list .= "]";
 ?>
 
 
@@ -984,45 +1008,47 @@ while ($stmt_alcohol->fetch()){
           
           <!-- Drugs Taken -->
           <div class="form-group">
-            <label>Please select any drugs or substances that you have used in the past or are currently using:</label>
+            <label>List any drugs or substances that you have used in the past or are currently using (separated by commas):</label>
+            <input type="text" name="drugs" class="form-control drug-select" />
 <?php
-if (isset($_GET['submit'])) {$drugs = $_GET['drugs'];}
-$i = 1;
-while ($stmt_drugtype->fetch()){
-  echo "            <label class=\"checkbox-inline\">\n            <input type=\"checkbox\" id =\"inlineCheckbox$i\" name = \"drugs[]\" value =\"$drugtypeid\"";
-  if (isset($_GET['submit'])) {
-    foreach ($drugs as $drug) {
-      if ($drug == $drugtypeid){echo "checked='checked'";}
-    }
-  }
-  echo ">$drugtype</input></label>\n";
-  $i = $i+1;
-}   
+// if (isset($_GET['submit'])) {$drugs = $_GET['drugs'];}
+// $i = 1;
+// while ($stmt_drugtype->fetch()){
+//   echo "            <label class=\"checkbox-inline\">\n            <input type=\"checkbox\" id =\"inlineCheckbox$i\" name = \"drugs[]\" value =\"$drugtypeid\"";
+//   if (isset($_GET['submit'])) {
+//     foreach ($drugs as $drug) {
+//       if ($drug == $drugtypeid){echo "checked='checked'";}
+//     }
+//   }
+//   echo ">$drugtype</input></label>\n";
+//   $i = $i+1;
+// }   
 ?>
           </div>
       
-          <!-- Drug Addition -->
+          <!-- Drug Addition
           <div class="form-group">
             <label>Other drug or substance not listed:</label>
             <input type="text" name="drugaddition" value="<?php if (isset($_GET['submit'])) {echo $_GET['drugaddition'];} ?>" class="form-control"/>
-          </div>
+          </div> -->
           
           <!-- Allergies -->
           <div class="form-group">
-            <label>Please select any allergies that you experience:</label>
+            <label>Please list your known allergies (separated by commas):</label>
+            <input type="text" name="allergies" class="form-control allergy-select" />
 <?php
-if (isset($_GET['submit'])) {$allergies = $_GET['allergies'];}
-$i = 1;
-while ($stmt_allergylist->fetch()){
-    echo "            <label class=\"checkbox-inline\">\n            <input type=\"checkbox\" id =\"inlineCheckbox$i\" name = \"allergies[]\" value =\"$allergylistid\"";
-    if (isset($_GET['submit'])) {
-        foreach ($allergies as $allergy) {
-            if ($allergy == $allergylistid){echo "checked='checked'";}
-        }
-    }
-    echo ">$allergylist</input></label>\n";
-    $i = $i+1;
-}
+// if (isset($_GET['submit'])) {$allergies = $_GET['allergies'];}
+// $i = 1;
+// while ($stmt_allergylist->fetch()){
+//     echo "            <label class=\"checkbox-inline\">\n            <input type=\"checkbox\" id =\"inlineCheckbox$i\" name = \"allergies[]\" value =\"$allergylistid\"";
+//     if (isset($_GET['submit'])) {
+//         foreach ($allergies as $allergy) {
+//             if ($allergy == $allergylistid){echo "checked='checked'";}
+//         }
+//     }
+//     echo ">$allergylist</input></label>\n";
+//     $i = $i+1;
+// }
 ?>
           </div>
 
@@ -1261,6 +1287,46 @@ for ($year; $year > $year_past; $year--){
 
 <!--- Make sure this is separate window that pops up after patient fills out most form. Check in officer will add the practicefusion PRn to this. Practice Fusion PRN  -- patientid -->
       </form>
+
+      <!-- functionallity for dropdown searches (drugs and allergies) -->
+      <script>
+!function(source) {
+    var drugList = <?php echo $drug_list; ?>;
+    var allergyList = <?php echo $allergy_list; ?>;
+    
+    function extractor(query) {
+        var result = /([^,]+)$/.exec(query);
+        if(result && result[1])
+            return result[1].trim();
+        return '';
+    }
+    
+    function typeaheadObject(source) {
+        return {
+            source: source,
+            updater: function(item) {
+                return this.$element.val().replace(/[^,]*$/,'')+'"'+item+'",';
+            },
+            matcher: function (item) {
+                var tquery = extractor(this.query);
+                if(!tquery) return false;
+                    return ~item.toLowerCase().indexOf(tquery.toLowerCase())
+            },
+            highlighter: function (item) {
+            
+                var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+                return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                    return '<strong>' + match + '</strong>'
+                })
+            }
+        };
+    }
+
+    $('.drug-select').typeahead(typeaheadObject(drugList));
+    $('.allergy-select').typeahead(typeaheadObject(allergyList));
+    
+}();
+      </script>
 
 <?php require_once("includes/footer.php");
 //closing out of all the open statement and connection

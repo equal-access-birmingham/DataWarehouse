@@ -40,4 +40,5 @@ if ($permissions->isUserAdmin() == true)  {
     </nav>
     <script src="bootstrap/js/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap3-typeahead.min.js"></script>
     <div class="container">
