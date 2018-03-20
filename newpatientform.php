@@ -384,8 +384,8 @@ echo "
                 <li>Social services needed: $social_services</li>
                 <li>Smoking: $smokystats</li>
                 <li>Alcohol: $alcohol</li>
-                <li>Substances: $alldrugs " . $_GET['drugaddition'] . "</li>
-                <li>Allergies: $allallergies " . $_GET['allergyaddition'] . "</li>
+                <li>Substances: " . $_GET['drugs'] . "</li>
+                <li>Allergies: " . $_GET['allergies'] . "</li>
                 <li>How you heard about EAB: " . $_GET['heareab'] . "</li>
                 <li>Last Mammogram: " . $_GET['mammogram_month'] . "-" . $_GET['mammogram_day'] . "-" . $_GET['mammogram_year'] . "</li>
                 <li>Last Colonoscopy: " . $_GET['colonoscopy_month'] . "-" . $_GET['colonoscopy_day'] . "-" . $_GET['colonoscopy_year'] . "</li>

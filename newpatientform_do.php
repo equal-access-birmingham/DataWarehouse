@@ -8,12 +8,9 @@ preg_match_all('/"[^"]+?"(?=,?)|[^",]+(?=,?)/', $_GET['drugs'], $matches);
 $drugs = $matches[0];
 
 // extract allergies from get string (optionally enclosed by quotation marks)
-preg_match_all('/"[^"]+?"(?=,?)|[^",]+(?=,?)/', $_GET['allergies'], $matches);
+preg_match_all('/"[^"]+?"(?=,?)|[^",]+(?=(, )?)/', $_GET['allergies'], $matches);
 $allergies = $matches[0];
 
-print_r($drugs);
-print_r($allergies);
-exit;
 $fname = $_GET['fname'];
 $lname = $_GET['lname'];
 $dob = $_GET['dob_year'] . "-" . $_GET['dob_month'] . "-" . $_GET['dob_day'];
@@ -468,7 +465,7 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
 
     $query = "INSERT INTO `PatientAllergy` (`allergylistid`, `patientid`) VALUES (?, ?);";
     $stmt_patientallergy = $con->prepare($query);
-    $stmt_patientallergy->bind_param("ss", $allergy, $patientid); 
+    $stmt_patientallergy->bind_param("ss", $allergylistid, $patientid); 
     
     foreach ($allergies as $allergy) { // for each allergy in the array "allergies" defined at the top
         // Standardize allergy names and remove optional quotation marks
@@ -477,6 +474,9 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
         $stmt_allergy_exists->execute();
         $stmt_allergy_exists->store_result();
         $stmt_allergy_exists->bind_result($allergylistid, $allergy_count);
+        $stmt_allergy_exists->fetch();
+
+        echo "<p>$allergy: $allergylistid: $allergy_count</p>";
 
         if (! $allergy_count) {
             $stmt_insert_new_allergy->execute();
@@ -518,6 +518,7 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
     $query = "INSERT INTO `SocialDrugs` (`drugtypeid`, `sid`) VALUES (?, ?);";
     $stmt_socialdrugs = $con->prepare($query);
     $stmt_socialdrugs->bind_param("ss", $drug_id, $sid);
+
     foreach ($drugs as $drug) { //for each drug in the array "drugs" defined at the top
         // get rid of quotation marks if they are there
         $drug = ucwords(str_replace("\"", "", $drug));
@@ -525,6 +526,7 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
         $stmt_drug_exists->execute();
         $stmt_drug_exists->store_result();
         $stmt_drug_exists->bind_result($drug_id, $drug_count);
+        $stmt_drug_exists->fetch();
 
         if (! $drug_count) {
             $stmt_insert_new_drug->execute();
