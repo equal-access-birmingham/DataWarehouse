@@ -326,89 +326,6 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
         }
     }
 
-    // ADDING NEW DRUGTYPES TO DRUGTYPE TABLE -- SAME AS DOCUMENTED ABOVE
-    // if ($drugaddition) {
-    //     $drugaddition = ucwords($drugaddition);
-        
-    //     $query = "SELECT COUNT(`drugtype`) from `DrugType` WHERE (`drugtype`) = (?);";
-    //     $stmt_drugcount = $con->prepare($query);
-    //     $stmt_drugcount->bind_param("s", $drugaddition);
-    //     $stmt_drugcount->execute();
-    //     $stmt_drugcount->store_result();
-    //     $stmt_drugcount->bind_result($isdrugthere);
-    //     $stmt_drugcount->fetch();
-    //     $stmt_drugcount->close();
-        
-    //     if ($isdrugthere == 0){
-    //         $query = "INSERT INTO `DrugType` (`drugtype`) VALUES (?)";
-    //         $stmt_druginsert = $con->prepare($query);
-    //         $stmt_druginsert->bind_param("s", $drugaddition);
-    //         $stmt_druginsert->execute();
-    //         $stmt_druginsert->close();
-            
-    //         $query = "SELECT `drugtypeid` from `DrugType` WHERE (`drugtype`) = (?);";
-    //         $stmt_newdrugid = $con->prepare($query);
-    //         $stmt_newdrugid->bind_param("s", $drugaddition);
-    //         $stmt_newdrugid->execute();
-    //         $stmt_newdrugid->store_result();
-    //         $stmt_newdrugid->bind_result($drugs[]);
-    //         $stmt_newdrugid->fetch();
-    //         $stmt_newdrugid->close();
-    //     }
-    //     elseif ($isdrugthere == 1){
-    //         $query = "SELECT `drugtypeid` from `DrugType` WHERE (`drugtype`) = (?);";
-    //         $stmt_getdrugid = $con->prepare($query);
-    //         $stmt_getdrugid->bind_param("s", $drugaddition);
-    //         $stmt_getdrugid->execute();
-    //         $stmt_getdrugid->store_result();
-    //         $stmt_getdrugid->bind_result($drugs[]);
-    //         $stmt_getdrugid->fetch();
-    //         $stmt_getdrugid->close();
-    //     }
-    // }
-
-    // // ADDING NEW ALLERGY TO ALLERGYLIST TABLE -- SAME AS DOCUMENTED ABOVE
-    // if ($allergyaddition) {
-    //     $allergyaddition = ucwords($allergyaddition);
-        
-    //     $query = "SELECT COUNT(`allergylist`) from `AllergyList` WHERE (`allergylist`) = (?);";
-    //     $stmt_allergycount = $con->prepare($query);
-    //     $stmt_allergycount->bind_param("s", $allergyaddition);
-    //     $stmt_allergycount->execute();
-    //     $stmt_allergycount->store_result();
-    //     $stmt_allergycount->bind_result($isallergythere);
-    //     $stmt_allergycount->fetch();
-    //     $stmt_allergycount->close();
-        
-    //     if ($isallergythere == 0){
-    //         $query = "INSERT INTO `AllergyList` (`allergylist`) VALUES (?)";
-    //         $stmt_allergyinsert = $con->prepare($query);
-    //         $stmt_allergyinsert->bind_param("s", $allergyaddition);
-    //         $stmt_allergyinsert->execute();
-    //         $stmt_allergyinsert->close();
-            
-    //         $query = "SELECT `allergylistid` from `AllergyList` WHERE (`allergylist`) = (?);";
-    //         $stmt_newallergyid = $con->prepare($query);
-    //         $stmt_newallergyid->bind_param("s", $allergyaddition);
-    //         $stmt_newallergyid->execute();
-    //         $stmt_newallergyid->store_result();
-    //         $stmt_newallergyid->bind_result($allergies[]);
-    //         $stmt_newallergyid->fetch();
-    //         $stmt_newallergyid->close();
-    //     }
-    //     elseif ($isallergythere == 1){
-    //         $query = "SELECT `allergylistid` from `AllergyList` WHERE (`allergylist`) = (?);";
-    //         $stmt_getallergyid = $con->prepare($query);
-    //         $stmt_getallergyid->bind_param("s", $allergyaddition);
-    //         $stmt_getallergyid->execute();
-    //         $stmt_getallergyid->store_result();
-    //         $stmt_getallergyid->bind_result($allergies[]);
-    //         $stmt_getallergyid->fetch();
-    //         $stmt_getallergyid->close();
-    //     }
-    // }
-
-
     //INSERT PATIENT DATA THAT WAS SUBMITED INTO PATIENT TABLE
 
     $query = "INSERT INTO `Patient` (`fname`, `lname`, `genderid`, `raceid`, `ethnicityid`, `dob`, `address_street`, `cityid`, `stateid`, `zipid`, `emergencyrid`, `phone_number`, `email_address`, `emergency_name`, `emergency_number`, `citizenid`, `languageid`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -455,14 +372,17 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
     $stmt_patientvisit->close();
 
     // store patient allergy information in PatientAllergy table using patientid found previously
+    // query for determining if an allergy already exists
     $query = "SELECT `allergylistid`, COUNT(*) FROM `AllergyList` WHERE `allergylist` = ?;";
     $stmt_allergy_exists = $con->prepare($query);
     $stmt_allergy_exists->bind_param("s", $allergy);
 
+    // inserts a new allergy
     $query = "INSERT INTO `AllergyList` (`allergylist`) VALUES (?);";
     $stmt_insert_new_allergy = $con->prepare($query);
     $stmt_insert_new_allergy->bind_param("s", $allergy);
 
+    // adds an allergy to a patient in database
     $query = "INSERT INTO `PatientAllergy` (`allergylistid`, `patientid`) VALUES (?, ?);";
     $stmt_patientallergy = $con->prepare($query);
     $stmt_patientallergy->bind_param("ss", $allergylistid, $patientid); 
@@ -475,8 +395,6 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
         $stmt_allergy_exists->store_result();
         $stmt_allergy_exists->bind_result($allergylistid, $allergy_count);
         $stmt_allergy_exists->fetch();
-
-        echo "<p>$allergy: $allergylistid: $allergy_count</p>";
 
         if (! $allergy_count) {
             $stmt_insert_new_allergy->execute();
@@ -507,14 +425,17 @@ if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $
     }
 
     //store drug informaiton in SocialDrugs table using sid found previously
+    // searches for whether a drug already exists in the database
     $query = "SELECT `drugtypeid`, COUNT(*) FROM `DrugType` WHERE `drugtype` = ?;";
     $stmt_drug_exists = $con->prepare($query);
     $stmt_drug_exists->bind_param("s", $drug);
 
+    // inserts a new drug into the database
     $query = "INSERT INTO `DrugType` (`drugtype`) VALUES (?);";
     $stmt_insert_new_drug = $con->prepare($query);
     $stmt_insert_new_drug->bind_param("s", $drug);
 
+    // adds a drug to a patient in the database
     $query = "INSERT INTO `SocialDrugs` (`drugtypeid`, `sid`) VALUES (?, ?);";
     $stmt_socialdrugs = $con->prepare($query);
     $stmt_socialdrugs->bind_param("ss", $drug_id, $sid);
