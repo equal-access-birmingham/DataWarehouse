@@ -1010,20 +1010,6 @@ while ($stmt_alcohol->fetch()){
           <div class="form-group">
             <label>List any drugs or substances that you have used in the past or are currently using (separated by commas):</label>
             <input type="text" name="drugs" class="form-control drug-select" />
-<?php
-// if (isset($_GET['submit'])) {$drugs = $_GET['drugs'];}
-// $i = 1;
-// while ($stmt_drugtype->fetch()){
-//   echo "            <label class=\"checkbox-inline\">\n            <input type=\"checkbox\" id =\"inlineCheckbox$i\" name = \"drugs[]\" value =\"$drugtypeid\"";
-//   if (isset($_GET['submit'])) {
-//     foreach ($drugs as $drug) {
-//       if ($drug == $drugtypeid){echo "checked='checked'";}
-//     }
-//   }
-//   echo ">$drugtype</input></label>\n";
-//   $i = $i+1;
-// }   
-?>
           </div>
       
           <!-- Drug Addition
@@ -1036,20 +1022,6 @@ while ($stmt_alcohol->fetch()){
           <div class="form-group">
             <label>Please list your known allergies (separated by commas):</label>
             <input type="text" name="allergies" class="form-control allergy-select" />
-<?php
-// if (isset($_GET['submit'])) {$allergies = $_GET['allergies'];}
-// $i = 1;
-// while ($stmt_allergylist->fetch()){
-//     echo "            <label class=\"checkbox-inline\">\n            <input type=\"checkbox\" id =\"inlineCheckbox$i\" name = \"allergies[]\" value =\"$allergylistid\"";
-//     if (isset($_GET['submit'])) {
-//         foreach ($allergies as $allergy) {
-//             if ($allergy == $allergylistid){echo "checked='checked'";}
-//         }
-//     }
-//     echo ">$allergylist</input></label>\n";
-//     $i = $i+1;
-// }
-?>
           </div>
 
           <!-- Allergy Addition
