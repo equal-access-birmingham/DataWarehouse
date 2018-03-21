@@ -47,8 +47,8 @@ The original design of the system focused on three goals listed below in order o
 ## Demo
 A demo of the system is available at [https://data.eabclinic.tk](https://data.eabclinic.tk).  No data should be stored here permanently as it is just for testing out the system and it's features.
 
-* Username:  admin
-* Password:  password
+* **Username**:  admin
+* **Password**:  password
 
 # How It Works
 
