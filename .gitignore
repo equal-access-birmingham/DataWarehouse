@@ -1,0 +1,3 @@
+## Ignore Database Config Files
+/includes/db.php
+/php-login-admin/config/config.php
