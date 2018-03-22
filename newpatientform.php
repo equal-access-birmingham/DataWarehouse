@@ -1262,6 +1262,8 @@ for ($year; $year > $year_past; $year--){
 
       <!-- functionallity for dropdown searches (drugs and allergies) -->
       <script>
+
+      // https://stackoverflow.com/questions/12662824/twitter-bootstrap-typeahead-multiple-values
 !function(source) {
     var drugList = <?php echo $drug_list; ?>;
     var allergyList = <?php echo $allergy_list; ?>;
