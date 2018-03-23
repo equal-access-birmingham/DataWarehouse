@@ -156,36 +156,21 @@ The database model is provided in a mysql workbench file in `databases/datawareh
 ### Default Table Values
 In order to get the system running, there are a few tables that have been filled with default values.  Some of these tables can have their values changed; some can't.  Below two lists highlighting the differences.  Tables marked as "Yes/No Table" only contain those values as binary answers to simple questions on the forms.
 
-<div style="display: inline-block; width: 50%">
-  <ul>
-    <li>
-      Tables with changeable values
-      <ul>
-        <li>Alcohol (Yes/No Table)</li>
-        <li>CitizenStatus</li>
-        <li>CooperGreen (Yes/No Table)</li>
-        <li>CurrentEmployment (Yes/No Table)</li>
-        <li>Disability (Yes/No Table)</li>
-        <li>EducationLevel</li>
-        <li>FoodStamp (Yes/No Table)</li>
-        <li>Gender</li>
-        <li>HeadofHousehold (Yes/No Table)</li>
-        <li>HomeType</li>
-        <li>MedicalInsurance (Yes/No Table)</li>
-        <li>RelationshipStatus</li>
-        <li>Transport</li>
-        <li>Veteran (Yes/No Table)</li>
-      </ul>
-    </li>
-  </ul>
-</div>
-<div style="display: inline-block; vertical-align: top">
-  <ul>
-    <li>
-      Tables with immutable values
-      <ul>
-        <li>VisitType</li>
-      </ul>
-    </li>
-  </ul>
-</div>
+#### Tables with changeable values
+* Alcohol (Yes/No Table)
+* CitizenStatus
+* CooperGreen (Yes/No Table)
+* CurrentEmployment (Yes/No Table)
+* Disability (Yes/No Table)
+* EducationLevel
+* FoodStamp (Yes/No Table)
+* Gender
+* HeadofHousehold (Yes/No Table)
+* HomeType
+* MedicalInsurance (Yes/No Table)
+* RelationshipStatus
+* Transport
+* Veteran (Yes/No Table)
+
+#### Tables with immutable values
+* VisitType
