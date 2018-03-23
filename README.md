@@ -19,7 +19,7 @@ This system was built to allow free, student-run clinics to effectively collect 
   * [Website Access](#website-access)
 * [Configuration](#configuration)
   * [Intake System Database](#intake-system-database-includesdbphp)
-  * [Login System Database](#login-system-database-php-login-adminconfigconfigphp)
+  * [Login System Database](#login-system-database)
   * [Intake System Database Fine Tuning](#intake-system-database-fine-tuning) <!-- Explain what tables need special attention for customization and which tables have preset values -->
 
 # Purpose
@@ -30,11 +30,11 @@ The original design of the system focused on three goals listed below in order o
 3. Displaying limited views of patient information for clinical workflow
 
 # Features
-* **New Patient Form** - adds new patients to the system collecting a large amount of preliminary information
-* **Patient Search** - searches for patients by name and dob allowing patient data to be viewed in several forms
+* **New Patient Form** - adds new patients to the system by collecting preliminary information
+* **Patient Search** - searches for patients by name and date of birth, returning options for several different views of patient data
 * **Returning Patient Form** - allows patient information to be updated
-* **Clinical Summary** - specific view of patient data that provides relevant medical information for clinical workflow
-* **Social Services Summary** - specific view of patient data that provides relevant information for social service workers
+* **Clinical Summary** - displays relevant medical information for clinical workflow
+* **Social Services Summary** - displays relevant information for social service workers
 * **Research Data Dumps** - provide whole CSV dumps of database information **to administrators** for easy data retrieval
   * **Patient Demographics Data**
   * **Patient Social History Data**
@@ -43,10 +43,10 @@ The original design of the system focused on three goals listed below in order o
   * **Date of Last Secxually Transmitted Infection**
   * **Date of Last Colonoscopy**
   * **Date of Last Pap Smear**
-* **Administrative-focused Login System** - accounts easily created and maintained by master administrator
+* **Administrative-focused Login System** - allows easy creation and maintenance of accounts and administrative privileges by master administrator
 
 ## Demo
-A demo of the system is available at [https://data.eabclinic.tk](https://data.eabclinic.tk).  No data should be stored here permanently as it is just for testing out the system and it's features.
+A demo of the system is available at [https://data.eabclinic.tk](https://data.eabclinic.tk).  No data should be stored here permanently as it is just for testing out the system and its features.
 
 * **Username**:  admin
 * **Password**:  password
@@ -55,6 +55,10 @@ A demo of the system is available at [https://data.eabclinic.tk](https://data.ea
 
 ## Login
 ![How to login](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/login.gif)
+
+### Default Login
+* Username: admin
+* Password: password
 
 ## New Patient
 ![Registering a new patient](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/new_patient.gif)
@@ -138,7 +142,7 @@ To make this file active simply change the values to the appropriate ones for yo
 * `define("COOKIE_SECRET_KEY", "cookie_secret_key");`: change "cookie_secret_key" to some [long, random string](https://strongpasswordgenerator.com/)
 
 ### Email Setup
-Recommend a gmail account with [lowered security settings](https://support.google.com/accounts/answer/6010255?hl=en).  Otherwise, more settings in the config file will need to be changed.
+A gmail account with [lowered security settings](https://support.google.com/accounts/answer/6010255?hl=en) is recommended.  Otherwise, more settings in the config file will need to be changed.
 
 * `define("EMAIL_SMTP_USERNAME", "your_username_email");`: change "your_username_email" to the gmail **username** (not the full address)
 * `define("EMAIL_SMTP_PASSWORD", "yourpassword");`:  change "yourpassword" to the gmail account's password
@@ -148,11 +152,17 @@ Recommend a gmail account with [lowered security settings](https://support.googl
 * `define("EMAIL_PASSWORDRESET_FROM", "your_username_email");`:  change "your_username_email" to the sender's email that should be shown to recipients (can be anything...)
 * `define("EMAIL_PASSWORDRESET_FROM_NAME", "yourname");`:  change "yourname" to the sender's name that should be show to recipients (can be anything...)
 
-New Account Email configurations and Reset Account Email configurations follow the same patter as the [password reset configurations](#password-reset).
+New Account Email configurations and Reset Account Email configurations follow the same pattern as the [password reset configurations](#password-reset).
 
 ## Intake System Database Fine Tuning
 ### Database Model
 The database model is provided in a mysql workbench file in `databases/datawarehouse.mwb`.  This file can be viewed with [MySQL Workbench](https://www.mysql.com/products/workbench/) and will show a detailed model of the database.
+
+### Login System Database
+This system is setup with a default user and password listed below up install.  These credentials should obviously be changed as soon as possible after install.
+
+* Username:  admin
+* Password:  password
 
 ### Default Table Values
 In order to get the system running, there are a few tables that have been filled with default values.  Some of these tables can have their values changed; some can't.  Below two lists highlighting the differences.  Tables marked as "Yes/No Table" only contain those values as binary answers to simple questions on the forms.
