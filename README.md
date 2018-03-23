@@ -34,7 +34,7 @@ The original design of the system focused on three goals listed below in order o
 * **Returning Patient Form** - allows patient information to be updated
 * **Clinical Summary** - specific view of patient data that provides relevant medical information for clinical workflow
 * **Social Services Summary** - specific view of patient data that provides relevant information for social service workers
-* **Research Data Dumps** - provide whole CSV dumps of database information for easy data retrieval
+* **Research Data Dumps** - provide whole CSV dumps of database information **to administrators** for easy data retrieval
   * **Patient Demographics Data**
   * **Patient Social History Data**
   * **Patient Visit Information Data**
@@ -54,6 +54,21 @@ A demo of the system is available at [https://data.eabclinic.tk](https://data.ea
 
 ## Login
 ![How to login](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/login.gif)
+
+## New Patient
+![Registering a new patient](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/new_patient.gif)
+
+## Returning Patient
+![Updating a returning patient's info](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/returning_patient.gif)
+
+## Clinical Summary
+![Viewing a patient's clinical summary](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/clinical_summary.gif)
+
+## Social Services Summary
+![Viewing a patient's social service summary](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/social_services_summary.gif)
+
+## Research Data
+![Retrieving data for research](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/research_data.gif)
 
 # Installation
 While there is no pre-packaged install for this system, it is a relatively simple PHP application that can be easily dropped into any server stack running PHP 5 or greater. 
@@ -132,14 +147,45 @@ Recommend a gmail account with [lowered security settings](https://support.googl
 * `define("EMAIL_PASSWORDRESET_FROM", "your_username_email");`:  change "your_username_email" to the sender's email that should be shown to recipients (can be anything...)
 * `define("EMAIL_PASSWORDRESET_FROM_NAME", "yourname");`:  change "yourname" to the sender's name that should be show to recipients (can be anything...)
 
-New Account Email configurations and Reset Account Email configurations follow the same pattern as the [password reset configurations](#password-reset).
+New Account Email configurations and Reset Account Email configurations follow the same patter as the [password reset configurations](#password-reset).
 
 ## Intake System Database Fine Tuning
 ### Database Model
 The database model is provided in a mysql workbench file in `databases/datawarehouse.mwb`.  This file can be viewed with [MySQL Workbench](https://www.mysql.com/products/workbench/) and will show a detailed model of the database.
 
 ### Default Table Values
-In order to get the system running, there are a few tables that have been filled with default values.  Some of these tables can have their values changed; some can't.  Below are two lists highlighting the differences.
+In order to get the system running, there are a few tables that have been filled with default values.  Some of these tables can have their values changed; some can't.  Below two lists highlighting the differences.  Tables marked as "Yes/No Table" only contain those values as binary answers to simple questions on the forms.
 
-* Tables with changeable values
-* Tables with immutable values
+<div style="display: inline-block; width: 50%">
+  <ul>
+    <li>
+      Tables with changeable values
+      <ul>
+        <li>Alcohol (Yes/No Table)</li>
+        <li>CitizenStatus</li>
+        <li>CooperGreen (Yes/No Table)</li>
+        <li>CurrentEmployment (Yes/No Table)</li>
+        <li>Disability (Yes/No Table)</li>
+        <li>EducationLevel</li>
+        <li>FoodStamp (Yes/No Table)</li>
+        <li>Gender</li>
+        <li>HeadofHousehold (Yes/No Table)</li>
+        <li>HomeType</li>
+        <li>MedicalInsurance (Yes/No Table)</li>
+        <li>RelationshipStatus</li>
+        <li>Transport</li>
+        <li>Veteran (Yes/No Table)</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<div style="display: inline-block; vertical-align: top">
+  <ul>
+    <li>
+      Tables with immutable values
+      <ul>
+        <li>VisitType</li>
+      </ul>
+    </li>
+  </ul>
+</div>
