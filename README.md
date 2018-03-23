@@ -52,6 +52,9 @@ A demo of the system is available at [https://data.eabclinic.tk](https://data.ea
 
 # How It Works
 
+## Login
+![How to login](https://github.com/equal-access-birmingham/DataWarehouse/blob/assets/login.gif)
+
 # Installation
 While there is no pre-packaged install for this system, it is a relatively simple PHP application that can be easily dropped into any server stack running PHP 5 or greater. 
 
