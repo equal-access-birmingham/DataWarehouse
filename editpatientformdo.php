@@ -28,7 +28,6 @@ $mammogram = $_GET['mammogram_year'] . "-" . $_GET['mammogram_month'] . "-" . $_
 $colonoscopy = $_GET['colonoscopy_year'] . "-" . $_GET['colonoscopy_month'] . "-" . $_GET['colonoscopy_day'];
 $sti = $_GET['STI_year'] . "-" . $_GET['STI_month'] . "-" . $_GET['STI_day'];
 $papsmear = $_GET['PAP_year'] . "-" . $_GET['PAP_month'] . "-" . $_GET['PAP_day'];
-$visittypeid = 3;
 $reasonforvisitid = $_GET['reasonforvisitid'];
 if ($reasonforvisitid == "") $reasonforvisitid = null;
 
@@ -48,6 +47,16 @@ $zipaddition = $_GET["zipaddition"];
 require_once("includes/db.php");
 
 $con = new mysqli($host, $db_user, $db_pass, $db_db);
+
+// Grab the ID for the "Returning Patient" visit type (hard coded)
+$query = "SELECT `visittypeid` FROM `VisitType` WHERE `visittype` = 'Returning Patient';";
+$stmt_visit_type = $con->prepare($query);
+$stmt_visit_type->execute();
+$stmt_visit_type->store_result();
+$stmt_visit_type->bind_result($visittypeid);
+$stmt_visit_type->fetch();
+$stmt_visit_type->close();
+
 // This query counts the number of entries in the table that have the submitted chief complaint, date, person, and reason for visit
 $query = "SELECT COUNT(*) FROM `PatientVisit` WHERE patientid = ? and currentdate = ? and pstat = ? and reasonforvisitid = ?";
 $stmt = $con->prepare($query);

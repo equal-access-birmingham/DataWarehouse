@@ -113,7 +113,6 @@ $papsmear = $_GET['PAP_year'] . "-" . $_GET['PAP_month'] . "-" . $_GET['PAP_day'
 $submit = $_GET['Submit'];
 $pstat = $_GET['pstat'];
 $currentdate = date("Ymd");
-$visittypeid = 2;
 $emergency_name = $_GET['emergency_name'];
 
 $emergencyrid = $_GET['emergencyrid'];
@@ -125,14 +124,24 @@ require_once("includes/db.php");
 
 $con = new mysqli($host, $db_user, $db_pass, $db_db);
 
+// Grab the ID for the "New Patient" visit type (hard coded)
+$query = "SELECT `visittypeid` FROM `VisitType` WHERE `visittype` = 'New Patient';";
+$stmt_visit_type = $con->prepare($query);
+$stmt_visit_type->execute();
+$stmt_visit_type->store_result();
+$stmt_visit_type->bind_result($visittypeid);
+$stmt_visit_type->fetch();
+$stmt_visit_type->close();
+
 // This query counts the number of entries in the table that have the submitted fname, lname, dob, and street address
 $query = "SELECT COUNT(*) FROM `Patient` WHERE fname = ? and lname = ? and dob = ?";
-$stmt = $con->prepare($query);
-$stmt->bind_param("sss", $fname, $lname, $dob);
-$stmt->execute();
-$stmt->bind_result($count);
-$stmt->fetch();
-$stmt->close();
+$stmt_patient = $con->prepare($query);
+$stmt_patient->bind_param("sss", $fname, $lname, $dob);
+$stmt_patient->execute();
+$stmt_patient->store_result();
+$stmt_patient->bind_result($count);
+$stmt_patient->fetch();
+$stmt_patient->close();
 
 //requiring that the necessary fields were filled in and error check that ensures duplicate individuals don't get added to the roster  
 if ($fname && $lname && $dobcheck1 && $dobcheck2 && $dobcheck3 && $genderid && $ethnicityid && $raceid && $languageid && $citizenid && $hometypeid && $housestatid && $numfammember && $numchildren !== "null" && $relationshipid && $householdincome !== "null" && $employmentid && $disabilityid && $foodstampid && $veteranid && $educationid && $insuranceid && $physicianid && $health_first_id && ! is_null($social_services) && $alcoholid && $transportid && $heareab && $reasonforvisitid && $pstat && !$count){
