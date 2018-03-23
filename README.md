@@ -132,14 +132,14 @@ Recommend a gmail account with [lowered security settings](https://support.googl
 * `define("EMAIL_PASSWORDRESET_FROM", "your_username_email");`:  change "your_username_email" to the sender's email that should be shown to recipients (can be anything...)
 * `define("EMAIL_PASSWORDRESET_FROM_NAME", "yourname");`:  change "yourname" to the sender's name that should be show to recipients (can be anything...)
 
-New Account Email configurations and Reset Account Email configurations follow the same patter as the [password reset configurations](#password-reset).
+New Account Email configurations and Reset Account Email configurations follow the same pattern as the [password reset configurations](#password-reset).
 
 ## Intake System Database Fine Tuning
 ### Database Model
 The database model is provided in a mysql workbench file in `databases/datawarehouse.mwb`.  This file can be viewed with [MySQL Workbench](https://www.mysql.com/products/workbench/) and will show a detailed model of the database.
 
 ### Default Table Values
-In order to get the system running, there are a few tables that have been filled with default values.  Some of these tables can have their values changed; some can't.  Below two lists highlighting the differences.
+In order to get the system running, there are a few tables that have been filled with default values.  Some of these tables can have their values changed; some can't.  Below are two lists highlighting the differences.
 
 * Tables with changeable values
 * Tables with immutable values
