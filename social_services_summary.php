@@ -357,28 +357,28 @@ function americanDate($date) {
       <p>Patient's primary health care location:</p>
       <form class="form-inline">
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-xs-3">
             <div class="checkbox">
               <label>
                 <input type="checkbox"> Cooper Green
               </label>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-xs-3">
             <div class="checkbox">
               <label>
                 <input type="checkbox"> UAB Charity care
               </label>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-xs-3">
             <div class="checkbox">
               <label>
                 <input type="checkbox"> St. Vincent’s
               </label>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-xs-3">
             <div class="checkbox">
               <label>
                 <input type="checkbox"> Cahaba Valley
