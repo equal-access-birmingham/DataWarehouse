@@ -496,7 +496,6 @@ while ($stmt_allerg->fetch()) {
       <p><b><u>Visit Information</b></u></p>
     <table class="table table-bordered table-striped table-condensed">
       <tr>
-        <th>Visit Number (since 1/10/2016) </th>
         <th>Date of Visit</th>
         <th>Visit Type</th>
         <th>Reason for Visit</th>
@@ -511,7 +510,6 @@ do {
 
     echo "
       <tr>
-        <td>$visit_number</td>
         <td>$currentdate</td>
         <td>$visittype</td>
         <td>$reasonforvisit</td>
