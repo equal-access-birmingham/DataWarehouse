@@ -6,7 +6,10 @@
 
 <?php
 // Include registration class file
-require_once("classes/Registration.php");
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
+require_once("php-login-admin/classes/Registration.php");
 
 // create the registration object. when this object is created, it will do all registration stuff automatically
 // so this single line handles the entire registration process.
