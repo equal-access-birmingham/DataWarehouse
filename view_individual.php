@@ -277,7 +277,7 @@ $stmt->fetch();
     <h1><?php echo "$fname";?> <?php echo "$lname";?></h1>
 
 <?php
-if ($socialservicesneeded && (new DateTime('now'))->diff(new DateTime($currentdate))->format("%d") == 0) {
+if ($socialservicesneeded && (new DateTime('now'))->diff(new DateTime($currentdate))->format("%a") == 0) {
     echo "    <p style=\"color: red\"><strong>Social services requested today</strong></p>";
 }
 ?>
